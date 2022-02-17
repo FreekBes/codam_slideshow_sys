@@ -8,6 +8,7 @@
 		<h1>Kodi Monitor Upload Test</h1>
 		<p>Monitor on the left side</p>
 		<input type="file" name="image" id="image" accept="image/*" />
+		<input type="file" name="video" id="video" accept="video/*" />
 		<input type="submit" value="Upload" />
 	</form>
 </body>
