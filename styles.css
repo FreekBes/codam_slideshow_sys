@@ -1,0 +1,28 @@
+#media-list {
+	list-style-type: none;
+	overflow-x: auto;
+	overflow-y: hidden;
+	white-space: nowrap;
+	margin: 0px;
+	padding: 0px;
+}
+
+#media-list .media-item {
+	display: inline-block;
+	width: 128px;
+	height: 72px;
+	background: black;
+	text-align: center;
+	margin-right: 8px;
+}
+
+#media-list .media-item:last-child {
+	margin-right: 0px;
+}
+
+#media-list .media-item img {
+	display: inline-block;
+	height: 100%;
+	width: 100%;
+	object-fit: scale-down;
+}
