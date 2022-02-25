@@ -2,7 +2,8 @@ h3 {
 	margin: 12px 0px 4px 0px;
 }
 
-#media-list, #selected-media {
+#media-list,
+#selected-media {
 	list-style-type: none;
 	overflow-x: auto;
 	overflow-y: hidden;
@@ -51,6 +52,40 @@ h3 {
 
 .media-item:hover button {
 	display: block;
+}
+
+.media-item input.duration {
+	display: block;
+	position: absolute;
+	bottom: 4px;
+	left: 4px;
+	right: 4px;
+	width: 128px;
+	padding: 6px;
+	box-sizing: border-box;
+
+	-moz-appearance: textfield;
+	background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4));
+	border: none;
+	color: white;
+	text-align: center;
+	text-shadow: 0 0 3px black;
+	font-size: 10px;
+	font-weight: bold;
+	cursor: text;
+	transition: 0.2s;
+}
+
+.media-item input.duration:hover,
+.media-item input.duration:focus {
+	outline: none;
+	background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8));
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 #drop-location {

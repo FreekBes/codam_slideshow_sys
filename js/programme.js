@@ -35,6 +35,13 @@ function createMediaItem(mediaUrl) {
 	return (clonedItem);
 }
 
+function createSelectedMediaItem(mediaUrl) {
+	var template = document.getElementById("media-item-template-selected");
+	var clonedItem = template.content.cloneNode(true);
+	clonedItem.firstElementChild.firstElementChild.src = mediaUrl;
+	return (clonedItem);
+}
+
 function addMedia(mediaUrl) {
 	console.log("Media found to add!", mediaUrl);
 	uploader.close();
@@ -112,7 +119,14 @@ function drop(ev) {
 
 	var dropLocation = document.getElementById("drop-location");
 	if (dropLocation) {
-		dropLocation.parentNode.insertBefore(createMediaItem(mediaUrl), dropLocation);
+		var sMediaItem = createSelectedMediaItem(mediaUrl);
+		if (mediaUrl.endsWith(".gif")) {
+			var duration = parseInt(mediaUrl.substring(0, mediaUrl.lastIndexOf(".")).split("-").pop());
+			if (!isNaN(duration) && duration > 0) {
+				sMediaItem.querySelector(".duration").value = duration / 1000;
+			}
+		}
+		dropLocation.parentNode.insertBefore(sMediaItem, dropLocation);
 		dropLocation.parentNode.style.background = null;
 		dropLocation.remove();
 	}
@@ -144,4 +158,27 @@ function dragEnd(ev) {
 		dropLocation.parentNode.style.background = null;
 		dropLocation.remove();
 	}
+}
+
+function saveProgramme(ev) {
+	var formData = new FormData();
+	var selectedMediaElems = document.getElementById("selected-media").children;
+	var selectedMediaFiles = [];
+	for (var i = 0; i < selectedMediaElems.length; i++) {
+		selectedMediaFiles.push(selectedMediaElems[i].firstElementChild.src.split("/").pop());
+	}
+	formData.set("day", getParameterByName("day"));
+	formData.set("media", selectedMediaFiles.join(";"));
+	console.log(formData.get("media"));
+
+	var saveReq = new XMLHttpRequest();
+	saveReq.open("POST", "int/save.php");
+	saveReq.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	saveReq.addEventListener("load", function(evSave) {
+		alert("Programme has been saved");
+	});
+	saveReq.addEventListener("error", function(evSave) {
+		alert("Failed to save programme");
+	});
+	saveReq.send(formData);
 }

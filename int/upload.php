@@ -13,7 +13,7 @@
 			{
 				$mime = mime_content_type($_FILES['media']['tmp_name'][$i]);
 				if (strstr($mime, "image/")) {
-					$new_loc = "media/" . time() . generate_id(4) . ".jpeg";
+					$new_loc = "media/" . time() . "-" . generate_id(4) . ".jpeg";
 					$printable_loc = htmlspecialchars(strip_tags($new_loc));
 					$input_img = imagecreate_wrapper($_FILES['media']['tmp_name'][$i]);
 					if ($input_img === false) {
@@ -32,9 +32,14 @@
 				else if (strstr($mime, "video/")) {
 					$temp = explode(".", $_FILES['media']['name'][$i]);
 					$ext = array_pop($temp);
-					$video_id = time() . generate_id(4);
-					$new_loc = "media/$video_id.$ext";
-					$new_loc_gif = "media/$video_id.gif";
+					$video_id = time() . "-" . generate_id(4);
+					$duration = round(floatval(exec("ffprobe -v error -show_entries format=duration -of csv=p=0 \"" . $_FILES['media']['tmp_name'][$i] . "\"")) * 1000);
+					if ($duration == 0) {
+						http_response_code(500);
+						die("video_duration_unknown_or_zero");
+					}
+					$new_loc = "media/$video_id-$duration.$ext";
+					$new_loc_gif = "media/$video_id-$duration.gif";
 					$printable_loc = htmlspecialchars(strip_tags($new_loc_gif));
 					if (move_uploaded_file($_FILES['media']['tmp_name'][$i], "../$new_loc") === true) {
 						exec("ffmpeg -i ../$new_loc -vf \"fps=5,scale=-1:72:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse\" -loop 0 ../$new_loc_gif");
