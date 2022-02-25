@@ -32,6 +32,7 @@
 	</ol>
 	<template id="media-item-template"><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="" /><button onclick="deleteMe(event)" title="Delete media (no undo)">&#x2715;</button></li></template>
 	<template id="media-item-template-selected"><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="" /><button onclick="removeMe(event)" title="Remove from programme">&#x2715;</button><input type="number" class="duration" value="10" step="0.1" min="1" title="Duration in seconds" placeholder="Duration in seconds" /></li></template>
+	<input type="checkbox" name="default_enabled" id="default_enabled" checked value="true" /><label for="default_enabled">Enable default programme</label>
 	<button onclick="saveProgramme(event)">Save</button>
 </body>
 </html>

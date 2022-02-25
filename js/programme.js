@@ -164,21 +164,33 @@ function saveProgramme(ev) {
 	var formData = new FormData();
 	var selectedMediaElems = document.getElementById("selected-media").children;
 	var selectedMediaFiles = [];
+	var durations = [];
 	for (var i = 0; i < selectedMediaElems.length; i++) {
 		selectedMediaFiles.push(selectedMediaElems[i].firstElementChild.src.split("/").pop());
+		durations.push(parseFloat(selectedMediaElems[i].querySelector(".duration").value));
 	}
+	
 	formData.set("day", getParameterByName("day"));
-	formData.set("media", selectedMediaFiles.join(";"));
+	formData.set("media", selectedMediaFiles.join("|"));
+	formData.set("durations", durations.join("|"));
+	formData.set("default_enabled", document.getElementById("default_enabled").checked.toString());
+	console.log(formData.get("day"));
 	console.log(formData.get("media"));
+	console.log(formData.get("durations"));
+	console.log(formData.get("default_enabled"));
 
 	var saveReq = new XMLHttpRequest();
 	saveReq.open("POST", "int/save.php");
-	saveReq.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	saveReq.addEventListener("load", function(evSave) {
-		alert("Programme has been saved");
+		if (this.status == 204) {
+			alert("Programme has been saved");
+		}
+		else {
+			alert("Failed to save programme ("+this.status+" "+this.statusText+": "+this.responseText+")");
+		}
 	});
 	saveReq.addEventListener("error", function(evSave) {
-		alert("Failed to save programme");
+		alert("Failed to save programme (unknown error)");
 	});
 	saveReq.send(formData);
 }
