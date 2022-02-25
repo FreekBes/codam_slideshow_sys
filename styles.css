@@ -1,3 +1,7 @@
+h3 {
+	margin: 12px 0px 4px 0px;
+}
+
 #media-list, #selected-media {
 	list-style-type: none;
 	overflow-x: auto;
@@ -11,6 +15,7 @@
 
 .media-item {
 	display: inline-block;
+	position: relative;
 	width: 128px;
 	height: 72px;
 	text-align: center;
@@ -23,6 +28,29 @@
 	height: 72px;
 	background: black;
 	object-fit: scale-down;
+}
+
+.media-item button {
+	display: none;
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	color: white;
+	text-shadow: 0 0 3px black;
+	font-size: 10px;
+	font-weight: bold;
+}
+
+.media-item button:hover {
+	color: red;
+	text-shadow: 0 0 1px white;
+}
+
+.media-item:hover button {
+	display: block;
 }
 
 #drop-location {

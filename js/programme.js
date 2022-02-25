@@ -11,6 +11,23 @@ function openUploader() {
 	uploader = openPopUpWin("new.php", "uploadwin", 320, 320);
 }
 
+function deleteMe(event) {
+	var conf = confirm("Are you sure you want to completely delete this media?\n\nIn order to use it again in the future, it will need to be reuploaded.");
+	if (conf) {
+		var fileName = event.currentTarget.previousElementSibling.src.split("/").pop();
+
+		var delReq = new XMLHttpRequest();
+		delReq.open("GET", "int/delete.php?media=" + encodeURIComponent(fileName));
+		delReq.send();
+
+		event.currentTarget.parentNode.remove();
+	}
+}
+
+function removeMe(event) {
+	event.currentTarget.parentNode.remove();
+}
+
 function createMediaItem(mediaUrl) {
 	var template = document.getElementById("media-item-template");
 	var clonedItem = template.content.cloneNode(true);
@@ -22,8 +39,18 @@ function addMedia(mediaUrl) {
 	console.log("Media found to add!", mediaUrl);
 	uploader.close();
 	uploader = null;
-
-	document.getElementById("media-list").appendChild(createMediaItem(mediaUrl));
+	
+	if (typeof mediaUrl == "string") {
+		document.getElementById("media-list").appendChild(createMediaItem(mediaUrl));
+	}
+	else if (typeof mediaUrl == "object") {
+		for (var i = 0; i < mediaUrl.length; i++) {
+			document.getElementById("media-list").appendChild(createMediaItem(mediaUrl[i]));
+		}
+	}
+	else {
+		console.warn("Invalid mediaUrl given to addMedia()", mediaUrl);
+	}
 }
 
 function allowDrop(event) {
