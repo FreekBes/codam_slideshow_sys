@@ -3,6 +3,7 @@
 <html>
 <head>
 	<title>Upload media</title>
+	<link rel="stylesheet" href="styles.css" />
 	<script src="js/uploader.js"></script>
 </head>
 <body>
@@ -10,5 +11,6 @@
 		<input type="file" name="media" id="media" accept="image/*,video/*" />
 		<input type="submit" value="Upload" />
 	</form>
+	<div id="loading">Uploading... Please wait</div>
 </body>
 </html>
