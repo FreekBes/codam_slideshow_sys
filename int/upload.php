@@ -10,6 +10,7 @@
 		$mime = mime_content_type($_FILES['media']['tmp_name']);
 		if (strstr($mime, "image/")) {
 			$new_loc = "media/" . generate_id(14) . ".jpeg";
+			$printable_loc = htmlspecialchars(strip_tags($new_loc));
 			$input_img = imagecreate_wrapper($_FILES['media']['tmp_name']);
 			if ($input_img === false) {
 				http_response_code(500);
