@@ -1,28 +1,36 @@
-#media-list {
+#media-list, #selected-media {
 	list-style-type: none;
 	overflow-x: auto;
 	overflow-y: hidden;
 	white-space: nowrap;
 	margin: 0px;
-	padding: 0px;
+	padding: 4px;
+	height: 80px;
+	border: solid 1px black;
 }
 
-#media-list .media-item {
+.media-item {
+	display: inline-block;
+	width: 128px;
+	height: 72px;
+	text-align: center;
+	padding: 4px;
+}
+
+.media-item img {
 	display: inline-block;
 	width: 128px;
 	height: 72px;
 	background: black;
-	text-align: center;
-	margin-right: 8px;
-}
-
-#media-list .media-item:last-child {
-	margin-right: 0px;
-}
-
-#media-list .media-item img {
-	display: inline-block;
-	height: 100%;
-	width: 100%;
 	object-fit: scale-down;
+}
+
+#drop-location {
+	display: inline-block;
+	width: 8px;
+	height: 72px;
+	background-color: blue;
+	margin-top: 4px;
+	margin-right: 2px;
+	margin-left: 2px;
 }
