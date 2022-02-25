@@ -17,4 +17,9 @@
 	else {
 		http_response_code(204);
 	}
+
+	if (str_ends_with($_GET["media"], ".gif")) {
+		$mp4_file = str_replace(".gif", ".mp4", "../media/" . $_GET["media"]);
+		@unlink("../media/" . $mp4_file);
+	}
 ?>
