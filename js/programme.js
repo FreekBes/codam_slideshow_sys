@@ -11,21 +11,21 @@ function openUploader() {
 	uploader = openPopUpWin("new.php", "uploadwin", 320, 320);
 }
 
-function deleteMe(event) {
+function deleteMe(ev) {
 	var conf = confirm("Are you sure you want to completely delete this media?\n\nIn order to use it again in the future, it will need to be reuploaded.");
 	if (conf) {
-		var fileName = event.currentTarget.previousElementSibling.src.split("/").pop();
+		var fileName = ev.currentTarget.previousElementSibling.src.split("/").pop();
 
 		var delReq = new XMLHttpRequest();
 		delReq.open("GET", "int/delete.php?media=" + encodeURIComponent(fileName));
 		delReq.send();
 
-		event.currentTarget.parentNode.remove();
+		ev.currentTarget.parentNode.remove();
 	}
 }
 
-function removeMe(event) {
-	event.currentTarget.parentNode.remove();
+function removeMe(ev) {
+	ev.currentTarget.parentNode.remove();
 }
 
 function createMediaItem(mediaUrl) {
@@ -53,9 +53,9 @@ function addMedia(mediaUrl) {
 	}
 }
 
-function allowDrop(event) {
-	if (event.dataTransfer.types.includes("text/uri-list")) {
-		event.preventDefault();
+function allowDrop(ev) {
+	if (ev.dataTransfer.types.includes("text/uri-list")) {
+		ev.preventDefault();
 
 		var dropLocation = document.getElementById("drop-location");
 		if (!dropLocation) {
@@ -63,18 +63,18 @@ function allowDrop(event) {
 			dropLocation.setAttribute("id", "drop-location");
 		}
 
-		if (event.target == dropLocation) {
+		if (ev.target == dropLocation) {
 			return;
 		}
 
-		if (event.target.nodeName == "OL") {
-			event.currentTarget.appendChild(dropLocation);
+		if (ev.target.nodeName == "OL") {
+			ev.currentTarget.appendChild(dropLocation);
 		}
-		else if (event.target.nodeName == "IMG") {
-			event.currentTarget.insertBefore(dropLocation, event.target.parentNode);
+		else if (ev.target.nodeName == "IMG") {
+			ev.currentTarget.insertBefore(dropLocation, ev.target.parentNode);
 		}
-		else if (event.target.nodeName == "LI") {
-			event.currentTarget.insertBefore(dropLocation, event.target);
+		else if (ev.target.nodeName == "LI") {
+			ev.currentTarget.insertBefore(dropLocation, ev.target);
 		}
 		dropLocation.parentNode.style.background = "lightblue";
 	}
@@ -83,30 +83,30 @@ function allowDrop(event) {
 	}
 }
 
-function drag(event) {
-	draggedElem = event.currentTarget.parentNode;
+function drag(ev) {
+	draggedElem = ev.currentTarget.parentNode;
 
-	event.dataTransfer.setData("text/uri-list", event.currentTarget.src);
+	ev.dataTransfer.setData("text/uri-list", ev.currentTarget.src);
 	if (draggedElem.parentNode.getAttribute("id") == "media-list") {
-		event.dataTransfer.effectAllowed = "copy";
+		ev.dataTransfer.effectAllowed = "copy";
 	}
 	else {
-		event.dataTransfer.effectAllowed = "move";
+		ev.dataTransfer.effectAllowed = "move";
 		draggedElem.style.display = "none";
 	}
 
 	var ctx = document.createElement("canvas").getContext("2d");
 	ctx.canvas.width = 128;
 	ctx.canvas.height = 72;
-	ctx.drawImage(event.currentTarget, 0, 0, 128, 72);
-	event.dataTransfer.setDragImage(ctx.canvas, 10, 10);
+	ctx.drawImage(ev.currentTarget, 0, 0, 128, 72);
+	ev.dataTransfer.setDragImage(ctx.canvas, 10, 10);
 }
 
-function drop(event) {
-	event.preventDefault();
+function drop(ev) {
+	ev.preventDefault();
 
-	var mediaUrl = event.dataTransfer.getData("text/uri-list");
-	if (event.dataTransfer.effectAllowed == "move") {
+	var mediaUrl = ev.dataTransfer.getData("text/uri-list");
+	if (ev.dataTransfer.effectAllowed == "move") {
 		draggedElem.remove();
 	}
 
@@ -118,9 +118,9 @@ function drop(event) {
 	}
 }
 
-function dragLeave(event) {
+function dragLeave(ev) {
 	var bounds = document.getElementById("selected-media").getBoundingClientRect();
-	if (event.clientY < bounds.top || event.clientY >= bounds.bottom || event.clientX < bounds.left || event.clientX >= bounds.right) {
+	if (ev.clientY < bounds.top || ev.clientY >= bounds.bottom || ev.clientX < bounds.left || ev.clientX >= bounds.right) {
 		// mouse is now actually outside of drop boundaries, remove drop location
 		var dropLocation = document.getElementById("drop-location");
 		if (dropLocation) {
@@ -130,9 +130,9 @@ function dragLeave(event) {
 	}
 }
 
-function dragEnd(event) {
+function dragEnd(ev) {
 	var dropLocation = document.getElementById("drop-location");
-	if (event.dataTransfer.effectAllowed == "move" && !dropLocation) {
+	if (ev.dataTransfer.effectAllowed == "move" && !dropLocation) {
 		draggedElem.remove();
 	}
 	else {
