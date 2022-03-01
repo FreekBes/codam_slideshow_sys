@@ -6,12 +6,18 @@
 	}
 
 	// parse day into format of 'date +%F' command
-	$day_timestamp = strtotime($_POST["day"]);
-	if ($day_timestamp === false) {
-		http_response_code(400);
-		die("day_parse_error");
+	if ($_POST["day"] != "default") {
+		$day_timestamp = strtotime($_POST["day"]);
+		if ($day_timestamp === false) {
+			http_response_code(400);
+			die("day_parse_error");
+		}
+		$date_full = date("Y-m-d", $day_timestamp);
 	}
-	$date_full = date("Y-m-d", $day_timestamp);
+	else {
+		$day_timestamp = 0;
+		$date_full = "default";
+	}
 
 	// check if media key is in POST, can be empty
 	if (!array_key_exists("media", $_POST)) {
@@ -53,12 +59,9 @@
 		die("no_access_to_day_folder");
 	}
 
-	// if default programme is enabled, create a file for that, else delete if it exists
-	if ($_POST["default_enabled"] === "true") {
+	// if default programme is enabled, create a file to indicate this
+	if ($date_full != "default" && $_POST["default_enabled"] === "true") {
 		file_put_contents(".default_enabled", "");
-	}
-	else if (file_exists(".default_enabled")) {
-		unlink(".default_enabled");
 	}
 
 	// parse media files selected, are already in order
@@ -90,16 +93,17 @@
 	// sadly we cannot link to any file (.*), since then the .gif might
 	// show up... so we can only handle .mp4 files, hardcoded here.
 	for ($i = 0; $i < $amount; $i++) {
+		$media_name = substr($media[$i], 0, strrpos($media[$i], "."));
 		if (str_ends_with($media[$i], ".gif")) {
 			$media[$i] = str_replace(".gif", ".mp4", $media[$i]);
-			if (!link("../../media/" . $media[$i], "$i-".$durations[$i].".mp4")) {
+			if (!link("../../media/" . $media[$i], $i."_".$durations[$i]."_$media_name.mp4")) {
 				http_response_code(500);
 				die("link_creation_fail");
 			}
 		}
 		else {
 			$ext = pathinfo("../../media/" . $media[$i], PATHINFO_EXTENSION);
-			if (!link("../../media/" . $media[$i], "$i-".$durations[$i].".$ext")) {
+			if (!link("../../media/" . $media[$i], $i."_".$durations[$i]."_$media_name.$ext")) {
 				http_response_code(500);
 				die("link_creation_fail");
 			}

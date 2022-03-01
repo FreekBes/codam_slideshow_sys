@@ -169,11 +169,17 @@ function saveProgramme(ev) {
 		selectedMediaFiles.push(selectedMediaElems[i].firstElementChild.src.split("/").pop());
 		durations.push(parseFloat(selectedMediaElems[i].querySelector(".duration").value));
 	}
+	var defaultCheckbox = document.getElementById("default_enabled");
 	
 	formData.set("day", getParameterByName("day"));
 	formData.set("media", selectedMediaFiles.join("|"));
 	formData.set("durations", durations.join("|"));
-	formData.set("default_enabled", document.getElementById("default_enabled").checked.toString());
+	if (defaultCheckbox) {
+		formData.set("default_enabled", defaultCheckbox.checked.toString());
+	}
+	else {
+		formData.set("default_enabled", "false");
+	}
 	console.log(formData.get("day"));
 	console.log(formData.get("media"));
 	console.log(formData.get("durations"));
