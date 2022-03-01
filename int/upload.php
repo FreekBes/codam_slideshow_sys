@@ -67,5 +67,10 @@
 	}
 
 	http_response_code(201);
-	?><script>window.opener.addMedia(["<?php echo implode("\", \"", $files); ?>"]);</script><?php
+	if ($_GET["popup"]) {
+		?><script>window.opener.addMedia(["<?php echo implode("\", \"", $files); ?>"]);</script><?php
+	}
+	else {
+		echo implode("|", $files);
+	}
 ?>

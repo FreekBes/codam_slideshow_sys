@@ -21,6 +21,8 @@ function deleteMe(ev) {
 		delReq.open("GET", "int/delete.php?media=" + encodeURIComponent(fileName));
 		delReq.send();
 
+		ev.currentTarget.parentNode.remove();
+
 		// remove the media from the selected list, if found there
 		for (var i = 0; i < selected.length; i++) {
 			selected[i].parentNode.remove();

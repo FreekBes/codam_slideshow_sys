@@ -120,20 +120,5 @@
 		}
 	}
 
-	// save the programme into JSON format for the calendar overview
-	$json_programme = array();
-	$json_programme['default_enabled'] = ($date_full != "default" && $_POST["default_enabled"] === "true");
-	$json_programme['media'] = array();
-	for ($i = 0; $i < $amount; $i++) {
-		if (empty($media[$i])) {
-			continue;
-		}
-		$temp = array();
-		$temp['file'] = $media[$i];
-		$temp['duration'] = $durations[$i];
-		array_push($json_programme['media'], $temp);
-	}
-	file_put_contents("overview.json", json_encode($json_programme));
-
 	http_response_code(204);
 ?>

@@ -1,4 +1,7 @@
 <?php
+	require_once("../include/auth.php");
+	require_once("../include/useful.php");
+
 	header('Content-Type: application/json; charset=utf-8');
 
 	if (!isset($_GET["day"]) || empty($_GET["day"])) {
@@ -23,16 +26,5 @@
 		$date_full = "default";
 	}
 
-	$programme_folder = "../programmes/$date_full";
-	if (!is_dir($programme_folder)) {
-		http_response_code(204);
-		die();
-	}
-	
-	$programme_overview = file_get_contents("$programme_folder/overview.json");
-	if ($programme_overview === false) {
-		http_response_code(404);
-		die();
-	}
-	echo $programme_overview;
+	echo json_encode(get_programme_overview($date_full));
 ?>

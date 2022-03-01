@@ -56,4 +56,54 @@
 		imagecopyresampled($new, $image, 0, 0, 0, 0, $wanted_width, $wanted_height, $width, $height);
 		return ($new);
 	}
+
+	function get_programme_overview($date_full) {
+		$programme_folder = "../programmes/$date_full";
+		if (!is_dir($programme_folder)) {
+			return ((object) array(
+				'default_enabled' => true,
+				'media' => array()
+			));
+		}
+		
+		$selected_media = glob("$programme_folder/*.{jpg,jpeg,png,mp4}", GLOB_BRACE);
+		$default_enabled = file_exists("$programme_folder/.default_enabled");
+
+		$returnable = array();
+		$returnable['default_enabled'] = $default_enabled;
+		$returnable['media'] = array();
+		foreach ($selected_media as $media) {
+			$temp = explode("_", $media);
+			array_push($returnable['media'], (object) array (
+				'file' => str_replace(".mp4", ".gif", array_pop($temp)),
+				'duration' => intval($temp[1])
+			));
+		}
+		return ($returnable);
+	}
+
+	function simply_add_to_programme($full_date, $media, $duration) {
+		$programme_dir = "../programmes/$full_date";
+
+		// add to default programme
+		chdir($programme_dir);
+
+		// get last file in order of media
+		$selected_media = array_reverse(glob("./*.{jpg,jpeg,png,mp4}", GLOB_BRACE));
+		$i = intval(explode("_", array_pop($selected_media))[0]) + 1;
+
+		if (str_ends_with($media, ".gif")) {
+			$mp4_file = str_replace(".gif", ".mp4", $media);
+			if (!link("../../media/" . $mp4_file, $i."_".$duration."_$mp4_file")) {
+				http_response_code(500);
+				die("link_creation_fail");
+			}
+		}
+		else {
+			if (!link("../../media/" . $media, $i."_".$duration."_".$media)) {
+				http_response_code(500);
+				die("link_creation_fail");
+			}
+		}
+	}
 ?>
