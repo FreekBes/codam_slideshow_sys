@@ -68,6 +68,7 @@
 	<template id="media-item-template-selected"><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="" /><button onclick="removeMe(event)" title="Remove from programme">&#x2715;</button><input type="number" class="duration" value="10" step="0.1" min="1" title="Duration in seconds" placeholder="Duration in seconds" /></li></template>
 	<?php if ($date_internal != "default") { ?><input type="checkbox" name="default_enabled" id="default_enabled" value="true" <?php echo ($default_enabled ? "checked " : ""); ?>/><label for="default_enabled">Enable default programme</label><?php } ?>
 	<button onclick="saveProgramme(event)">Save</button>
+	<small><a href="calendar.php">Back to calendar</a></small>
 	<div id="loading">Loading... Please wait</div>
 </body>
 </html>

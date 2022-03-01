@@ -12,7 +12,7 @@ function openUploader() {
 }
 
 function deleteMe(ev) {
-	var conf = confirm("Are you sure you want to completely delete this media?\n\nIn order to use it again in the future, it will need to be reuploaded.");
+	var conf = confirm("Are you sure you want to permanently delete this media?\n\nIn order to use it again in the future, it will need to be reuploaded.");
 	if (conf) {
 		var fileName = ev.currentTarget.previousElementSibling.src.split("/").pop();
 		var selected = document.querySelectorAll("#selected-media img[src*=\"" + fileName + "\"]");
