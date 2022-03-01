@@ -19,7 +19,18 @@
 	}
 
 	if (str_ends_with($_GET["media"], ".gif")) {
-		$mp4_file = str_replace(".gif", ".mp4", "../media/" . $_GET["media"]);
+		$mp4_file = str_replace(".gif", ".mp4", $_GET["media"]);
 		@unlink("../media/" . $mp4_file);
+
+		// delete file references in programmes
+		foreach (glob("../programmes/*/*_*_" . $mp4_file) as $link) {
+			@unlink($link);
+		}
+	}
+	else {
+		// delete file references in programmes
+		foreach (glob("../programmes/*/*_*_" . $_GET["media"]) as $link) {
+			@unlink($link);
+		}
 	}
 ?>
