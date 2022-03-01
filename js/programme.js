@@ -193,7 +193,10 @@ function saveProgramme(ev) {
 	saveReq.open("POST", "int/save.php");
 	saveReq.addEventListener("load", function(evSave) {
 		if (this.status == 204) {
-			alert("Programme has been saved");
+			var conf = confirm("Programme has been saved. Go back to the calendar overview?");
+			if (conf) {
+				window.location.href = "calendar.php";
+			}
 		}
 		else {
 			alert("Failed to save programme ("+this.status+" "+this.statusText+": "+this.responseText+")");
