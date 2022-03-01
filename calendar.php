@@ -19,5 +19,6 @@
 	</p>
 	<hr />
 	<main></main>
+	<div id="loading">Loading... Please wait</div>
 </body>
 </html>

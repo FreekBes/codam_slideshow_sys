@@ -104,16 +104,36 @@ input::-webkit-inner-spin-button {
 }
 
 #loading {
-	display: none;
+	display: block;
 	position: fixed;
 	top: 0px;
 	left: 0px;
 	right: 0px;
 	bottom: 0px;
-	background: rgba(255,255,255,0.8);
+	background: rgba(255,255,255,0.9);
+	backdrop-filter: blur(4px);
 	color: black;
 	text-align: center;
 	padding-top: 48px;
+}
+
+#loading::before {
+	display: block;
+	content: '';
+	width: 48px;
+	height: 48px;
+	margin: 28px auto;
+	border-radius: 50%;
+	border-top: solid 6px black;
+	border-right: solid 6px black;
+	border-bottom: solid 6px transparent;
+	border-left: solid 6px transparent;
+	animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
 }
 
 /* calendar page */

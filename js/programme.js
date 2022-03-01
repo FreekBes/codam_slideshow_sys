@@ -165,6 +165,8 @@ function dragEnd(ev) {
 }
 
 function saveProgramme(ev) {
+	document.getElementById("loading").style.display = "block";
+
 	var formData = new FormData();
 	var selectedMediaElems = document.getElementById("selected-media").children;
 	var selectedMediaFiles = [];
@@ -192,6 +194,7 @@ function saveProgramme(ev) {
 	var saveReq = new XMLHttpRequest();
 	saveReq.open("POST", "int/save.php");
 	saveReq.addEventListener("load", function(evSave) {
+		document.getElementById("loading").style.display = "none";
 		if (this.status == 204) {
 			var conf = confirm("Programme has been saved. Go back to the calendar overview?");
 			if (conf) {
@@ -203,7 +206,12 @@ function saveProgramme(ev) {
 		}
 	});
 	saveReq.addEventListener("error", function(evSave) {
+		document.getElementById("loading").style.display = "none";
 		alert("Failed to save programme (unknown error)");
 	});
 	saveReq.send(formData);
 }
+
+window.onbeforeunload = function(ev) {
+	document.getElementById("loading").style.display = "block";
+};

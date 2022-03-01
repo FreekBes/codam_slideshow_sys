@@ -1,15 +1,20 @@
 var today = new Date();
 var cacheId = Math.random();
+var requestsTodo = 1;
+var requestsDone = 0;
+var checkReqDoneInterval = null;
 
 function initCalendar() {
 	var calendarCode = getCalendar(today.getFullYear(), today.getMonth(), 3);
 	document.getElementsByTagName("main")[0].innerHTML = calendarCode;
 
 	var months = document.getElementsByClassName("month");
+	requestsTodo += months.length;
 	var req;
 	req = new XMLHttpRequest();
 	req.open("GET", "int/get.php?day=default&c" + cacheId, true);
 	req.addEventListener("loadend", function (fEv) {
+		requestsDone++;
 		if (this.status == 200) {
 			var defaultLink = document.getElementById("default-link");
 			var overview = JSON.parse(this.responseText);
@@ -18,6 +23,7 @@ function initCalendar() {
 		}
 	});
 	req.addEventListener("error", function(err) {
+		requestsDone++;
 		console.error(err);
 	});
 	req.send();
@@ -26,6 +32,7 @@ function initCalendar() {
 		req = new XMLHttpRequest();
 		req.open("GET", "int/getmonth.php?month=" + months[i].getAttribute("data-month") + "&year=" + months[i].getAttribute("data-year") + "&c=" + cacheId, true);
 		req.addEventListener("loadend", function(fEv) {
+			requestsDone++;
 			if (this.status == 200) {
 				var month = getParameterByName("month", this.responseURL);
 				var year = getParameterByName("year", this.responseURL);
@@ -47,7 +54,6 @@ function initCalendar() {
 					else if (!overview[j]["default_enabled"]) {
 						days[j].className += " default-disabled";
 					}
-					
 				}
 			}
 			else {
@@ -55,10 +61,18 @@ function initCalendar() {
 			}
 		});
 		req.addEventListener("error", function(err) {
+			requestsDone++;
 			console.error(err);
 		});
 		req.send();
 	}
+	checkReqDoneInterval = setInterval(function() {
+		if (requestsDone == requestsTodo) {
+			document.getElementById("loading").style.display = "none";
+			clearInterval(checkReqDoneInterval);
+			checkReqDoneInterval = null;
+		}
+	}, 250);
 }
 
 function showProgTooltip(ev) {
@@ -125,3 +139,6 @@ function editProgramme(ev) {
 }
 
 window.onload = initCalendar;
+window.onbeforeunload = function(ev) {
+	document.getElementById("loading").style.display = "block";
+};

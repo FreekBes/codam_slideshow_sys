@@ -53,7 +53,7 @@
 	<script src="js/useful.js"></script>
 	<script src="js/programme.js"></script>
 </head>
-<body>
+<body onload="document.getElementById('loading').style.display = 'none';">
 	<h1><?php echo $programme_name; ?></h1>
 	<h3>Media to choose from</h3>
 	<ul id="media-list">
@@ -68,5 +68,6 @@
 	<template id="media-item-template-selected"><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="" /><button onclick="removeMe(event)" title="Remove from programme">&#x2715;</button><input type="number" class="duration" value="10" step="0.1" min="1" title="Duration in seconds" placeholder="Duration in seconds" /></li></template>
 	<?php if ($date_internal != "default") { ?><input type="checkbox" name="default_enabled" id="default_enabled" value="true" <?php echo ($default_enabled ? "checked " : ""); ?>/><label for="default_enabled">Enable default programme</label><?php } ?>
 	<button onclick="saveProgramme(event)">Save</button>
+	<div id="loading">Loading... Please wait</div>
 </body>
 </html>

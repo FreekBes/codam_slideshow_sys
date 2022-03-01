@@ -11,6 +11,6 @@
 		<input type="file" name="media[]" id="media[]" accept="image/png, image/jpeg, image/webp, image/bmp, video/mp4" multiple="multiple" />
 		<input type="submit" value="Upload" />
 	</form>
-	<div id="loading">Uploading... Please wait</div>
+	<div id="loading" style="display: none;">Uploading... Please wait</div>
 </body>
 </html>
