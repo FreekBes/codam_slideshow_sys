@@ -6,6 +6,26 @@ h3 {
 	margin: 12px 0px 4px 0px;
 }
 
+button {
+	margin-top: 4px;
+	padding: 4px 8px;
+	font-size: 14px;
+	cursor: pointer;
+	background: lightgrey;
+	border: 2px outset lightgrey;
+}
+
+button:hover,
+button:focus {
+	background: lightblue;
+	border: 2px outset lightblue;
+}
+
+button:active {
+	background: lightblue;
+	border: 2px inset lightblue;
+}
+
 /* programme page */
 #media-list,
 #selected-media {
@@ -39,8 +59,10 @@ h3 {
 .media-item button {
 	display: none;
 	position: absolute;
-	top: 6px;
+	top: 4px;
 	right: 6px;
+	margin: 0px;
+	padding: 4px;
 	background: transparent;
 	border: none;
 	cursor: pointer;
@@ -168,19 +190,19 @@ input::-webkit-inner-spin-button {
 }
 
 .glm-calendar .month .week .day.custom {
-	background: lightblue;
+	background: lightblue !important;
 }
 
 .glm-calendar .month .week .day.default-disabled {
-	background: lightcoral;
+	background: lightcoral !important;
 }
 
 .glm-calendar .month .week .day.custom.default-disabled {
-	background: cyan;
+	background: cyan !important;
 }
 
 .glm-calendar .month .week .day:hover {
-	background: lightgrey !important;
+	background: lightgrey;
 	border-color: grey;
 }
 
