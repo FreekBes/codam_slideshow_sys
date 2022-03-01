@@ -151,12 +151,16 @@ input::-webkit-inner-spin-button {
 	background: lightblue;
 }
 
+.glm-calendar .month .week .day.default-disabled {
+	background: lightcoral;
+}
+
 .glm-calendar .month .week .day.custom.default-disabled {
 	background: cyan;
 }
 
 .glm-calendar .month .week .day:hover {
-	background: lightgrey;
+	background: lightgrey !important;
 	border-color: grey;
 }
 
