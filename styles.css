@@ -1,7 +1,12 @@
+body {
+	font-family: sans-serif;
+}
+
 h3 {
 	margin: 12px 0px 4px 0px;
 }
 
+/* programme page */
 #media-list,
 #selected-media {
 	list-style-type: none;
@@ -109,4 +114,94 @@ input::-webkit-inner-spin-button {
 	color: black;
 	text-align: center;
 	padding-top: 48px;
+}
+
+/* calendar page */
+.glm-calendar {
+	display: inline-block;
+	padding: 8px;
+}
+
+.glm-calendar .month {
+	border: solid lightgrey 1px;
+}
+
+.glm-calendar caption {
+	padding: 4px;
+	text-align: center;
+	border: solid lightgrey 1px;
+}
+
+.glm-calendar .month .daynames td {
+	border-bottom: solid lightgrey 1px;
+}
+
+.glm-calendar .month td {
+	padding: 4px;
+	width: 36px;
+	text-align: center;
+	border: solid 1px transparent;
+}
+
+.glm-calendar .month .week .day {
+	cursor: pointer;
+}
+
+.glm-calendar .month .week .day.custom {
+	background: lightblue;
+}
+
+.glm-calendar .month .week .day.custom.default-disabled {
+	background: cyan;
+}
+
+.glm-calendar .month .week .day:hover {
+	background: lightgrey;
+	border-color: grey;
+}
+
+.prog-tooltip {
+	display: block;
+	position: fixed;
+	background: lightblue;
+	padding: 4px;
+	height: 71px;
+	box-shadow: 0 0 4px grey;
+	border: solid 1px grey;
+	pointer-events: none;
+}
+
+.prog-tooltip::before {
+	content: '';
+	position: absolute;
+	display: block;
+	width: 0px;
+	left: 17px;
+	bottom: 0;
+	border: 7px solid transparent;
+	border-bottom: 0;
+	border-top: 7px solid grey;
+	transform: translate(14px, 100%);
+}
+
+.prog-tooltip small {
+	display: block;
+	font-family: sans-serif;
+	font-size: 12px;
+	line-height: 15px;
+	height: 15px;
+	margin-bottom: 2px;
+}
+
+.prog-tooltip img {
+	display: inline-block;
+	width: 96px;
+	height: 54px;
+	background: black;
+	object-fit: contain;
+	margin-right: 4px;
+}
+
+.prog-tooltip img:last-child {
+	margin-right: 0px;
 }

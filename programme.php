@@ -7,6 +7,11 @@
 	}
 	$day = $_GET["day"];
 	if ($day != "default") {
+		if (preg_match('/[^0-9\-]/', $_POST["day"])) {
+			header("Location: error.php?e=Invalid%20day");
+			die();
+		}
+
 		$timestamp = strtotime($_GET["day"]);
 		$date_internal = date("Y-m-d", $timestamp);
 		$date_full = date("l, \\t\\h\\e jS \\o\\f F", $timestamp);
@@ -61,7 +66,7 @@
 	</ol>
 	<template id="media-item-template"><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="" /><button onclick="deleteMe(event)" title="Delete media (no undo)">&#x2715;</button></li></template>
 	<template id="media-item-template-selected"><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="" /><button onclick="removeMe(event)" title="Remove from programme">&#x2715;</button><input type="number" class="duration" value="10" step="0.1" min="1" title="Duration in seconds" placeholder="Duration in seconds" /></li></template>
-	<?php if ($date_internal != "default") { ?><input type="checkbox" name="default_enabled" id="default_enabled" value="true" <?php echo ($default_enabled ? : "checked "); ?>/><label for="default_enabled">Enable default programme</label><?php } ?>
+	<?php if ($date_internal != "default") { ?><input type="checkbox" name="default_enabled" id="default_enabled" value="true" <?php echo ($default_enabled ? "checked " : ""); ?>/><label for="default_enabled">Enable default programme</label><?php } ?>
 	<button onclick="saveProgramme(event)">Save</button>
 </body>
 </html>
