@@ -31,7 +31,7 @@
 	}
 
 	// check if durations key is in POST
-	if (!isset($_POST["durations"]) || empty($_POST["durations"])) {
+	if (!array_key_exists("durations", $_POST)) {
 		http_response_code(400);
 		die("missing_key_durations");
 	}
@@ -102,6 +102,9 @@
 	// sadly we cannot link to any file (.*), since then the .gif might
 	// show up... so we can only handle .mp4 files, hardcoded here.
 	for ($i = 0; $i < $amount; $i++) {
+		if (empty($media[$i])) {
+			continue;
+		}
 		if (str_ends_with($media[$i], ".gif")) {
 			$mp4_file = str_replace(".gif", ".mp4", $media[$i]);
 			if (!link("../../media/" . $mp4_file, $i."_".$durations[$i]."_$mp4_file")) {
@@ -122,6 +125,9 @@
 	$json_programme['default_enabled'] = ($date_full != "default" && $_POST["default_enabled"] === "true");
 	$json_programme['media'] = array();
 	for ($i = 0; $i < $amount; $i++) {
+		if (empty($media[$i])) {
+			continue;
+		}
 		$temp = array();
 		$temp['file'] = $media[$i];
 		$temp['duration'] = $durations[$i];
