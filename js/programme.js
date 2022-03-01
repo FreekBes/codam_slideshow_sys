@@ -15,12 +15,16 @@ function deleteMe(ev) {
 	var conf = confirm("Are you sure you want to completely delete this media?\n\nIn order to use it again in the future, it will need to be reuploaded.");
 	if (conf) {
 		var fileName = ev.currentTarget.previousElementSibling.src.split("/").pop();
+		var selected = document.querySelectorAll("#selected-media img[src*=\"" + fileName + "\"]");
 
 		var delReq = new XMLHttpRequest();
 		delReq.open("GET", "int/delete.php?media=" + encodeURIComponent(fileName));
 		delReq.send();
 
-		ev.currentTarget.parentNode.remove();
+		// remove the media from the selected list, if found there
+		for (var i = 0; i < selected.length; i++) {
+			selected[i].parentNode.remove();
+		}
 	}
 }
 
