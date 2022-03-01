@@ -47,7 +47,7 @@
 			$wanted_width = floor($wanted_height * $ratio);
 		}
 		else {
-			$wanted_height = floor($wanted_width * $ratio);
+			$wanted_height = floor($wanted_width / $ratio);
 		}
 
 		$new = imagecreatetruecolor($wanted_width, $wanted_height);
