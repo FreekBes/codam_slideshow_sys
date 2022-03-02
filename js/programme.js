@@ -216,4 +216,7 @@ function saveProgramme(ev) {
 
 window.onbeforeunload = function(ev) {
 	document.getElementById("loading").style.display = "block";
+	if (uploader) {
+		uploader.close();
+	}
 };
