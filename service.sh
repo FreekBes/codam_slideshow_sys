@@ -42,30 +42,24 @@ display_media () {
 	DURATION="$(echo "${FILE_NAME}" | sed -e 's/.*_\(.*\)_.*/\1/')"
 
 	# Convert duration from milliseconds to seconds
-	# Also remove 2 from the duration, since the media display part already sleeps for 2 seconds
-	DURATION=$(awk "BEGIN { print ${DURATION}/1000-2 }")
-
-	# If duration is 0 or negative by the calculation above, set duration to 1 to prevent a crash
-	if [ "${DURATION}" = "0" ] || [[ "${DURATION}" =~ ^\-[0-9]+ ]]; then
-		DURATION="1"
-	fi
+	DURATION=$(awk "BEGIN { print ${DURATION}/1000 }")
 
 	# Check if media is already being displayed, if not, display it
 	if [ ! "${1}" = "${DISPLAYED}" ]; then
 		# Detect if video
 		if [[ "${FILE_NAME}" =~ \.mp4 ]]; then
+			ORIG_DURATION="$(echo "${FILE_NAME}" | sed -e 's/.*\-\(.*\)\..*/\1/')"
+
 			echo "Showing video..."
 			xbmc-send -a "Action(Stop)"
 			xbmc-send -a "PlayMedia(${1})"
-			sleep "2"
-			xbmc-send -a "PlayerControl(RepeatOne)"
+			# Cannot use RepeatOne, as that crashes Kodi when the media isn't loaded yet
+			# Could sleep for a while, but that sometimes still results in crashing.
+			# xbmc-send -a "PlayerControl(RepeatOne)"
 		else
 			echo "Showing image..."
 			xbmc-send -a "ShowPicture(${1})"
-			sleep "2"
 		fi
-	else
-		sleep "2"
 	fi
 
 	echo "Sleeping for ${DURATION} seconds..."
