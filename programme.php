@@ -29,6 +29,7 @@
 	if (is_dir($programme_dir)) {
 		$default_enabled = ($date_internal != "default" ? file_exists("$programme_dir/.default_enabled") : false);
 		$selected_media = glob("$programme_dir/*.{jpg,jpeg,png,mp4}", GLOB_BRACE);
+		sort($selected_media, SORT_STRING);
 		for ($i = 0; $i < count($selected_media); $i++) {
 			$temp = explode("_", $selected_media[$i]);
 			if (count($temp) < 3) {
@@ -44,6 +45,9 @@
 		$default_enabled = ($date_internal != "default" ? true : false);
 		$selected_media = array();
 	}
+
+	$available_media = glob("media/*.{jpg,jpeg,png,gif}", GLOB_BRACE);
+	sort($available_media, SORT_STRING);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,7 +61,7 @@
 	<h1><?php echo $programme_name; ?></h1>
 	<h3>Media to choose from</h3>
 	<ul id="media-list">
-		<?php foreach (glob("media/*.{jpg,jpeg,png,gif}", GLOB_BRACE) as $media) { ?><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="<?php echo $media; ?>" /><button onclick="deleteMe(event)" title="Delete media (no undo)">&#x2715;</button></li><?php } ?>
+		<?php foreach ($available_media as $media) { ?><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="<?php echo $media; ?>" /><button onclick="deleteMe(event)" title="Delete media (no undo)">&#x2715;</button></li><?php } ?>
 	</ul>
 	<button onclick="openUploader()">Upload media</button>
 	<h3>Media displayed on screen</h3>

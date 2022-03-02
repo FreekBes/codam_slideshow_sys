@@ -67,6 +67,7 @@
 		}
 		
 		$selected_media = glob("$programme_folder/*.{jpg,jpeg,png,mp4}", GLOB_BRACE);
+		sort($selected_media, SORT_STRING);
 		$default_enabled = file_exists("$programme_folder/.default_enabled");
 
 		$returnable = array();
@@ -90,7 +91,8 @@
 		chdir($programme_dir);
 
 		// get last file in order of media
-		$selected_media = array_reverse(glob("./*.{jpg,jpeg,png,mp4}", GLOB_BRACE));
+		$selected_media = glob("./*.{jpg,jpeg,png,mp4}", GLOB_BRACE);
+		rsort($selected_media, SORT_STRING);
 		$i = intval(explode("_", array_pop($selected_media))[0]) + 1;
 
 		if (str_ends_with($media, ".gif")) {
