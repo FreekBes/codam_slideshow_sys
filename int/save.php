@@ -107,13 +107,13 @@
 		}
 		if (str_ends_with($media[$i], ".gif")) {
 			$mp4_file = str_replace(".gif", ".mp4", $media[$i]);
-			if (!link("../../media/" . $mp4_file, $i."_".$durations[$i]."_$mp4_file")) {
+			if (!link("../../media/" . $mp4_file, sprintf("%03d", $i)."_".$durations[$i]."_$mp4_file")) {
 				http_response_code(500);
 				die("link_creation_fail");
 			}
 		}
 		else {
-			if (!link("../../media/" . $media[$i], $i."_".$durations[$i]."_".$media[$i])) {
+			if (!link("../../media/" . $media[$i], sprintf("%03d", $i)."_".$durations[$i]."_".$media[$i])) {
 				http_response_code(500);
 				die("link_creation_fail");
 			}

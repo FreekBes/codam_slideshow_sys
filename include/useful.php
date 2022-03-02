@@ -97,12 +97,12 @@
 
 		if (str_ends_with($media, ".gif")) {
 			$mp4_file = str_replace(".gif", ".mp4", $media);
-			if (!link("../../media/" . $mp4_file, $i."_".$duration."_$mp4_file")) {
+			if (!link("../../media/" . $mp4_file, sprintf("%03d", $i)."_".$duration."_$mp4_file")) {
 				return (false);
 			}
 		}
 		else {
-			if (!link("../../media/" . $media, $i."_".$duration."_".$media)) {
+			if (!link("../../media/" . $media, sprintf("%03d", $i)."_".$duration."_".$media)) {
 				return (false);
 			}
 		}
