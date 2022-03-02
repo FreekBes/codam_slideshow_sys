@@ -67,7 +67,7 @@
 	}
 
 	http_response_code(201);
-	if ($_GET["popup"]) {
+	if (isset($_GET["popup"])) {
 		?><script>window.opener.addMedia(["<?php echo implode("\", \"", $files); ?>"]);</script><?php
 	}
 	else {

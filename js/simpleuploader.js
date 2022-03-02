@@ -35,6 +35,9 @@ function uploadAndConfigure(ev) {
 				if (this.status == 201) {
 					alert("All done!");
 					window.close();
+					if (!window.closed) {
+						window.location.reload();
+					}
 				}
 				else {
 					alert("Something went wrong configuring the media. Status code: " + this.status);

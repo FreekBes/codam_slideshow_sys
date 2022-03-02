@@ -83,7 +83,8 @@
 	}
 
 	function simply_add_to_programme($full_date, $media, $duration) {
-		$programme_dir = "../programmes/$full_date";
+		$pwd = getcwd();
+		$programme_dir = "/var/www/dashboard/programmes/$full_date";
 
 		// add to default programme
 		chdir($programme_dir);
@@ -95,15 +96,15 @@
 		if (str_ends_with($media, ".gif")) {
 			$mp4_file = str_replace(".gif", ".mp4", $media);
 			if (!link("../../media/" . $mp4_file, $i."_".$duration."_$mp4_file")) {
-				http_response_code(500);
-				die("link_creation_fail");
+				return (false);
 			}
 		}
 		else {
 			if (!link("../../media/" . $media, $i."_".$duration."_".$media)) {
-				http_response_code(500);
-				die("link_creation_fail");
+				return (false);
 			}
 		}
+		chdir($pwd);
+		return (true);
 	}
 ?>

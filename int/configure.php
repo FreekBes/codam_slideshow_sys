@@ -25,6 +25,7 @@
 		try {
 			$begin = new DateTime($_POST["start"]);
 			$end = new DateTime($_POST["end"]);
+			$end = $end->modify("+1 day");
 		}
 		catch (Exception $e) {
 			http_response_code(400);
@@ -33,16 +34,25 @@
 
 		$interval = DateInterval::createFromDateString("1 day");
 		$period = new DatePeriod($begin, $interval, $end);
+		chdir("../programmes");
 		foreach ($period as $date) {
 			$full_date = $date->format("Y-m-d");
-			if (!is_dir("../programmes/$full_date")) {
-				mkdir("../programmes/$full_date", 0755);
+			if (!is_dir("./$full_date")) {
+				mkdir("./$full_date", 0755);
+				file_put_contents("./$full_date/.default_enabled", "");
 			}
-			simply_add_to_programme($full_date, $media, $duration);
+			if (!simply_add_to_programme($full_date, $media, $duration)) {
+				http_response_code(500);
+				die("link_creation_fail");
+			}
 		}
+		http_response_code(201);
 	}
 	else {
-		simply_add_to_programme("default", $media, $duration);
+		if (!simply_add_to_programme("default", $media, $duration)) {
+			http_response_code(500);
+			die("link_creation_fail");
+		}
 		http_response_code(201);
 	}
 ?>
