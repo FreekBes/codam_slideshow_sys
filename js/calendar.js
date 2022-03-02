@@ -138,6 +138,12 @@ function editProgramme(ev) {
 	window.location.href = "programme.php?day=" + encodeURIComponent(internalDate);
 }
 
+function openSimpleUploader(ev) {
+	ev.preventDefault();
+	openPopUpWin('newsimple.php', 'simuploadwin', 320, 400);
+	return false;
+}
+
 window.onload = initCalendar;
 window.onbeforeunload = function(ev) {
 	document.getElementById("loading").style.display = "block";
