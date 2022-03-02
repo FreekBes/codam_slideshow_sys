@@ -215,6 +215,7 @@ input::-webkit-inner-spin-button {
 	box-shadow: 0 0 4px grey;
 	border: solid 1px grey;
 	pointer-events: none;
+	white-space: nowrap;
 }
 
 .prog-tooltip::before {
