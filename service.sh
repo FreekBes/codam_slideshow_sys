@@ -3,6 +3,12 @@
 # Set script to exit immediately if a command exits with a non-zero status
 set -e
 
+# Quit if bash version < 4
+if [ -z "${BASH_VERSINFO}" ] || [ -z "${BASH_VERSINFO[0]}" ] || [ ${BASH_VERSINFO[0]} -lt 4 ]; then
+	echo "This script requires Bash version >= 4";
+	exit 1;
+fi
+
 # Displays images in a loop. If image starts with number + underscore (10_ for example),
 # the image is displayed for number amount of seconds.
 
@@ -39,33 +45,39 @@ display_media () {
 	fi
 
 	# Parse the duration the media should be displayed
-	DURATION="$(echo "${FILE_NAME}" | sed -e 's/.*_\(.*\)_.*/\1/')"
+	DURATION_MS="$(echo "${FILE_NAME}" | sed -e 's/.*_\(.*\)_.*/\1/')"
 
 	# Convert duration from milliseconds to seconds
-	DURATION=$(awk "BEGIN { print ${DURATION}/1000 }")
+	DURATION=$(awk "BEGIN { print ${DURATION_MS}/1000 }")
 
 	# Check if media is already being displayed, if not, display it
 	if [ ! "${1}" = "${DISPLAYED}" ]; then
-		# Detect if video
-		if [[ "${FILE_NAME}" =~ \.mp4 ]]; then
-			ORIG_DURATION="$(echo "${FILE_NAME}" | sed -e 's/.*\-\(.*\)\..*/\1/')"
+		DISPLAYED="${1}"
+		NOTHING="0"
 
-			echo "Showing video..."
-			xbmc-send -a "Action(Stop)"
-			xbmc-send -a "PlayMedia(${1})"
+		# Detect if video or image
+		if [[ "${FILE_NAME}" =~ \.mp4 ]]; then
+			ORIG_DURATION_MS="$(echo "${FILE_NAME}" | sed -e 's/.*\-\(.*\)\..*/\1/')"
+			ORIG_DURATION=$(awk "BEGIN { print ${ORIG_DURATION_MS}/1000 }")
+
 			# Cannot use RepeatOne, as that crashes Kodi when the media isn't loaded yet
 			# Could sleep for a while, but that sometimes still results in crashing.
 			# xbmc-send -a "PlayerControl(RepeatOne)"
+			# Solution is to repeat the video ourselves, until the requested duration is met.
+			for I in {0..${DURATION_MS}..${ORIG_DURATION_MS}}; do
+				echo "Showing video..."
+				xbmc-send -a "Action(Stop)"
+				xbmc-send -a "PlayMedia(${1})"
+				echo "Sleeping for ${ORIG_DURATION} seconds..."
+				sleep "${ORIG_DURATION}"
+			done
 		else
 			echo "Showing image..."
 			xbmc-send -a "ShowPicture(${1})"
+			echo "Sleeping for ${DURATION} seconds..."
+			sleep "${DURATION}"
 		fi
 	fi
-
-	echo "Sleeping for ${DURATION} seconds..."
-	sleep "${DURATION}"
-	DISPLAYED="${1}"
-	NOTHING="0"
 }
 
 # Infinite loop over files in both the default programme folder and today's
