@@ -1,5 +1,7 @@
 body {
 	font-family: sans-serif;
+	background: #1A1A1A;
+	color: #E4E4E4;
 }
 
 h3 {
@@ -11,19 +13,29 @@ button {
 	padding: 4px 8px;
 	font-size: 14px;
 	cursor: pointer;
-	background: lightgrey;
-	border: 2px outset lightgrey;
+	background: #F2911A;
+	border: 2px outset #F2911A;
 }
 
 button:hover,
 button:focus {
-	background: lightblue;
-	border: 2px outset lightblue;
+	background: #FFA02C;
+	border: 2px outset #FFA02C;
 }
 
 button:active {
-	background: lightblue;
-	border: 2px inset lightblue;
+	background: #F2911A;
+	border: 2px inset #F2911A;
+}
+
+a,
+a:visited {
+	color: #F2911A;
+}
+
+a:hover,
+a:focus {
+	color: #FFA02C;
 }
 
 /* programme page */
@@ -36,7 +48,7 @@ button:active {
 	margin: 0px;
 	padding: 4px;
 	height: 80px;
-	border: solid 1px black;
+	border: solid 1px #7A7A7A;
 }
 
 .media-item {
@@ -52,7 +64,7 @@ button:active {
 	display: inline-block;
 	width: 128px;
 	height: 72px;
-	background: black;
+	background: #000000;
 	object-fit: scale-down;
 }
 
@@ -66,15 +78,15 @@ button:active {
 	background: transparent;
 	border: none;
 	cursor: pointer;
-	color: white;
-	text-shadow: 0 0 3px black;
+	color: #FFFFFF;
+	text-shadow: 0 0 3px #000000;
 	font-size: 10px;
 	font-weight: bold;
 }
 
 .media-item button:hover {
-	color: red;
-	text-shadow: 0 0 1px white;
+	color: #FF0000;
+	text-shadow: 0 0 1px #FFFFFF;
 }
 
 .media-item:hover button {
@@ -92,11 +104,11 @@ button:active {
 	box-sizing: border-box;
 
 	-moz-appearance: textfield;
-	background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4));
+	background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.3), rgba(0,0,0,0.4));
 	border: none;
-	color: white;
+	color: #FFFFFF;
 	text-align: center;
-	text-shadow: 0 0 3px black;
+	text-shadow: 0 0 3px #000000;
 	font-size: 10px;
 	font-weight: bold;
 	cursor: text;
@@ -106,7 +118,7 @@ button:active {
 .media-item input.duration:hover,
 .media-item input.duration:focus {
 	outline: none;
-	background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8));
+	background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.6), rgba(0,0,0,0.8));
 }
 
 input::-webkit-outer-spin-button,
@@ -119,7 +131,7 @@ input::-webkit-inner-spin-button {
 	display: inline-block;
 	width: 8px;
 	height: 72px;
-	background-color: blue;
+	background-color: #3AA2DB;
 	margin-top: 4px;
 	margin-right: 2px;
 	margin-left: 2px;
@@ -132,9 +144,9 @@ input::-webkit-inner-spin-button {
 	left: 0px;
 	right: 0px;
 	bottom: 0px;
-	background: rgba(255,255,255,0.9);
+	background: rgba(0,0,0,0.6);
 	backdrop-filter: blur(4px);
-	color: black;
+	color: #FFFFFF;
 	text-align: center;
 	padding-top: 48px;
 }
@@ -146,8 +158,8 @@ input::-webkit-inner-spin-button {
 	height: 48px;
 	margin: 28px auto;
 	border-radius: 50%;
-	border-top: solid 6px black;
-	border-right: solid 6px black;
+	border-top: solid 6px #EA5C28;
+	border-right: solid 6px #EA5C28;
 	border-bottom: solid 6px transparent;
 	border-left: solid 6px transparent;
 	animation: spin 0.8s linear infinite;
@@ -165,17 +177,17 @@ input::-webkit-inner-spin-button {
 }
 
 .glm-calendar .month {
-	border: solid lightgrey 1px;
+	border: solid #7A7A7A 1px;
 }
 
 .glm-calendar caption {
 	padding: 4px;
 	text-align: center;
-	border: solid lightgrey 1px;
+	border: solid #7A7A7A 1px;
 }
 
 .glm-calendar .month .daynames td {
-	border-bottom: solid lightgrey 1px;
+	border-bottom: solid #7A7A7A 1px;
 }
 
 .glm-calendar .month td {
@@ -190,30 +202,30 @@ input::-webkit-inner-spin-button {
 }
 
 .glm-calendar .month .week .day.custom {
-	background: lightblue !important;
+	background: #5caeda !important;
 }
 
 .glm-calendar .month .week .day.default-disabled {
-	background: lightcoral !important;
+	background: #E52A2D !important;
 }
 
 .glm-calendar .month .week .day.custom.default-disabled {
-	background: cyan !important;
+	background: #3AA2DB !important;
 }
 
 .glm-calendar .month .week .day:hover {
-	background: lightgrey;
-	border-color: grey;
+	background: #F2911A;
+	border-color: rgba(0,0,0,0.5);
 }
 
 .prog-tooltip {
 	display: block;
 	position: fixed;
-	background: lightblue;
+	background: #F2911A;
 	padding: 4px;
 	height: 71px;
-	box-shadow: 0 0 4px grey;
-	border: solid 1px grey;
+	box-shadow: 0 0 4px #9c5906;
+	border: solid 1px #9c5906;
 	pointer-events: none;
 	white-space: nowrap;
 }
@@ -227,7 +239,7 @@ input::-webkit-inner-spin-button {
 	bottom: 0;
 	border: 7px solid transparent;
 	border-bottom: 0;
-	border-top: 7px solid grey;
+	border-top: 7px solid #9c5906;
 	transform: translate(14px, 100%);
 }
 
@@ -244,7 +256,7 @@ input::-webkit-inner-spin-button {
 	display: inline-block;
 	width: 96px;
 	height: 54px;
-	background: black;
+	background: #000000;
 	object-fit: contain;
 	margin-right: 4px;
 }
