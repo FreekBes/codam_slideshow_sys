@@ -260,6 +260,18 @@ function saveProgramme(ev) {
 	saveReq.send(formData);
 }
 
+// this function adds horizontal scrolling to the media lists
+function horiScroll(ev) {
+	ev.preventDefault();
+	ev.currentTarget.scrollBy({ left: ev.deltaY < 0 ? -40 : 40 });
+}
+
+window.addEventListener("DOMContentLoaded", function(ev) {
+	document.getElementById("media-list").addEventListener("wheel", horiScroll);
+	document.getElementById("selected-media").addEventListener("wheel", horiScroll);
+	document.getElementById("loading").style.display = "none";
+}, false);
+
 window.onbeforeunload = function(ev) {
 	document.getElementById("loading").style.display = "block";
 	if (uploader) {

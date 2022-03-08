@@ -58,7 +58,7 @@
 	<script src="js/useful.js"></script>
 	<script src="js/programme.js"></script>
 </head>
-<body onload="document.getElementById('loading').style.display = 'none';">
+<body>
 	<h1><?php echo $programme_name; ?></h1>
 	<h3>Media to choose from</h3>
 	<ul id="media-list"><?php foreach ($available_media as $media) { ?><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="<?php echo $media; ?>" /><button onclick="deleteMe(event)" title="Delete media (no undo)">&#x2715;</button></li><?php } ?></ul>
