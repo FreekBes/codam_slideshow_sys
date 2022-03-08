@@ -48,13 +48,13 @@
 
 	// if media to display, get the media requested by the index ($num)
 	if ($total != 0) {
-		$current_media = $day_programme["media"][$num]["file"];
+		$current_media = "media/" . $day_programme["media"][$num]["file"];
 		$duration = $day_programme["media"][$num]["duration"];	
 	}
 	else {
 		// if no media to display (day's programme is empty), display the default image
 		$current_media = "0_10_default.jpeg";
-		$duration = 10;
+		$duration = 10000;
 	}
 	$media_type = (strpos($current_media, ".mp4") === false ? "img" : "vid");
 ?>
@@ -81,9 +81,9 @@ NProgress.configure({
 </script>
 <main id="container">
 <?php switch ($media_type) { case "img": ?>
-<img class="media img" src="media/<?php echo $current_media; ?>" alt="Could not load media <?php echo $num; ?> (image)" />
+<img class="media img" src="<?php echo $current_media; ?>" alt="Could not load media <?php echo $num; ?> (image)" />
 <?php break; case "vid": ?>
-<video class="media vid" src="media/<?php echo $current_media; ?>" autoplay muted preload="auto" loop>Could not load media <?php echo $num; ?> (video)</video>
+<video class="media vid" src="<?php echo $current_media; ?>" autoplay muted preload="auto" loop>Could not load media <?php echo $num; ?> (video)</video>
 <?php break; default: ?>
 Unknown media type
 <?php break; } ?>
@@ -96,7 +96,7 @@ function startCountdown() {
 	NProgress.set(1);
 	setTimeout(function() {
 		NProgress.done(true);
-		window.location.replace("?day="+getParameterByName("day")+"&num="+(num+1));
+		window.location.replace("?day="+getParameterByName("day")+"&num="+(total > 1 ? num+1 : 0));
 	}, duration);
 	setTimeout(function() {
 		if (total > 1) {
