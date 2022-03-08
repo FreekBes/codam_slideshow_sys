@@ -48,6 +48,7 @@
 
 	$available_media = glob("media/*.{jpg,jpeg,png,gif}", GLOB_BRACE);
 	sort($available_media, SORT_STRING);
+	$available_media = array_reverse($available_media);
 ?>
 <!DOCTYPE html>
 <html lang="en">
