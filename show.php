@@ -2,6 +2,7 @@
 	require_once("include/useful.php");
 	require_once("include/settings.php");
 
+	// get the internal code for the day's programme (simply YYYY-MM-DD)
 	if (isset($_GET["day"]) && !empty($_GET["day"])) {
 		if ($_GET["day"] != "today" && preg_match('/[^0-9\-]/', $_GET["day"])) {
 			http_response_code(406);
@@ -19,6 +20,7 @@
 		$date_full = date("Y-m-d");
 	}
 
+	// if the num GET parameter was not set or invalid (below 0), redirect to 0 (the first piece of media)
 	if (!isset($_GET["num"]) || intval($_GET["num"]) < 0) {
 		header("Location: show.php?day=".$_GET["day"]."&num=0");
 		http_response_code(302);
@@ -32,18 +34,25 @@
 		$day_programme["media"] = combine_media_prepend($day_programme, $default_programme);
 	}
 
+	// num is the index of which media to display
 	$num = intval($_GET["num"]);
 	$total = count($day_programme["media"]);
+
+	// check if the index is bigger than the total amount of media available for the day.
+	// if so, loop back to the beginning by redirection.
 	if ($total > 0 && $num >= $total) {
 		header("Location: show.php?day=".$_GET["day"]."&num=0&looped=1");
 		http_response_code(302);
 		die();
 	}
+
+	// if media to display, get the media requested by the index ($num)
 	if ($total != 0) {
 		$current_media = $day_programme["media"][$num]["file"];
 		$duration = $day_programme["media"][$num]["duration"];	
 	}
 	else {
+		// if no media to display (day's programme is empty), display the default image
 		$current_media = "0_10_default.jpeg";
 		$duration = 10;
 	}
@@ -82,15 +91,24 @@ Unknown media type
 <script>
 function startCountdown() {
 	NProgress.start();
+	// set Nprogress to 1 (100%) right away.
+	// a CSS animation will handle the smooth increase to 100%
 	NProgress.set(1);
 	setTimeout(function() {
 		NProgress.done(true);
 		window.location.replace("?day="+getParameterByName("day")+"&num="+(num+1));
 	}, duration);
 	setTimeout(function() {
-		document.getElementById("container").className = "hide";
+		if (total > 1) {
+			document.getElementById("container").className = "hide-fade";
+		}
 	}, duration - 300);
-	document.getElementById("container").className = "show";
+	if (total > 1) {
+		document.getElementById("container").className = "show-fade";
+	}
+	else {
+		document.getElementById("container").className = "show";
+	}
 }
 </script>
 </body>

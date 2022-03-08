@@ -27,18 +27,20 @@ h1 {
 	font-size: 64px;
 }
 
-main {
-	display: block;
-	height: 100%;
-}
-
-.media.img {
+#container {
+	opacity: 0;
 	display: block;
 	position: fixed;
 	top: 0px;
 	left: 0px;
 	right: 0px;
 	bottom: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+.media.img {
+	display: block;
 	width: 100%;
 	height: 100%;
 	background: #000000;
@@ -47,14 +49,23 @@ main {
 
 .media.vid {
 	display: block;
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	right: 0px;
-	bottom: 0px;
 	width: 100%;
 	height: 100%;
 	background: #000000;
+}
+
+#container.show {
+	opacity: 1;
+}
+
+#container.show-fade {
+	opacity: 1;
+	transition: opacity .4s;
+}
+
+#container.hide-fade {
+	opacity: 0;
+	transition: opacity .3s;
 }
 
 .msgcounter {
