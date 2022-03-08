@@ -1,4 +1,6 @@
 <?php
+	require_once("../include/auth.php");
+
 	// check if day key is in POST
 	if (!isset($_POST["day"]) || empty($_POST["day"])) {
 		http_response_code(400);

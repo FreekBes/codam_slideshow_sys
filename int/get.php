@@ -1,5 +1,4 @@
 <?php
-	require_once("../include/auth.php");
 	require_once("../include/useful.php");
 
 	header('Content-Type: application/json; charset=utf-8');
