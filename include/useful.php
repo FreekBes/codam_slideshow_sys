@@ -57,28 +57,29 @@
 		return ($new);
 	}
 
-	function get_programme_overview($date_full) {
-		$programme_folder = "../programmes/$date_full";
+	function get_programme_overview($date_full, $as_mp4 = false) {
+		$programme_folder = "/var/www/dashboard/programmes/$date_full";
+		$returnable = array();
 		if (!is_dir($programme_folder)) {
-			return ((object) array(
-				'default_enabled' => true,
-				'media' => array()
-			));
+			$returnable['default_enabled'] = ($date_full != "default");
+			$returnable['media'] = array();
+			return ($returnable);
 		}
 		
 		$selected_media = glob("$programme_folder/*.{jpg,jpeg,png,mp4}", GLOB_BRACE);
 		sort($selected_media, SORT_STRING);
-		$default_enabled = file_exists("$programme_folder/.default_enabled");
+		$default_enabled = ($date_full != "default" && file_exists("$programme_folder/.default_enabled"));
 
 		$returnable = array();
 		$returnable['default_enabled'] = $default_enabled;
 		$returnable['media'] = array();
 		foreach ($selected_media as $media) {
 			$temp = explode("_", $media);
-			array_push($returnable['media'], (object) array (
-				'file' => str_replace(".mp4", ".gif", array_pop($temp)),
-				'duration' => intval($temp[1])
-			));
+			$item = array();
+			$src = array_pop($temp);
+			$item['file'] = ($as_mp4 === true ? $src : str_replace(".mp4", ".gif", $src));
+			$item['duration'] = intval($temp[1]);
+			array_push($returnable['media'], $item);
 		}
 		return ($returnable);
 	}
@@ -108,5 +109,13 @@
 		}
 		chdir($pwd);
 		return (true);
+	}
+
+	function combine_media_prepend($p1, $p2) {
+		return (array_merge($p2["media"], $p1["media"]));
+	}
+
+	function combine_media_append($p1, $p2) {
+		return (array_merge($p1["media"], $p2["media"]));
 	}
 ?>

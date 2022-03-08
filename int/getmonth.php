@@ -29,7 +29,7 @@
 	$calendar = array();
 	for ($i = 1; $i <= $days_in_month; $i++) {
 		$date_full = date("Y-m-", $first_day_of_month) . sprintf("%02d", $i);
-		array_push($calendar, get_programme_overview($date_full));
+		array_push($calendar, get_programme_overview($date_full, false));
 	}
 
 	echo json_encode($calendar);

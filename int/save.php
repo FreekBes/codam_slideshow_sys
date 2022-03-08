@@ -7,7 +7,7 @@
 
 	// parse day into format of 'date +%F' command
 	if ($_POST["day"] != "default") {
-		if (preg_match('/[^0-9\-]/', $_POST["day"])) {
+		if ($_POST["day"] != "today" && preg_match('/[^0-9\-]/', $_POST["day"])) {
 			http_response_code(406);
 			die();
 		}

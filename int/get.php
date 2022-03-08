@@ -10,7 +10,7 @@
 	}
 
 	if ($_GET["day"] != "default") {
-		if (preg_match('/[^0-9\-]/', $_GET["day"])) {
+		if ($_GET["day"] != "today" && preg_match('/[^0-9\-]/', $_GET["day"])) {
 			http_response_code(406);
 			die();
 		}
@@ -26,5 +26,5 @@
 		$date_full = "default";
 	}
 
-	echo json_encode(get_programme_overview($date_full));
+	echo json_encode(get_programme_overview($date_full, false));
 ?>
