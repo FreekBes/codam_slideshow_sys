@@ -6,7 +6,7 @@
 <html>
 <head>
 	<title>Upload media and configure</title>
-	<link rel="stylesheet" href="styles.css" />
+	<link rel="stylesheet" href="css/styles.css" />
 	<script src="js/simpleuploader.js"></script>
 </head>
 <body>

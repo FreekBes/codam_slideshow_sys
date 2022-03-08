@@ -7,7 +7,7 @@
 	}
 	$day = $_GET["day"];
 	if ($day != "default") {
-		if (preg_match('/[^0-9\-]/', $_POST["day"])) {
+		if ($_GET["day"] != "today" && preg_match('/[^0-9\-]/', $_GET["day"])) {
 			header("Location: error.php?e=Invalid%20day");
 			die();
 		}
@@ -53,7 +53,7 @@
 <html lang="en">
 <head>
 	<title><?php echo $programme_name; ?></title>
-	<link rel="stylesheet" href="styles.css" />
+	<link rel="stylesheet" href="css/styles.css" />
 	<script src="js/useful.js"></script>
 	<script src="js/programme.js"></script>
 </head>

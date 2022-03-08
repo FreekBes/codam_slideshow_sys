@@ -6,7 +6,7 @@
 	<script src="js/useful.js"></script>
 	<script src="js/getcalendar.js"></script>
 	<script src="js/calendar.js"></script>
-	<link rel="stylesheet" href="styles.css" />
+	<link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
 	<h1>Calendar</h1>
