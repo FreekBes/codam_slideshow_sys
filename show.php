@@ -108,6 +108,7 @@ function startCountdown() {
 	}
 	else {
 		document.getElementById("container").className = "show";
+		document.getElementById("nprogress").style.display = "none";
 	}
 }
 </script>
