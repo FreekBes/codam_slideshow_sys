@@ -144,7 +144,7 @@ input::-webkit-inner-spin-button {
 	left: 0px;
 	right: 0px;
 	bottom: 0px;
-	background: rgba(0,0,0,0.6);
+	background: rgba(0,0,0,0.85);
 	backdrop-filter: blur(4px);
 	color: #FFFFFF;
 	text-align: center;
