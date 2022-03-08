@@ -35,6 +35,9 @@
 		$interval = DateInterval::createFromDateString("1 day");
 		$period = new DatePeriod($begin, $interval, $end);
 		chdir("../programmes");
+		// for each day's programme, add the media
+		// if a day does not exist, create the folder and set default_enabled to true
+		// this is a simplified version of save.php
 		foreach ($period as $date) {
 			$full_date = $date->format("Y-m-d");
 			if (!is_dir("./$full_date")) {
@@ -49,6 +52,7 @@
 		http_response_code(201);
 	}
 	else {
+		// if no date range was specified, just add the media to the default programme
 		if (!simply_add_to_programme("default", $media, $duration)) {
 			http_response_code(500);
 			die("link_creation_fail");

@@ -5,11 +5,17 @@ var requestsDone = 0;
 var checkReqDoneInterval = null;
 
 function initCalendar() {
+	// get the HTML code of a calendar from a secondary script
 	var calendarCode = getCalendar(today.getFullYear(), today.getMonth(), 3);
+
+	// and add it to the main element of the page
 	document.getElementsByTagName("main")[0].innerHTML = calendarCode;
 
+	// gather all the months
 	var months = document.getElementsByClassName("month");
 	requestsTodo += months.length;
+
+	// request the default programme's media and add it to the "edit default programme" link
 	var req;
 	req = new XMLHttpRequest();
 	req.open("GET", "int/get.php?day=default&c" + cacheId, true);
@@ -28,12 +34,17 @@ function initCalendar() {
 	});
 	req.send();
 
+	// request all programmes for the months listed in the calendar
 	for (var i = 0; i < months.length; i++) {
 		req = new XMLHttpRequest();
 		req.open("GET", "int/getmonth.php?month=" + months[i].getAttribute("data-month") + "&year=" + months[i].getAttribute("data-year") + "&c=" + cacheId, true);
 		req.addEventListener("loadend", function(fEv) {
 			requestsDone++;
 			if (this.status == 200) {
+				// get the month and year from the responseURL
+				// cannot store them in variables earlier, since these requests
+				// happen simultaneously, so we can only store them in this
+				// unnamed function in the event listener
 				var month = getParameterByName("month", this.responseURL);
 				var year = getParameterByName("year", this.responseURL);
 				var monthCal = document.querySelector(".month-"+year+"-"+month);
@@ -44,8 +55,7 @@ function initCalendar() {
 
 				var days = monthCal.getElementsByClassName("day");
 				var overview = JSON.parse(this.responseText);
-				// console.log(overview);
-				// console.log(days);
+				// add the media for each day to each day element in the calendar in an attribute
 				for (var j = 0; j < overview.length; j++) {
 					days[j].setAttribute("data-media", JSON.stringify(overview[j]["media"]));
 					if (overview[j]["media"].length > 0) {
@@ -66,6 +76,8 @@ function initCalendar() {
 		});
 		req.send();
 	}
+	// continuously check if all requested programmes have been gathered
+	// once so, remove the loading screen and stop checking
 	checkReqDoneInterval = setInterval(function() {
 		if (requestsDone == requestsTodo) {
 			document.getElementById("loading").style.display = "none";
@@ -75,25 +87,35 @@ function initCalendar() {
 	}, 250);
 }
 
+// function used to show a tooltip displaying the media of a programme when hovering over a day
 function showProgTooltip(ev) {
 	if (ev.currentTarget.className.indexOf("day") == -1) {
 		return false;
 	}
 
-	var rect = ev.currentTarget.getBoundingClientRect();
+	// check if the element that caused to run this function from an event listener
+	// has a data-media attribute, if not, stop immediately - then this function is not supposed to run
 	var mediaAttr = ev.currentTarget.getAttribute("data-media");
 	if (!mediaAttr) {
 		return false;
 	}
+
+	// get the boundaries of the target element (hovered over day)
+	var rect = ev.currentTarget.getBoundingClientRect();
+
+	// get the media for this day from the media attribute of the day
 	var media = JSON.parse(mediaAttr);
 	if (media.length == 0) {
 		return false;
 	}
+
+	// create a tooltip element and add positioning
 	var tooltip = document.createElement("div");
 	tooltip.className = "prog-tooltip";
 	tooltip.style.top = (rect.top - 82) + "px";
 	tooltip.style.left = (rect.left - 16) + "px";
 
+	// populate the tooltip
 	var defaultEnabledMsg = document.createElement("small");
 	defaultEnabledMsg.className = "prog-tooltip-msg";
 	if (ev.currentTarget.className.indexOf("default-disabled") > -1) {
@@ -108,6 +130,7 @@ function showProgTooltip(ev) {
 	}
 	tooltip.appendChild(defaultEnabledMsg);
 
+	// add all media to the tooltip
 	var mediaItem;
 	for (var i = 0; i < media.length; i++) {
 		mediaItem = document.createElement("img");
@@ -116,14 +139,17 @@ function showProgTooltip(ev) {
 		tooltip.appendChild(mediaItem);
 	}
 
+	// add the tooltip to the webpage
 	document.documentElement.appendChild(tooltip);
 }
 
 function hideProgTooltip(ev) {
+	// if not hovered over a day, refuse to run the function
 	if (ev.currentTarget.className.indexOf("day") == -1) {
 		return false;
 	}
 
+	// remove all tooltips from the webpage (could be more on slow computers, thus removing in a for loop)
 	var tooltips = document.getElementsByClassName("prog-tooltip");
 	for (var i = 0; i < tooltips.length; i++) {
 		tooltips[i].remove();

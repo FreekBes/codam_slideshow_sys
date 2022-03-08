@@ -26,5 +26,6 @@
 		$date_full = "default";
 	}
 
+	// get the day's programme and output it in JSON format
 	echo json_encode(get_programme_overview($date_full, false));
 ?>
