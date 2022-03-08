@@ -42,13 +42,23 @@ a:focus {
 #media-list,
 #selected-media {
 	list-style-type: none;
+	margin: 0px;
+	padding: 4px;
+	border: solid 1px #7A7A7A;
+}
+
+#media-list {
+	min-height: 80px;
+	max-height: 270px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+#selected-media {
+	height: 80px;
 	overflow-x: auto;
 	overflow-y: hidden;
 	white-space: nowrap;
-	margin: 0px;
-	padding: 4px;
-	height: 80px;
-	border: solid 1px #7A7A7A;
 }
 
 .media-item {

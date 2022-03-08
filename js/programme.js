@@ -120,6 +120,9 @@ function drag(ev) {
 	// add text/uri-list data, set it to the media source
 	ev.dataTransfer.setData("text/uri-list", ev.currentTarget.src);
 
+	// disable scrolling in available media list
+	document.getElementById("media-list").style.overflowY = "hidden";
+
 	// if dragged from the media-list (available media), we need to clone the element
 	// else, assume it's dragged from the selected media list, we need to (re)move the element
 	// (and hide the element that is being dragged for a while, by adding the dragging class)
@@ -205,6 +208,9 @@ function dragEnd(ev) {
 		dropLocation.parentNode.style.background = null;
 		dropLocation.remove();
 	}
+
+	// re-enable overflow (scrolling) in available media list
+	document.getElementById("media-list").style.overflowY = "auto";
 }
 
 function saveProgramme(ev) {
@@ -260,14 +266,14 @@ function saveProgramme(ev) {
 	saveReq.send(formData);
 }
 
-// this function adds horizontal scrolling to the media lists
+// this function adds horizontal scrolling to the selected media list
 function horiScroll(ev) {
 	ev.preventDefault();
 	ev.currentTarget.scrollBy({ left: ev.deltaY < 0 ? -40 : 40 });
 }
 
 window.addEventListener("DOMContentLoaded", function(ev) {
-	document.getElementById("media-list").addEventListener("wheel", horiScroll);
+	// document.getElementById("media-list").addEventListener("wheel", horiScroll);
 	document.getElementById("selected-media").addEventListener("wheel", horiScroll);
 	document.getElementById("loading").style.display = "none";
 }, false);
