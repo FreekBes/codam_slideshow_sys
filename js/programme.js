@@ -99,7 +99,7 @@ function allowDrop(ev) {
 		if (ev.target.nodeName == "OL") {
 			ev.currentTarget.appendChild(dropLocation);
 		}
-		else if (ev.target.nodeName == "IMG") {
+		else if (ev.target.nodeName == "IMG" || ev.target.nodeName == "BUTTON" || ev.target.nodeName == "INPUT") {
 			ev.currentTarget.insertBefore(dropLocation, ev.target.parentNode);
 		}
 		else if (ev.target.nodeName == "LI") {
@@ -114,6 +114,7 @@ function allowDrop(ev) {
 
 // function to run when starting a drag & drop scenario
 function drag(ev) {
+	console.log("Drag started");
 	draggedElem = ev.currentTarget.parentNode;
 
 	// add text/uri-list data, set it to the media source
@@ -121,13 +122,13 @@ function drag(ev) {
 
 	// if dragged from the media-list (available media), we need to clone the element
 	// else, assume it's dragged from the selected media list, we need to (re)move the element
-	// (and not show the media that the user wants to drag for a while, by setting display to none)
+	// (and hide the element that is being dragged for a while, by adding the dragging class)
 	if (draggedElem.parentNode.getAttribute("id") == "media-list") {
 		ev.dataTransfer.effectAllowed = "copy";
 	}
 	else {
 		ev.dataTransfer.effectAllowed = "move";
-		draggedElem.style.display = "none";
+		draggedElem.className += " dragging";
 	}
 
 	// create an image to show underneath the cursor while dragging
@@ -142,6 +143,7 @@ function drag(ev) {
 
 // function to run when user decided to drop something onto an element
 function drop(ev) {
+	console.log("Dropped!");
 	// allow the drop!
 	ev.preventDefault();
 
@@ -172,6 +174,7 @@ function drop(ev) {
 function dragLeave(ev) {
 	var bounds = document.getElementById("selected-media").getBoundingClientRect();
 	if (ev.clientY < bounds.top || ev.clientY >= bounds.bottom || ev.clientX < bounds.left || ev.clientX >= bounds.right) {
+		console.log("Left boundaries, removing placeholder");
 		// mouse is now actually outside of drop boundaries, remove drop location (drop placeholder)
 		var dropLocation = document.getElementById("drop-location");
 		if (dropLocation) {
@@ -184,6 +187,7 @@ function dragLeave(ev) {
 // drag & drop was ended, runs after drop(ev)...
 // but if not dropped on a suitable location, this function will have to handle that
 function dragEnd(ev) {
+	console.log("Drag ended");
 	var dropLocation = document.getElementById("drop-location");
 	// if no placeholder drop location was found, and the expected behavior was to move the element dragged
 	// we remove the element that was being dragged, as there was no suitable location found to drop it to
@@ -192,7 +196,7 @@ function dragEnd(ev) {
 		draggedElem.remove();
 	}
 	else {
-		draggedElem.style.display = null;
+		draggedElem.className = "media-item";
 	}
 	
 	// remove the drop location placeholder if one is found

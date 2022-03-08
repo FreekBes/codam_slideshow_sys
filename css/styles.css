@@ -60,10 +60,18 @@ a:focus {
 	padding: 4px;
 }
 
+.media-item.dragging {
+	transition: 0.01s;
+	width: 0px;
+	padding: 4px 0px;
+	transform: translateX(-9999px);
+	visibility: hidden;
+}
+
 .media-item img {
 	display: inline-block;
-	width: 128px;
-	height: 72px;
+	width: inherit;
+	height: inherit;
 	background: #000000;
 	object-fit: scale-down;
 }
