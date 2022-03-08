@@ -232,7 +232,7 @@ input::-webkit-inner-spin-button {
 	background: #F2911A;
 	padding: 4px;
 	height: 71px;
-	box-shadow: 0 0 4px #9c5906;
+	box-shadow: 0 0 4px #000000;
 	border: solid 1px #9c5906;
 	pointer-events: none;
 	white-space: nowrap;
