@@ -79,7 +79,7 @@
 
 	// perform security check on all referenced file locations
 	// should not contain any path, directory, etc.
-	for ($i < 0; $i < $amount; $i++) {
+	for ($i = 0; $i < $amount; $i++) {
 		if (preg_match('/[^a-zA-Z0-9\-\.]/', $media[$i])) {
 			http_response_code(406);
 			die("invalid_media_file");
