@@ -32,7 +32,7 @@
 			<input type="button" onclick="document.getElementById('end').value = '<?php echo $today; ?>'" value="Today">
 		</div>
 	</form>
-	<button id="upload-btn" onclick="uploadAndConfigure(event)">Upload</button>
+	<button id="upload-btn" onclick="uploadMedia(event)">Upload</button>
 	<div id="loading" style="display: none;">Uploading... Please wait</div>
 </body>
 </html>

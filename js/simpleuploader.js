@@ -20,7 +20,40 @@ function setupDatesChange(ev) {
 	}
 }
 
-function uploadAndConfigure(ev) {
+function configureMedia(response) {
+	// retrieve the media's internal file name from the response body
+	// and add it to the configuration form
+	document.getElementById("media").value = response.split("/").pop();
+
+	// gather the configuration form's data
+	var confFormData = new FormData(document.getElementsByName("configureform")[0]);
+
+	// send a request to the server to configure the media
+	var cReq = new XMLHttpRequest();
+	cReq.open("POST", "int/configure.php");
+	cReq.addEventListener("load", function(cEv) {
+		if (this.status == 201) {
+			// all done! we can close the window if possible.
+			// if not possible, reload the window so that the user can upload more.
+			alert("All done!");
+			window.close();
+			if (!window.closed) {
+				window.location.reload();
+			}
+		}
+		else {
+			alert("Something went wrong configuring the media. Status code: " + this.status);
+			console.log(this);
+		}
+	});
+	cReq.addEventListener("error", function(err) {
+		alert("An error occurred while configuring the file");
+		console.error(err);
+	});
+	cReq.send(confFormData);
+}
+
+function uploadMedia(ev) {
 	document.getElementById("loading").style.display = "block";
 
 	// gather the file to upload
@@ -32,36 +65,7 @@ function uploadAndConfigure(ev) {
 	uReq.addEventListener("load", function(uEv) {
 		if (this.status == 201) {
 			// upload complete and succesful, now configure the media to display
-
-			// gather the media's internal file name and add it to the configuration form
-			document.getElementById("media").value = this.responseText.split("/").pop();
-
-			// gather the configuration form's data
-			var confFormData = new FormData(document.getElementsByName("configureform")[0]);
-
-			// send a request to the server to configure the media
-			var cReq = new XMLHttpRequest();
-			cReq.open("POST", "int/configure.php");
-			cReq.addEventListener("load", function(cEv) {
-				if (this.status == 201) {
-					// all done! we can close the window if possible.
-					// if not possible, reload the window so that the user can upload more.
-					alert("All done!");
-					window.close();
-					if (!window.closed) {
-						window.location.reload();
-					}
-				}
-				else {
-					alert("Something went wrong configuring the media. Status code: " + this.status);
-					console.log(this);
-				}
-			});
-			cReq.addEventListener("error", function(err) {
-				alert("An error occurred while configuring the file");
-				console.error(err);
-			});
-			cReq.send(confFormData);
+			configureMedia(this.responseText);
 		}
 		else {
 			alert("Something went wrong with the file upload. Status code: " + this.status);
