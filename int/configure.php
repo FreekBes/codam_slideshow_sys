@@ -53,6 +53,10 @@
 	}
 	else {
 		// if no date range was specified, just add the media to the default programme
+		chdir("../programmes");
+		if (!is_dir("./default")) {
+			mkdir("./default", 0755);
+		}
 		if (!simply_add_to_programme("default", $media, $duration)) {
 			http_response_code(500);
 			die("link_creation_fail");
