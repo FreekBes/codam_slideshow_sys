@@ -6,6 +6,7 @@
 	<script src="js/useful.js"></script>
 	<script src="js/getcalendar.js"></script>
 	<script src="js/calendar.js"></script>
+	<script src="js/tooltip.js"></script>
 	<link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
