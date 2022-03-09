@@ -58,11 +58,11 @@ function addMedia(mediaUrl) {
 	uploader = null;
 	
 	if (typeof mediaUrl == "string") {
-		document.getElementById("media-list").appendChild(createMediaItem(mediaUrl));
+		document.getElementById("media-list").prepend(createMediaItem(mediaUrl));
 	}
 	else if (typeof mediaUrl == "object") {
 		for (var i = 0; i < mediaUrl.length; i++) {
-			document.getElementById("media-list").appendChild(createMediaItem(mediaUrl[i]));
+			document.getElementById("media-list").prepend(createMediaItem(mediaUrl[i]));
 		}
 	}
 	else {
