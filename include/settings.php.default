@@ -2,4 +2,5 @@
 	define('ORGANIZATION_NAME', '[Your Company Name here]');
 	define('DASHBOARD_USERNAME', 'admin');
 	define('DASHBOARD_PASSWORD', 'admin');
+	define('WWW_DIR', '/var/www/html');
 ?>

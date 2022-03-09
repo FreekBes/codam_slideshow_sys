@@ -8,7 +8,7 @@ Type=simple
 Restart=always
 RestartSec=3
 User=osmc
-ExecStart=/usr/bin/env bash /var/www/dashboard/service.sh
+ExecStart=/usr/bin/env bash /var/www/html/service.sh
 
 [Install]
 WantedBy=graphical.target

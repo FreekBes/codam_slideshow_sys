@@ -1,4 +1,6 @@
 <?php
+	require_once("settings.php");
+
 	define('SCREEN_RES_W', 1920);
 	define('SCREEN_RES_H', 1080);
 
@@ -58,7 +60,7 @@
 	}
 
 	function get_programme_overview($date_full, $as_mp4 = false) {
-		$programme_folder = "/var/www/dashboard/programmes/$date_full";
+		$programme_folder = WWW_DIR . "/programmes/$date_full";
 		$returnable = array();
 		if (!is_dir($programme_folder)) {
 			$returnable['default_enabled'] = ($date_full != "default");
@@ -86,7 +88,7 @@
 
 	function simply_add_to_programme($full_date, $media, $duration) {
 		$pwd = getcwd();
-		$programme_dir = "/var/www/dashboard/programmes/$full_date";
+		$programme_dir = WWW_DIR . "/programmes/$full_date";
 
 		// add to default programme
 		chdir($programme_dir);
