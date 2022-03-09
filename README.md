@@ -62,7 +62,7 @@ chromium-browser --disable-infobars --kiosk 'http://localhost/show.php?day=today
 
 Also, to make sure the service keeps running smoothly, I recommend rebooting every night just in case. Do so using cron: `sudo crontab -e` and add the following line: `0 6 * * * /sbin/shutdown -r now`
 
-Now, make sure to run the steps described in [Setup](#-Setup)
+Now, make sure to run the steps described in [Setup](#setup)
 
 ### Install on an existing web server
 Create a virtual server in Apache2, nginx or your favorite web server software. Make sure it is running PHP. The code in this repository was written for PHP 8.1, but it might also work on older versions.
@@ -92,7 +92,7 @@ The *DASHBOARD_USERNAME* and *DASHBOARD_PASSWORD* fields are used for authentica
 The *WWW_DIR* field points to the path of the web-accessible directory of the web server (normally */var/www/html*). Do **not** append a `/` to the end of this path.
 
 ## Showing the slideshow on a screen
-If you didn't follow the steps in [A Clean Install](#-a-clean-install), you must now create a way to show the slideshow on your screen.
+If you didn't follow the steps in [A Clean Install](#a-clean-install), you must now create a way to show the slideshow on your screen.
 
 ### If you're using a web browser to show the slideshow
 On the screen that needs to display the slideshow, create an instance of a web browser (preferrably full-screen by default) that loads the web page at the `your_web_server_url/show.php?day=today` URL. Obviously, replace *your_web_server_url* with the URL of the web server you set up. This can be/remain a local IP address, even *localhost*.
@@ -113,7 +113,7 @@ Hover over a day to view the programme for that day. If a day is colored lightbl
 A programme contains the media to display on the monitor and their corresponding settings, such as the length in seconds to display a piece of media for. In terms of media, both images (JPG, PNG, WEBP, BMP) and video (MP4 only) are supported.
 
 #### The default programme
-The default programme is shown before the programme of the current day, if the programme of the current day didn't prevent this from happening (see *Day programmes* below).
+The default programme is shown before the programme of the current day, if the programme of the current day didn't prevent this from happening (see [Day programmes](#day-programmes)).
 
 #### Day programmes
 Each date in a year can have its own, custom programme. Any media in these programmes will be displayed after the default programme has finished. Once the daily programme has ended, the monitor will start over and display the default programme again.
@@ -124,7 +124,7 @@ To edit a programme, click on the day you would like to edit in the calendar ove
 To add media to the programme, simply drag and drop the preferred media over from the top container to the bottom one. Reordering is also possible - just drag and drop the media in the bottom container to do so.
 
 ### Uploading new media
-If the media you would like to display on the monitor is not in the top media list container yet (see *Editing a programme* above), you can simply upload media by clicking on the *Upload media* button in the programme editor. A pop-up window will open, where you will be able to select (multiple) media files. Only files of the JPG, JPEG, PNG, WEBP, BMP or MP4 types will work. If you want to display an animated GIF image, you will need to [convert it to MP4](https://ezgif.com/gif-to-mp4) first. After selecting any file(s) to upload, press the *Upload* button. The uploading may take a while - do not close the pop-up window, it will close automatically. Once the upload is complete, you will be able to drag and drop the newly uploaded media to the programme of your liking using the programme editor (new media will be shown all the way on the right of the top media list container).
+If the media you would like to display on the monitor is not in the top media list container yet (see [Editing a programme](#editing-a-programme)), you can simply upload media by clicking on the *Upload media* button in the programme editor. A pop-up window will open, where you will be able to select (multiple) media files. Only files of the JPG, JPEG, PNG, WEBP, BMP or MP4 types will work. If you want to display an animated GIF image, you will need to [convert it to MP4](https://ezgif.com/gif-to-mp4) first. After selecting any file(s) to upload, press the *Upload* button. The uploading may take a while - do not close the pop-up window, it will close automatically. Once the upload is complete, you will be able to drag and drop the newly uploaded media to the programme of your liking using the programme editor (new media will be shown all the way on the right of the top media list container).
 
 ### Uploading new media, but in a less complicated way
 If you don't want to deal with programmes and all the complications that come with those, it is also possible to upload and configure media in a more simple way. Go to the calendar overview, then click the *Add media in a more plain way* link underneat the *Edit default programme* button. A pop-up window will open, where you will be able to select a file to display on the screen (same filetypes are supported as in the normal way: JPG, PNG, WEBP, BMP and MP4). After selecting a file, enter the amount of seconds to show the image/video for in the text input field.
