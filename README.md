@@ -70,8 +70,6 @@ Create a virtual server in Apache2, nginx or your favorite web server software. 
 Move the contents of this repository to the server's web-accessible directory (normally */var/www/html*).
 
 ## Setup
-
-### Modifying required settings
 In the web-accessible directory on your server, create two directories: one called *media*, and another one called *programmes*. Make sure this directory is owned by the user your web server is running as (on Debian and Ubuntu, that is usually *www-data*). The chmod for these directories should be set to `0755`.
 
 In the *include* folder, rename the *settings.php.default* to just *settings.php* and modify its contents:
