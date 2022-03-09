@@ -1,12 +1,12 @@
-# Dashboard for Kodi
-A dashboard for slideshow screens running on Kodi. Currently in development; this is a prototype.
+# Codam Slideshow System
+A dashboard for managing slideshow screens, specifically built for [Codam](https://www.codam.nl/) by [Freek Bes](https://www.github.com/FreekBes) (IT Assistent at Codam).
 
 ## Setup
 
 ### Web server
 Create a virtual server in Apache2, nginx or your favorite web server software. Make sure it is running PHP. The code in this repository was written for PHP8.1, but it might also work on older versions.
 
-The web-accessible directory for this server needs to be set to */var/www/dashboard*.
+Move the contents of this repository to the server's web-accessible directory (normally */var/www/html*).
 
 ### Modifying required settings
 In the web-accessible directory on your server, create two directories: one called *media*, and another one called *programmes*. Make sure this directory is owned by the user your web server is running as (on Debian and Ubuntu, that is usually *www-data*). The chmod for these directories should be set to `0755`.
@@ -18,6 +18,7 @@ In the *include* folder, rename the *settings.php.default* to just *settings.php
 	define('ORGANIZATION_NAME', 'enter_your_company_name_here');
 	define('DASHBOARD_USERNAME', 'enter_a_username_here');
 	define('DASHBOARD_PASSWORD', 'enter_a_password_here');
+	define('WWW_DIR', 'enter_server_www_directory');
 ?>
 ```
 
@@ -25,15 +26,24 @@ The *ORGANIZATION_NAME* value is used for the title of the dashboard page. If yo
 
 The *DASHBOARD_USERNAME* and *DASHBOARD_PASSWORD* fields are used for authentication with the dashboard page.
 
-### Installing the service
-Next, you'll need to install the service that will handle displaying the media in the Kodi player. Move the *kodidash.service* file to */etc/systemd/system/kodidash.service*. Now you'll be able to start the service by running `systemctl start kodidash`.
+The *WWW_DIR* field points to the path of the web-accessible directory of the web server (normally */var/www/html*). Do **not** append a `/` to the end of this path.
+
+### Installing the service and showing the slideshow on a screen
+
+#### If you're using a web browser to show the slideshow
+On the screen that needs to display the slideshow, create an instance of a web browser (preferrably full-screen by default) that loads the web page at the `your_web_server_url/show.php?day=today` URL. Obviously, replace *your_web_server_url* with the URL of the web server you set up. This can be/remain a local IP address, even *localhost*.
+
+#### If you're using Kodi
+While this repository was originally built with Kodi and this service in mind, I've found it to be quite unstable at times, crashing every now and then. Which is why I recommend using the web browser method mentioned above.
+
+If you're certain you want to use Kodi instead, you'll need to install the service that will handle displaying the media in the Kodi player. First, modify the path to your web server's web-accessible directory in *kodidash.service* on line 11 (`ExecStart` value). Then, move the *kodidash.service* file to */etc/systemd/system/kodidash.service*. Now you'll be able to start the service by running `systemctl start kodidash`.
 
 If you want it to start upon system boot, run the command `systemctl enable kodidash` once.
 
 ## How to use
 Go to the website that your webserver is set to use and log in with the credentials set in *include/settings.php*. After this, you will be redirected to the calendar overview. From this page, it is possible to modify all of the content displayed on the screen. Click on a day in the calendar to edit the programme for that specific day, or click on the *Edit default programme* button to modify the media used in the default programme.
 
-Hover over a day to view the programme for that day. If a day is colored lightblue, the programme includes the default programme. Is the day colored cyan, the default programme has been turned off for that day, and only that day's programme will be shown. If the day is colored red, the default programme has been turned off on that day, and the day does not have any media to display (then the default image, *0_10_default.jpeg* in the */var/www/dashboard* directory, will be shown).
+Hover over a day to view the programme for that day. If a day is colored lightblue, the programme includes the default programme. Is the day colored a darker shade of blue, the default programme has been turned off for that day, and only that day's programme will be shown. If the day is colored red, the default programme has been turned off on that day, and the day does not have any media to display (then the default image – *0_10_default.jpeg* in your web-accessible root directory, which you are allowed to replace with your own file – will be shown).
 
 ### Programmes
 A programme contains the media to display on the monitor and their corresponding settings, such as the length in seconds to display a piece of media for. In terms of media, both images (JPG, PNG, WEBP, BMP) and video (MP4 only) are supported.
