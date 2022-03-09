@@ -1,5 +1,6 @@
 <?php
 	require_once("include/auth.php");
+	require_once("include/useful.php");
 
 	if (!isset($_GET["day"]) || empty($_GET["day"])) {
 		header("Location: error.php?e=Day%20not%20set");
@@ -24,23 +25,7 @@
 		$programme_name = "Default programme";
 	}
 
-	$programme_dir = "programmes/$date_internal";
-	$selected_durations = array();
-	if (is_dir($programme_dir)) {
-		$default_enabled = ($date_internal != "default" ? file_exists("$programme_dir/.default_enabled") : false);
-		$selected_media = glob("$programme_dir/*_*_*.{jpg,jpeg,png,mp4}", GLOB_BRACE);
-		sort($selected_media, SORT_STRING);
-		for ($i = 0; $i < count($selected_media); $i++) {
-			$temp = explode("_", $selected_media[$i]);
-			array_push($selected_durations, intval($temp[1]) / 1000);
-			$selected_media[$i] = "media/".array_pop($temp);
-			$selected_media[$i] = str_replace(".mp4", ".gif", $selected_media[$i]);
-		}
-	}
-	else {
-		$default_enabled = ($date_internal != "default" ? true : false);
-		$selected_media = array();
-	}
+	$programme = get_programme_overview($date_internal, false);
 
 	$available_media = glob("media/*.{jpg,jpeg,png,gif}", GLOB_BRACE);
 	sort($available_media, SORT_STRING);
@@ -61,7 +46,7 @@
 	<ul id="media-list"><?php foreach ($available_media as $media) { ?><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="<?php echo $media; ?>" /><button onclick="deleteMe(event)" title="Delete media (no undo)">&#x2715;</button></li><?php } ?></ul>
 	<button onclick="openUploader()">Upload media</button>
 	<h3>Media displayed on screen</h3>
-	<ol id="selected-media" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)"><?php for ($i = 0; $i < count($selected_media); $i++) { ?><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="<?php echo $selected_media[$i]; ?>" /><button onclick="removeMe(event)" title="Remove from programme">&#x2715;</button><input type="number" class="duration" value="<?php echo $selected_durations[$i]; ?>" step="0.1" min="1" title="Duration in seconds" placeholder="Duration in seconds" /></li><?php } ?></ol>
+	<ol id="selected-media" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)"><?php foreach($programme["media"] as $media) { ?><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="media/<?php echo $media['file']; ?>" /><button onclick="removeMe(event)" title="Remove from programme">&#x2715;</button><input type="number" class="duration" value="<?php echo $media['duration'] / 1000; ?>" step="0.1" min="1" title="Duration in seconds" placeholder="Duration in seconds" /></li><?php } ?></ol>
 	<template id="media-item-template"><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="" /><button onclick="deleteMe(event)" title="Delete media (no undo)">&#x2715;</button></li></template>
 	<template id="media-item-template-selected"><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="" /><button onclick="removeMe(event)" title="Remove from programme">&#x2715;</button><input type="number" class="duration" value="10" step="0.1" min="1" title="Duration in seconds" placeholder="Duration in seconds" /></li></template>
 	<?php if ($date_internal != "default") { ?><input type="checkbox" name="default_enabled" id="default_enabled" value="true" <?php echo ($default_enabled ? "checked " : ""); ?>/><label for="default_enabled">Enable default programme</label><?php } ?>
