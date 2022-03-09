@@ -108,7 +108,7 @@ Go to the website that your webserver is set to use and log in with the credenti
 Hover over a day to view the programme for that day. If a day is colored lightblue, the programme includes the default programme. Is the day colored a darker shade of blue, the default programme has been turned off for that day, and only that day's programme will be shown. If the day is colored red, the default programme has been turned off on that day, and the day does not have any media to display (then the default image – *0_10_default.jpeg* in your web-accessible root directory, which you are allowed to replace with your own file – will be shown).
 
 ### Programmes
-A programme contains the media to display on the monitor and their corresponding settings, such as the length in seconds to display a piece of media for. In terms of media, both images (JPG, PNG, WEBP, BMP) and video (MP4 only) are supported.
+A programme contains the media to display on the monitor and their corresponding settings, such as the length in seconds to display a piece of media for. In terms of media, both images (JPG, PNG, WEBP, BMP) and video (MP4 only) are supported. In the web view, videos will be muted though.
 
 #### The default programme
 The default programme is shown before the programme of the current day, if the programme of the current day didn't prevent this from happening (see [Day programmes](#day-programmes)).
