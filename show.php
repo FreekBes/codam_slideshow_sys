@@ -102,8 +102,8 @@ function startCountdown() {
 		if (total > 1) {
 			document.getElementById("container").className = "hide-fade";
 		}
-	}, duration - 200);
-	// assume it takes 100ms to load the next slide
+	}, duration - 100);
+	// assume it takes 200ms to load the next slide on a Raspberry Pi Model 3B
 	if (total > 1) {
 		document.getElementById("container").className = "show-fade";
 	}
