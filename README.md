@@ -1,12 +1,62 @@
 # Codam Slideshow System
 A dashboard for managing slideshow screens, specifically built for [Codam](https://www.codam.nl/) by [Freek Bes](https://www.github.com/FreekBes) (IT Assistent at Codam).
 
-## Setup
+## Installation
 
-### Web server
-Create a virtual server in Apache2, nginx or your favorite web server software. Make sure it is running PHP. The code in this repository was written for PHP8.1, but it might also work on older versions.
+### A clean install
+Get yourself a Raspberry Pi. I'm using a Raspberry Pi 3 model B. Install the lite version of [Raspberry Pi OS](https://www.raspberrypi.com/software/operating-systems/) (formerly known as Raspbian). Set it up with `sudo raspi-config` to your needs after flashing the OS onto a micro SD card.
+
+After that, run the following commands in order:
+
+```sh
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit openbox
+sudo apt-get install --no-install-recommends chromium-browser
+sudo wget -qO /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list
+sudo apt-get update
+sudo apt-get install apache2 php8.1 php8.1-gd ffmpeg git
+cd /var/www/html
+sudo rm index.html
+sudo git clone https://github.com/FreekBes/codam_slideshow_sys.git .
+sudo mkdir media
+sudo chown www-data media
+sudo chmod 0755 media
+sudo mkdir programmes
+sudo chown www-data programmes
+sudo chmod 0755 programmes
+echo '[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && startx -- -nocursor' >> ~/.bash_profile
+sudo sh -c 'echo "pi ALL=(ALL) ALL" > /etc/sudoers.d/010_pi-nopasswd'
+```
+
+For some additional security, I recommend requiring the *pi* account to use a password when using `sudo`. Do so by modifying `/etc/sudoers.d/010_pi-nopasswd`.
+
+Then, edit the file at */etc/xdg/openbox/autostart* as follows:
+
+```sh
+# Disable any form of screen saver / screen blanking / power management
+xset s off
+xset s noblank
+xset -dpms
+
+# Allow quitting X server with CTRL-ALT-Backspace
+setxkbmap -option terminate:ctrl_alt_bksp
+
+# Start Chromium in kiosk mode, make sure to make it think it exited cleanly last time
+sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' ~/.config/chromium/'Local State'
+sed -i 's/"exited_cleanly":false/"exited_cleanly":true/; s/"exit_type":"[^"]\+"/"exit_type":"Normal"/' ~/.config/chromium/Default/Preferences
+chromium-browser --disable-infobars --kiosk 'http://localhost/show.php?day=today&num=0'
+```
+
+Now, make sure to run the steps described in [Setup](#-Setup)
+
+### Install on an existing web server
+Create a virtual server in Apache2, nginx or your favorite web server software. Make sure it is running PHP. The code in this repository was written for PHP 8.1, but it might also work on older versions.
 
 Move the contents of this repository to the server's web-accessible directory (normally */var/www/html*).
+
+## Setup
 
 ### Modifying required settings
 In the web-accessible directory on your server, create two directories: one called *media*, and another one called *programmes*. Make sure this directory is owned by the user your web server is running as (on Debian and Ubuntu, that is usually *www-data*). The chmod for these directories should be set to `0755`.
