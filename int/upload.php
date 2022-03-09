@@ -49,7 +49,7 @@
 					// move the uploaded file to the media folder
 					if (move_uploaded_file($_FILES['media']['tmp_name'][$i], "../$new_loc") === true) {
 						// convert the video to GIF format for use in the dashboard and programme editor
-						exec("ffmpeg -i ../$new_loc -vf \"fps=5,scale=-1:72:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse\" -loop 0 ../$new_loc_gif");
+						exec("ffmpeg -i ../$new_loc -t 10 -vf \"fps=5,scale=-1:72:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse\" -loop 0 ../$new_loc_gif");
 						array_push($files, $printable_loc);
 					}
 					else {
