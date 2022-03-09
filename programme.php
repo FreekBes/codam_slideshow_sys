@@ -28,14 +28,10 @@
 	$selected_durations = array();
 	if (is_dir($programme_dir)) {
 		$default_enabled = ($date_internal != "default" ? file_exists("$programme_dir/.default_enabled") : false);
-		$selected_media = glob("$programme_dir/*.{jpg,jpeg,png,mp4}", GLOB_BRACE);
+		$selected_media = glob("$programme_dir/*_*_*.{jpg,jpeg,png,mp4}", GLOB_BRACE);
 		sort($selected_media, SORT_STRING);
 		for ($i = 0; $i < count($selected_media); $i++) {
 			$temp = explode("_", $selected_media[$i]);
-			if (count($temp) < 3) {
-				array_splice($selected_media, $i, 1);
-				continue;
-			}
 			array_push($selected_durations, intval($temp[1]) / 1000);
 			$selected_media[$i] = "media/".array_pop($temp);
 			$selected_media[$i] = str_replace(".mp4", ".gif", $selected_media[$i]);
@@ -57,6 +53,7 @@
 	<link rel="stylesheet" href="css/styles.css" />
 	<script src="js/useful.js"></script>
 	<script src="js/programme.js"></script>
+	<script src="js/dragndrop.js"></script>
 </head>
 <body>
 	<h1><?php echo $programme_name; ?></h1>
