@@ -4,7 +4,16 @@ A dashboard for managing slideshow screens, specifically built for [Codam](https
 ## Installation
 
 ### A clean install
-Get yourself a Raspberry Pi. I'm using a Raspberry Pi 3 model B. Install the lite version of [Raspberry Pi OS](https://www.raspberrypi.com/software/operating-systems/) (formerly known as Raspbian). Set it up with `sudo raspi-config` to your needs after flashing the OS onto a micro SD card.
+Get yourself a Raspberry Pi. I'm using a Raspberry Pi 3 model B. Install the lite version of [Raspberry Pi OS](https://www.raspberrypi.com/software/operating-systems/) (formerly known as Raspbian). Set it up with `sudo raspi-config`, with the following settings:
+
+- set the keyboard layout under *Localisation Options* -> *Keyboard*
+- **important**: change the password for the *pi* user under *System Options* -> *Password* (required for security reasons)
+- set the boot options to *Console Autologin* under *System Options* -> *Boot / Auto Login*
+- enable SSH if needed under *Interfacing Options* -> *SSH*
+- set up wi-fi if required under *System Options* -> *Wireless LAN*
+- set a hostname under *System Options* -> *Hostname* if wanted
+
+When done, use <kbd>Tab</kbd> to go to the *Finish* button and press <kbd>Enter</kbd>. Then reboot the machine by running `reboot`.
 
 After that, run the following commands in order:
 
@@ -48,6 +57,10 @@ sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' ~/.config/chromium/'Loc
 sed -i 's/"exited_cleanly":false/"exited_cleanly":true/; s/"exit_type":"[^"]\+"/"exit_type":"Normal"/' ~/.config/chromium/Default/Preferences
 chromium-browser --disable-infobars --kiosk 'http://localhost/show.php?day=today&num=0'
 ```
+
+(modified from https://die-antwort.eu/techblog/2017-12-setup-raspberry-pi-for-kiosk-mode/)
+
+Also, to make sure the service keeps running smoothly, I recommend rebooting every night just in case. Do so using cron: `sudo crontab -e` and add the following line: `0 6 * * * /sbin/shutdown -r now`
 
 Now, make sure to run the steps described in [Setup](#-Setup)
 
