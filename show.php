@@ -102,7 +102,8 @@ function startCountdown() {
 		if (total > 1) {
 			document.getElementById("container").className = "hide-fade";
 		}
-	}, duration - 300);
+	}, duration - 200);
+	// assume it takes 100ms to load the next slide
 	if (total > 1) {
 		document.getElementById("container").className = "show-fade";
 	}
