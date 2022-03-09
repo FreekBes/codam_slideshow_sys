@@ -91,19 +91,20 @@ The *DASHBOARD_USERNAME* and *DASHBOARD_PASSWORD* fields are used for authentica
 
 The *WWW_DIR* field points to the path of the web-accessible directory of the web server (normally */var/www/html*). Do **not** append a `/` to the end of this path.
 
-### Installing the service and showing the slideshow on a screen
+## Showing the slideshow on a screen
+If you didn't follow the steps in [A Clean Install](#-a-clean-install), you must now create a way to show the slideshow on your screen.
 
-#### If you're using a web browser to show the slideshow
+### If you're using a web browser to show the slideshow
 On the screen that needs to display the slideshow, create an instance of a web browser (preferrably full-screen by default) that loads the web page at the `your_web_server_url/show.php?day=today` URL. Obviously, replace *your_web_server_url* with the URL of the web server you set up. This can be/remain a local IP address, even *localhost*.
 
-#### If you're using Kodi
+### If you're using Kodi
 While this repository was originally built with Kodi and this service in mind, I've found it to be quite unstable at times, crashing every now and then. Which is why I recommend using the web browser method mentioned above.
 
 If you're certain you want to use Kodi instead, you'll need to install the service that will handle displaying the media in the Kodi player. First, modify the path to your web server's web-accessible directory in *kodidash.service* on line 11 (`ExecStart` value). Then, move the *kodidash.service* file to */etc/systemd/system/kodidash.service*. Now you'll be able to start the service by running `systemctl start kodidash`.
 
 If you want it to start upon system boot, run the command `systemctl enable kodidash` once.
 
-## How to use
+## Modifying the slideshow using the dashboard
 Go to the website that your webserver is set to use and log in with the credentials set in *include/settings.php*. After this, you will be redirected to the calendar overview. From this page, it is possible to modify all of the content displayed on the screen. Click on a day in the calendar to edit the programme for that specific day, or click on the *Edit default programme* button to modify the media used in the default programme.
 
 Hover over a day to view the programme for that day. If a day is colored lightblue, the programme includes the default programme. Is the day colored a darker shade of blue, the default programme has been turned off for that day, and only that day's programme will be shown. If the day is colored red, the default programme has been turned off on that day, and the day does not have any media to display (then the default image – *0_10_default.jpeg* in your web-accessible root directory, which you are allowed to replace with your own file – will be shown).
