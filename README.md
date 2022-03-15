@@ -89,6 +89,8 @@ The *DASHBOARD_USERNAME* and *DASHBOARD_PASSWORD* fields are used for authentica
 
 The *WWW_DIR* field points to the path of the web-accessible directory of the web server (normally */var/www/html*). Do **not** append a `/` to the end of this path.
 
+In your PHP config, make sure to increase the post size limit, as well as the upload file limit.
+
 ## Showing the slideshow on a screen
 If you didn't follow the steps in [A Clean Install](#a-clean-install), you must now create a way to show the slideshow on your screen.
 
