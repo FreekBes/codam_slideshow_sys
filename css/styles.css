@@ -143,6 +143,7 @@ a:focus {
 	height: inherit;
 	background: #000000;
 	object-fit: scale-down;
+	cursor: grab;
 }
 
 .media-item button {
