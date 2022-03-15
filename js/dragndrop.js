@@ -98,6 +98,7 @@ function drop(ev) {
 		dropLocation.parentNode.insertBefore(sMediaItem, dropLocation);
 		dropLocation.parentNode.style.background = null;
 		dropLocation.remove();
+		unsavedChanges = true;
 	}
 }
 

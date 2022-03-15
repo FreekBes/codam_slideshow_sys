@@ -1,4 +1,5 @@
 var uploader = null;
+var unsavedChanges = false;
 
 function openUploader() {
 	if (uploader && !uploader.closed) {
@@ -117,6 +118,7 @@ function saveProgramme(ev) {
 	saveReq.addEventListener("load", function(evSave) {
 		document.getElementById("loading").style.display = "none";
 		if (this.status == 204) {
+			unsavedChanges = false;
 			alert("Programme saved");
 		}
 		else {
@@ -143,6 +145,11 @@ window.addEventListener("DOMContentLoaded", function(ev) {
 }, false);
 
 window.onbeforeunload = function(ev) {
+	if (unsavedChanges) {
+		var confirmMessage = "You have unsaved changes for this programme. If you leave before saving, these changes will be lost.";
+		ev.returnValue = confirmMessage;
+		return (confirmMessage);
+	}
 	document.getElementById("loading").style.display = "block";
 	if (uploader) {
 		uploader.close();
