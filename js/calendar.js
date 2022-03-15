@@ -69,7 +69,7 @@ function initCalendar() {
 	var calendarCode = getCalendar(today.getFullYear(), today.getMonth(), 3);
 
 	// and add it to the main element of the page
-	document.getElementsByTagName("main")[0].innerHTML = calendarCode;
+	document.getElementById("calendar").innerHTML = calendarCode;
 
 	// gather all the months
 	var months = document.getElementsByClassName("month");
