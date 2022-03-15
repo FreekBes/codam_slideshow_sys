@@ -117,10 +117,7 @@ function saveProgramme(ev) {
 	saveReq.addEventListener("load", function(evSave) {
 		document.getElementById("loading").style.display = "none";
 		if (this.status == 204) {
-			var conf = confirm("Programme has been saved. Go back to the calendar overview?");
-			if (conf) {
-				window.location.href = "calendar.php";
-			}
+			alert("Programme saved");
 		}
 		else {
 			alert("Failed to save programme ("+this.status+" "+this.statusText+": "+this.responseText+")");
