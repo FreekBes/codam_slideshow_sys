@@ -49,7 +49,7 @@ function showProgTooltip(ev) {
 		tooltip.style.top = (rect.top + 48) + "px";
 		tooltip.className += " arr-top";
 	}
-	if (rect.left > window.innerWidth - 256) {
+	if (rect.left > window.innerWidth - media.length * 136) {
 		tooltip.style.right = (window.innerWidth - rect.right - 24) + "px";
 		tooltip.className += " arr-left";
 	}
