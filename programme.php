@@ -46,7 +46,7 @@
 		<a class="header-btn back-btn" href="calendar.php" title="Back to calendar overview">arrow_back</a>
 		<h1><?php echo $programme_name; ?></h1>
 		<nav>
-			<a class="header-btn" href="javascript:void()" onclick="openUploader()" title="Upload media">add</a>
+			<a class="header-btn" href="javascript:void(null)" onclick="openUploader()" title="Upload media">add</a>
 			<a class="header-btn" href="show.php?day=<?php echo $_GET["day"]; ?>&num=0" target="codamshow" title="Show programme">slideshow</a>
 		</nav>
 	</header>

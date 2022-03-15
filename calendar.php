@@ -22,7 +22,7 @@
 			<a class="header-btn" href="show.php?day=today&num=0" target="codamshow" title="Show today's programme">slideshow</a>
 		</nav>
 	</header>
-	<main>
+	<main class="center">
 		<div id="calendar"></div>
 	</main>
 	<div id="loading">Loading... Please wait</div>

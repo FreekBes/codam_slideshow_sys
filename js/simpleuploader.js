@@ -2,6 +2,7 @@ var uploadedFile = null;
 
 window.onbeforeunload = function(ev) {
 	document.getElementById("loading").style.display = "block";
+	document.getElementById("load-msg").innerText = "Loading";
 };
 
 function setupDatesChange(ev) {
@@ -21,6 +22,8 @@ function setupDatesChange(ev) {
 }
 
 function configureMedia(response) {
+	document.getElementById("load-msg").innerText = "Configuring";
+
 	// retrieve the media's internal file name from the response body
 	// and add it to the configuration form
 	document.getElementById("media").value = response.split("/").pop();
@@ -54,6 +57,7 @@ function configureMedia(response) {
 }
 
 function uploadMedia(ev) {
+	document.getElementById("load-msg").innerText = "Uploading";
 	document.getElementById("loading").style.display = "block";
 
 	// gather the file to upload
@@ -106,8 +110,18 @@ function detectMedia(ev) {
 		getVideoDuration(ev.target.files[0]).then(function(dur) {
 			document.getElementById("duration").value = dur;
 		});
+		document.getElementById("media-type").innerText = "video";
 	}
 	else {
 		document.getElementById("duration").value = 10;
+		document.getElementById("media-type").innerText = "image";
 	}
+	document.getElementsByName("uploadform")[0].style.display = "none";
+}
+
+function showFileDropper() {
+	var uploadForm = document.getElementsByName("uploadform")[0];
+	document.getElementById("media[]").value = null;
+	uploadForm.className = "fullscreen-file";
+	uploadForm.style.display = "block";
 }

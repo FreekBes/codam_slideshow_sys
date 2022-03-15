@@ -3,6 +3,7 @@ var cacheId = Math.random();
 var requestsTodo = 1;
 var requestsDone = 0;
 var checkReqDoneInterval = null;
+var simpleUploader = null;
 
 function getDefaultProgramme() {
 	var req = new XMLHttpRequest();
@@ -115,11 +116,14 @@ function editProgramme(ev) {
 
 function openSimpleUploader(ev) {
 	ev.preventDefault();
-	openPopUpWin('newsimple.php', 'simuploadwin', 320, 400);
+	simpleUploader = openPopUpWin('newsimple.php', 'simuploadwin', 320, 400);
 	return false;
 }
 
 window.onload = initCalendar;
 window.onbeforeunload = function(ev) {
 	document.getElementById("loading").style.display = "block";
+	if (simpleUploader) {
+		simpleUploader.close();
+	}
 };
