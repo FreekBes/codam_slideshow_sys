@@ -40,8 +40,23 @@ function showProgTooltip(ev) {
 	// create a tooltip element and add positioning
 	var tooltip = document.createElement("div");
 	tooltip.className = "prog-tooltip";
-	tooltip.style.top = (rect.top - 82) + "px";
-	tooltip.style.left = (rect.left - 16) + "px";
+	console.log(rect);
+	if (rect.top > 82) {
+		tooltip.style.top = (rect.top - 82) + "px";
+		tooltip.className += " arr-bottom";
+	}
+	else {
+		tooltip.style.top = (rect.top + 48) + "px";
+		tooltip.className += " arr-top";
+	}
+	if (rect.left > window.innerWidth - 256) {
+		tooltip.style.right = (window.innerWidth - rect.right - 24) + "px";
+		tooltip.className += " arr-left";
+	}
+	else {
+		tooltip.style.left = (rect.left - 16) + "px";
+		tooltip.className += " arr-right";
+	}
 
 	// add a message to the tooltip, letting the user know whether the default programme is enabled or not
 	addTooltipDefMessage(ev.currentTarget, tooltip);
