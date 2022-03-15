@@ -4,17 +4,22 @@
 
 	// get the internal code for the day's programme (simply YYYY-MM-DD)
 	if (isset($_GET["day"]) && !empty($_GET["day"])) {
-		if ($_GET["day"] != "today" && preg_match('/[^0-9\-]/', $_GET["day"])) {
+		if ($_GET["day"] != "today" && $_GET["day"] != "default" && preg_match('/[^0-9\-]/', $_GET["day"])) {
 			http_response_code(406);
 			die();
 		}
 
-		$day_timestamp = strtotime($_GET["day"]);
-		if ($day_timestamp === false) {
-			http_response_code(400);
-			die("day_parse_error");
+		if ($_GET["day"] != "default") {
+			$day_timestamp = strtotime($_GET["day"]);
+			if ($day_timestamp === false) {
+				http_response_code(400);
+				die("day_parse_error");
+			}
+			$date_full = date("Y-m-d", $day_timestamp);
 		}
-		$date_full = date("Y-m-d", $day_timestamp);
+		else {
+			$date_full = "default";
+		}
 	}
 	else {
 		$date_full = date("Y-m-d");
