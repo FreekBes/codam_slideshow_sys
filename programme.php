@@ -43,9 +43,10 @@
 </head>
 <body>
 	<header>
+		<a class="header-btn back-btn" href="calendar.php" title="Back to calendar overview">arrow_back</a>
 		<h1><?php echo $programme_name; ?></h1>
 		<nav>
-			<a class="header-btn" href="newsimple.php" onclick="openSimpleUploader(event)" title="Upload media">add</a>
+			<a class="header-btn" href="javascript:void()" onclick="openUploader()" title="Upload media">add</a>
 			<a class="header-btn" href="show.php?day=<?php echo $_GET["day"]; ?>&num=0" target="codamshow" title="Show programme">slideshow</a>
 		</nav>
 	</header>
@@ -63,9 +64,10 @@
 		<template id="media-item-template"><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="" /><button onclick="deleteMe(event)" title="Delete media (no undo)">&#x2715;</button></li></template>
 		<template id="media-item-template-selected"><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="" /><button onclick="removeMe(event)" title="Remove from programme">&#x2715;</button><input type="number" class="duration" value="10" step="0.1" min="1" title="Duration in seconds" placeholder="Duration in seconds" /></li></template>
 		<?php if ($date_internal != "default") { ?><input type="checkbox" name="default_enabled" id="default_enabled" value="true" <?php echo ($programme['default_enabled'] ? "checked " : ""); ?>/><label for="default_enabled">Enable default programme</label><?php } ?>
+		<br /><br />
 		<button onclick="saveProgramme(event)">Save</button>
 		<small><a href="calendar.php">Back to calendar</a></small>
-		<div id="loading">Loading... Please wait</div>
 	</main>
+	<div id="loading">Loading... Please wait</div>
 </body>
 </html>

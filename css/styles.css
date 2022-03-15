@@ -5,12 +5,14 @@ body {
 	margin: 0;
 	padding: 0;
 	cursor: default;
+	font-size: 16px;
 }
 
 header {
 	background: #6610f2;
 	color: #E4E4E4;
 	padding: 0;
+	height: 44px;
 }
 
 nav {
@@ -18,34 +20,45 @@ nav {
 	padding: 0px 8px;
 }
 
-nav a.header-btn {
+a.header-btn,
+a.header-btn:visited {
 	display: inline-block;
 	font-family: 'Material Icons';
 	text-decoration: none;
-	font-size: 1.4em;
+	font-size: 23px;
+	line-height: 28px;
 	cursor: pointer;
 	color: #E4E4E4;
 	padding: 8px;
 }
 
-nav a.header-btn:focus,
-nav a.header-btn:hover {
+a.header-btn:focus,
+a.header-btn:hover {
 	color: #F2911A;
+}
+
+a.header-btn.back-btn {
+	float: left !important;
+	padding-left: 16px !important;
 }
 
 h1 {
 	margin: 8px 16px 8px 16px;
-	font-size: 1.4em;
+	font-size: 21px;
+	line-height: 28px;
 	font-weight: normal;
 	display: inline-block;
 	width: 75%;
 	width: calc(100% - 200px);
 	width: -webkit-calc(100% - 200px);
 	width: -moz-calc(100% - 200px);
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 main {
-	padding: 16px 8px;
+	padding: 8px 16px 32px 16px;
 }
 
 h3 {

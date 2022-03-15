@@ -24,7 +24,7 @@
 	</header>
 	<main>
 		<div id="calendar"></div>
-		<div id="loading">Loading... Please wait</div>
 	</main>
+	<div id="loading">Loading... Please wait</div>
 </body>
 </html>
