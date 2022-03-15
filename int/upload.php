@@ -70,7 +70,7 @@
 	}
 	else {
 		http_response_code(400);
-		die("file_upload_fail");
+		die("media_missing");
 	}
 
 	http_response_code(201);
