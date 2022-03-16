@@ -15,7 +15,7 @@ Get yourself a Raspberry Pi. I'm using a Raspberry Pi 3 model B. Install the lit
 
 When done, use <kbd>Tab</kbd> to go to the *Finish* button and press <kbd>Enter</kbd>. Then reboot the machine by running `reboot`.
 
-After that, run the following command to finish installation: `curl https://github.com/FreekBes/codam_slideshow_sys/raw/main/service.sh | sudo bash`.
+After that, run the following command to finish installation: `curl https://github.com/FreekBes/codam_slideshow_sys/raw/main/utils/service.sh | sudo bash`.
 
 Also, to make sure the service keeps running smoothly, I recommend rebooting every night just in case. Do so using cron: `sudo crontab -e` and add the following line: `0 6 * * * /sbin/shutdown -r now`
 
@@ -55,7 +55,7 @@ On the screen that needs to display the slideshow, create an instance of a web b
 ### If you're using Kodi
 While this repository was originally built with Kodi and this service in mind, I've found it to be quite unstable at times, crashing every now and then. Which is why I recommend using the web browser method mentioned above.
 
-If you're certain you want to use Kodi instead, you'll need to install the service that will handle displaying the media in the Kodi player. First, modify the path to your web server's web-accessible directory in *kodidash.service* on line 11 (`ExecStart` value). Then, move the *kodidash.service* file to */etc/systemd/system/kodidash.service*. Now you'll be able to start the service by running `systemctl start kodidash`.
+If you're certain you want to use Kodi instead, you'll need to install the service that will handle displaying the media in the Kodi player. First, modify the path to your web server's web-accessible directory in *utils/kodidash.service* on line 11 (`ExecStart` value). Then, move the *utils/kodidash.service* file to */etc/systemd/system/kodidash.service*. Now you'll be able to start the service by running `systemctl start kodidash`.
 
 If you want it to start upon system boot, run the command `systemctl enable kodidash` once.
 
