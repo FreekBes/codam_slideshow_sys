@@ -37,6 +37,7 @@
 	<title><?php echo $programme_name; ?></title>
 	<script src="js/useful.js"></script>
 	<script src="js/programme.js"></script>
+	<script src="js/dragnupload.js"></script>
 	<script src="js/dragndrop.js"></script>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 	<link rel="stylesheet" href="css/styles.css" />
@@ -57,7 +58,7 @@
 			<p>The default programme is a programme that contains media which is always displayed on the screen, no matter the date. It can be disabled on a day-to-day basis.</p>
 		<?php } ?>
 		<h3>Media to choose from</h3>
-		<ul id="media-list"><?php foreach ($available_media as $media) { ?><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="<?php echo $media; ?>" /><button onclick="deleteMe(event)" title="Delete media (no undo)">&#x2715;</button></li><?php } ?></ul>
+		<ul id="media-list" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)"><?php foreach ($available_media as $media) { ?><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="<?php echo $media; ?>" /><button onclick="deleteMe(event)" title="Delete media (no undo)">&#x2715;</button></li><?php } ?></ul>
 		<button onclick="openUploader()">Upload media</button>
 		<h3>Media displayed on screen</h3>
 		<ol id="selected-media" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)"><?php foreach($programme["media"] as $media) { ?><li class="media-item"><img draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)" src="media/<?php echo $media['file']; ?>" /><button onclick="removeMe(event)" title="Remove from programme">&#x2715;</button><input type="number" class="duration" value="<?php echo $media['duration'] / 1000; ?>" step="0.1" min="1" title="Duration in seconds" placeholder="Duration in seconds" /></li><?php } ?></ol>

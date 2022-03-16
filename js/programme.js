@@ -55,8 +55,10 @@ function createSelectedMediaItem(mediaUrl) {
 // never called from this webpage itself
 function addMedia(mediaUrl) {
 	console.log("Media found to add!", mediaUrl);
-	uploader.close();
-	uploader = null;
+	if (uploader) {
+		uploader.close();
+		uploader = null;
+	}
 	
 	if (typeof mediaUrl == "string") {
 		document.getElementById("media-list").prepend(createMediaItem(mediaUrl));

@@ -2,8 +2,9 @@ var draggedElem = null;
 
 // function to run when dragging something over an element (determines if a drop is allowed)
 function allowDrop(ev) {
-	// only allow droppable entities that include the text/uri-list parameter
-	if (ev.dataTransfer.types.includes("text/uri-list")) {
+	// only allow droppable entities that include the text/uri-list parameter, or dragged files
+	// (on the selected media list)
+	if (ev.currentTarget.id == "selected-media" && (ev.dataTransfer.types.includes("text/uri-list") || ev.dataTransfer.types.includes("Files"))) {
 		// allow dropping by running preventDefault (what???)
 		ev.preventDefault();
 
@@ -33,6 +34,10 @@ function allowDrop(ev) {
 			ev.currentTarget.insertBefore(dropLocation, ev.target);
 		}
 		dropLocation.parentNode.style.background = "lightblue";
+	}
+	else if (ev.currentTarget.id == "media-list" && ev.dataTransfer.types.includes("Files")) {
+		// allow dropping by running preventDefault (what???)
+		ev.preventDefault();
 	}
 	else {
 		return (false);
@@ -71,21 +76,19 @@ function drag(ev) {
 	ev.dataTransfer.setDragImage(ctx.canvas, 10, 10);
 }
 
-// function to run when user decided to drop something onto an element
-function drop(ev) {
-	console.log("Dropped!");
-	// allow the drop!
-	ev.preventDefault();
-
-	var mediaUrl = ev.dataTransfer.getData("text/uri-list");
-	if (ev.dataTransfer.effectAllowed == "move") {
-		// original element had to be moved, simply remove it as we're cloning it next anyways.
-		draggedElem.remove();
+function removePlaceholder(dropLocation) {
+	if (!dropLocation) {
+		return;
 	}
+	dropLocation.parentNode.style.background = null;
+	dropLocation.remove();
+}
 
-	// get the drop location based on the placeholder!
-	// we actually simply replace the placeholder with a new media item element.
-	// simple, but effective.
+// get the drop location based on the placeholder!
+// insert the new media before it.
+// to remove the placeholder after, call removePlaceholder() manually
+// this function returns the placeholder element to easily do this.
+function insertMediaItemAtPlaceholder(mediaUrl, justAdd) {
 	var dropLocation = document.getElementById("drop-location");
 	if (dropLocation) {
 		var sMediaItem = createSelectedMediaItem(mediaUrl);
@@ -96,9 +99,32 @@ function drop(ev) {
 			}
 		}
 		dropLocation.parentNode.insertBefore(sMediaItem, dropLocation);
-		dropLocation.parentNode.style.background = null;
-		dropLocation.remove();
 		unsavedChanges = true;
+	}
+	return (dropLocation);
+}
+
+// function to run when user decided to drop something onto an element
+function drop(ev) {
+	console.log("Dropped!");
+	if (ev.dataTransfer.types.includes("text/uri-list")) {
+		// allow the drop!
+		ev.preventDefault();
+		var mediaUrl = ev.dataTransfer.getData("text/uri-list");
+		if (ev.dataTransfer.effectAllowed == "move") {
+			// original element had to be moved, simply remove it as we're cloning it next anyways.
+			draggedElem.remove();
+		}
+		var placeholder = insertMediaItemAtPlaceholder(mediaUrl);
+		removePlaceholder(placeholder);
+	}
+	else if (ev.dataTransfer.types.includes("Files")) {
+		// allow the drop!
+		ev.preventDefault();
+		dropUpload(ev);
+	}
+	else {
+		console.warn("Unknown dataTransfer type for drop");
 	}
 }
 
@@ -108,11 +134,7 @@ function dragLeave(ev) {
 		ev.clientX < bounds.left || ev.clientX >= bounds.right) {
 		console.log("Left boundaries, removing placeholder");
 		// mouse is now actually outside of drop boundaries, remove drop location (drop placeholder)
-		var dropLocation = document.getElementById("drop-location");
-		if (dropLocation) {
-			dropLocation.parentNode.style.background = null;
-			dropLocation.remove();
-		}
+		removePlaceholder(document.getElementById("drop-location"));
 	}
 }
 
@@ -133,10 +155,7 @@ function dragEnd(ev) {
 	
 	// remove the drop location placeholder if one is found
 	draggedElem = null;
-	if (dropLocation) {
-		dropLocation.parentNode.style.background = null;
-		dropLocation.remove();
-	}
+	removePlaceholder(dropLocation);
 
 	// re-enable overflow (scrolling) in available media list
 	document.getElementById("media-list").style.overflowY = "auto";
