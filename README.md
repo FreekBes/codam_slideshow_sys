@@ -15,50 +15,7 @@ Get yourself a Raspberry Pi. I'm using a Raspberry Pi 3 model B. Install the lit
 
 When done, use <kbd>Tab</kbd> to go to the *Finish* button and press <kbd>Enter</kbd>. Then reboot the machine by running `reboot`.
 
-After that, run the following commands in order:
-
-```sh
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit openbox
-sudo apt-get install --no-install-recommends chromium-browser
-sudo wget -qO /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list
-sudo apt-get update
-sudo apt-get install apache2 php8.1 php8.1-gd ffmpeg git
-cd /var/www/html
-sudo rm index.html
-sudo git clone https://github.com/FreekBes/codam_slideshow_sys.git .
-sudo mkdir media
-sudo chown www-data media
-sudo chmod 0755 media
-sudo mkdir programmes
-sudo chown www-data programmes
-sudo chmod 0755 programmes
-echo '[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && startx -- -nocursor' >> ~/.bash_profile
-sudo sh -c 'echo "pi ALL=(ALL) ALL" > /etc/sudoers.d/010_pi-nopasswd'
-```
-
-For some additional security, I recommend requiring the *pi* account to use a password when using `sudo`. Do so by modifying `/etc/sudoers.d/010_pi-nopasswd`.
-
-Then, edit the file at */etc/xdg/openbox/autostart* as follows:
-
-```sh
-# Disable any form of screen saver / screen blanking / power management
-xset s off
-xset s noblank
-xset -dpms
-
-# Allow quitting X server with CTRL-ALT-Backspace
-setxkbmap -option terminate:ctrl_alt_bksp
-
-# Start Chromium in kiosk mode, make sure to make it think it exited cleanly last time
-sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' ~/.config/chromium/'Local State'
-sed -i 's/"exited_cleanly":false/"exited_cleanly":true/; s/"exit_type":"[^"]\+"/"exit_type":"Normal"/' ~/.config/chromium/Default/Preferences
-chromium-browser --disable-infobars --kiosk 'http://localhost/show.php?day=today&num=0'
-```
-
-(modified from https://die-antwort.eu/techblog/2017-12-setup-raspberry-pi-for-kiosk-mode/)
+After that, run the following command to finish installation: `curl https://github.com/FreekBes/codam_slideshow_sys/raw/main/service.sh | sudo bash`.
 
 Also, to make sure the service keeps running smoothly, I recommend rebooting every night just in case. Do so using cron: `sudo crontab -e` and add the following line: `0 6 * * * /sbin/shutdown -r now`
 
@@ -88,8 +45,6 @@ The *ORGANIZATION_NAME* value is used for the title of the dashboard page. If yo
 The *DASHBOARD_USERNAME* and *DASHBOARD_PASSWORD* fields are used for authentication with the dashboard page.
 
 The *WWW_DIR* field points to the path of the web-accessible directory of the web server (normally */var/www/html*). Do **not** append a `/` to the end of this path.
-
-In your PHP config, make sure to increase the post size limit, as well as the upload file limit.
 
 ## Showing the slideshow on a screen
 If you didn't follow the steps in [A Clean Install](#a-clean-install), you must now create a way to show the slideshow on your screen.
