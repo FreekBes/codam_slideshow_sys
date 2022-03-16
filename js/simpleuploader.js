@@ -106,10 +106,14 @@ function detectMedia(ev) {
 	// new media to upload found!
 	// if it's a video, we need to calculate the duration and specify that in the configuration form.
 	// if not, set the duration to the default 10 seconds.
-	if (ev.target.files[0].type == "video/mp4") {
-		getVideoDuration(ev.target.files[0]).then(function(dur) {
-			document.getElementById("duration").value = dur;
-		});
+	if (ev.target.files[0].type == "video/mp4" || ev.target.files[0].type == "image/gif") {
+		getVideoDuration(ev.target.files[0])
+			.then(function(dur) {
+				document.getElementById("duration").value = dur;
+			})
+			.catch(function(err) {
+				document.getElementById("duration").value = 10;
+			});
 		document.getElementById("media-type").innerText = "video";
 	}
 	else {

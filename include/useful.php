@@ -26,8 +26,6 @@
 				return (imagecreatefromjpeg($file));
 			case IMAGETYPE_PNG:
 				return (imagecreatefrompng($file));
-			case IMAGETYPE_GIF:
-				return (imagecreatefromgif($file));
 			case IMAGETYPE_WEBP:
 				return (imagecreatefromwebp($file));
 			case IMAGETYPE_BMP:
@@ -59,6 +57,17 @@
 		return ($new);
 	}
 
+	function get_video_duration($path_to_video) {
+		// calculate the duration of the video using ffprobe command
+		return (round(floatval(exec("ffprobe -v error -show_entries format=duration -of csv=p=0 \"$path_to_video\"")) * 1000));
+	}
+
+	function setup_video($path_to_video, $path_to_gif) {
+		// convert the video to GIF format for use in the dashboard and programme editor
+		exec("ffmpeg -i \"$path_to_video\" -t 10 -vf \"fps=5,scale=-1:72:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse\" -loop 0 \"$path_to_gif\"");
+		return (true);
+	}
+
 	function get_programme_overview($date_full, $as_mp4 = false) {
 		$programme_folder = WWW_DIR . "/programmes/$date_full";
 		$returnable = array();
@@ -67,7 +76,7 @@
 			$returnable['media'] = array();
 			return ($returnable);
 		}
-		
+
 		$selected_media = glob("$programme_folder/*_*_*.{jpg,jpeg,png,mp4}", GLOB_BRACE);
 		sort($selected_media, SORT_STRING);
 		$default_enabled = ($date_full != "default" && file_exists("$programme_folder/.default_enabled"));

@@ -1,6 +1,6 @@
 function uploadDroppedMedia(files) {
 	return new Promise(function(resolve, reject) {
-		const allowedTypes = ["image/png", "image/jpeg", "image/webp", "image/bmp", "video/mp4"];
+		const allowedTypes = ["image/png", "image/jpeg", "image/webp", "image/bmp", "image/gif", "video/mp4"];
 		const formData = new FormData();
 		let filesToUpload = 0;
 

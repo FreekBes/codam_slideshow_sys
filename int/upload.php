@@ -13,7 +13,29 @@
 			if ($_FILES['media']['error'][$i] == UPLOAD_ERR_OK && $_FILES['media']['size'][$i] > 0)
 			{
 				$mime = mime_content_type($_FILES['media']['tmp_name'][$i]);
-				if (strstr($mime, "image/")) {
+				if ($mime == "image/gif") {
+					// hacky way of implementing gifs.
+					// since gifs are internally used as a preview for mp4 files, we cannot simply
+					// show a gif on a screen - while saving, it will convert all .gif extensions to
+					// their corresponding .mp4 files.
+					// so, in order to work around that, we convert the gif to an mp4 here.
+					$video_id = time() . "-" . generate_id(4);
+					exec("ffmpeg -i \"" . $_FILES['media']['tmp_name'][$i] . "\" -movflags faststart -pix_fmt yuv420p -vf \"scale=trunc(iw/2)*2:trunc(ih/2)*2\" ../media/$video_id.mp4");
+					$duration = get_video_duration("../media/$video_id.mp4");
+					$new_loc = "media/$video_id-$duration.mp4";
+					if (!rename("../media/$video_id.mp4", "../$new_loc")) {
+						http_response_code(500);
+						die("file_write_fail");
+					}
+					$new_loc_gif = "media/$video_id-$duration.gif";
+					$printable_loc = htmlspecialchars(strip_tags($new_loc_gif));
+					if (!setup_video("../$new_loc", "../$new_loc_gif")) {
+						http_response_code(500);
+						die("video_setup_failed");
+					}
+					array_push($files, $printable_loc);
+				}
+				else if (strstr($mime, "image/")) {
 					$new_loc = "media/" . time() . "-" . generate_id(4) . ".jpeg";
 					$printable_loc = htmlspecialchars(strip_tags($new_loc));
 					// load image into memory (php's gd addon)
@@ -37,19 +59,20 @@
 					$temp = explode(".", $_FILES['media']['name'][$i]);
 					$ext = array_pop($temp);
 					$video_id = time() . "-" . generate_id(4);
-					// calculate the duration of the video using ffprobe command
-					$duration = round(floatval(exec("ffprobe -v error -show_entries format=duration -of csv=p=0 \"" . $_FILES['media']['tmp_name'][$i] . "\"")) * 1000);
+					$duration = get_video_duration($_FILES['media']['tmp_name'][$i]);
 					if ($duration == 0) {
 						http_response_code(500);
-						die("video_duration_unknown_or_zero");
+						die("video_duration_zero");
 					}
 					$new_loc = "media/$video_id-$duration.$ext";
 					$new_loc_gif = "media/$video_id-$duration.gif";
 					$printable_loc = htmlspecialchars(strip_tags($new_loc_gif));
 					// move the uploaded file to the media folder
 					if (move_uploaded_file($_FILES['media']['tmp_name'][$i], "../$new_loc") === true) {
-						// convert the video to GIF format for use in the dashboard and programme editor
-						exec("ffmpeg -i ../$new_loc -t 10 -vf \"fps=5,scale=-1:72:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse\" -loop 0 ../$new_loc_gif");
+						if (!setup_video("../$new_loc", "../$new_loc_gif")) {
+							http_response_code(500);
+							die("video_setup_failed");
+						}
 						array_push($files, $printable_loc);
 					}
 					else {

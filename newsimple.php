@@ -13,8 +13,8 @@
 <body>
 	<main style="background: inherit;">
 		<form class="fullscreen-file" accept-charset="utf-8" autocomplete="off" name="uploadform">
-			<label for="media[]"><span>drag and drop a media file here</span><br /><small>or just click to select a file...</small><br /><small class="extra">accepts PNG, JPG, MP4, WEBP, BMP</small></label><br />
-			<input onchange="detectMedia(event)" type="file" name="media[]" id="media[]" accept="image/png, image/jpeg, image/webp, image/bmp, video/mp4" ondragenter="this.parentNode.className='fullscreen-file dragover';" ondragleave="this.parentNode.className='fullscreen-file';" />
+			<label for="media[]"><span>drag and drop a media file here</span><br /><small>or just click to select a file...</small><br /><small class="extra">accepts PNG, JPG, GIF, MP4, WEBP, BMP</small></label><br />
+			<input onchange="detectMedia(event)" type="file" name="media[]" id="media[]" accept="image/png, image/jpeg, image/webp, image/bmp, image/gif, video/mp4" ondragenter="this.parentNode.className='fullscreen-file dragover';" ondragleave="this.parentNode.className='fullscreen-file';" />
 		</form>
 		<br />
 		<form accept-charset="utf-8" autocomplete="off" name="configureform">
