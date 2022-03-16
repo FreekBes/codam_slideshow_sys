@@ -88,7 +88,7 @@ function removePlaceholder(dropLocation) {
 // insert the new media before it.
 // to remove the placeholder after, call removePlaceholder() manually
 // this function returns the placeholder element to easily do this.
-function insertMediaItemAtPlaceholder(mediaUrl, justAdd) {
+function insertMediaItemAtPlaceholder(mediaUrl) {
 	const dropLocation = document.getElementById("drop-location");
 	if (dropLocation) {
 		let sMediaItem = createSelectedMediaItem(mediaUrl);
