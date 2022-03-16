@@ -7,7 +7,7 @@ function addTooltipDefMessage(evTarget, tooltip) {
 		defaultEnabledMsg.innerHTML = "<b>Only the following</b> (no default programme):";
 	}
 	else if (evTarget.id == "default-link") {
-		defaultEnabledMsg.innerHTML = "This programme gets prepended to any day's programme (where enabled):";
+		defaultEnabledMsg.innerHTML = "The default programme:";
 	}
 	else {
 		defaultEnabledMsg.innerHTML = "Default programme, plus:";

@@ -115,6 +115,12 @@ a:focus {
 	color: #FFA02C;
 }
 
+u {
+	cursor: help;
+	text-decoration-line: underline;
+	text-decoration-style: dashed;
+}
+
 /* programme page */
 #media-list,
 #selected-media {

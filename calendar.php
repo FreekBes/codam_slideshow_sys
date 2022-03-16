@@ -26,6 +26,7 @@
 		<?php if (disk_free_space(__DIR__) < 100000000) { ?>
 		<p class="notice"><b>Notice:</b> disk is almost full (less than 100MB remaining). It is recommended to remove some (unused) media from the <i>available media</i> list in the programme editor, so that new media can still be uploaded in the future.</p>
 		<?php } ?>
+		<p>Click on a day to edit the programme for that day, or click on the <span class="material-icons" style="font-size: inherit;">edit</span><i>edit button</i> in the toolbar to edit the <u title="The default programme is a programme that contains media which is always displayed on the screen, no matter the date. It can be disabled on a day-to-day basis.">default programme</u></p>
 		<div id="calendar"></div>
 	</main>
 	<div id="loading">Loading... Please wait</div>
