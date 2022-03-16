@@ -40,7 +40,6 @@ function showProgTooltip(ev) {
 	// create a tooltip element and add positioning
 	var tooltip = document.createElement("div");
 	tooltip.className = "prog-tooltip";
-	console.log(rect);
 	if (rect.top > 82) {
 		tooltip.style.top = (rect.top - 82) + "px";
 		tooltip.className += " arr-bottom";
