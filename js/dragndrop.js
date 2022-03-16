@@ -1,4 +1,4 @@
-var draggedElem = null;
+let draggedElem = null;
 
 // function to run when dragging something over an element (determines if a drop is allowed)
 function allowDrop(ev) {
@@ -10,7 +10,7 @@ function allowDrop(ev) {
 
 		// create a placeholder at the drop location
 		// so that the user can see where the media will be placed in a list
-		var dropLocation = document.getElementById("drop-location");
+		let dropLocation = document.getElementById("drop-location");
 		if (!dropLocation) {
 			dropLocation = document.createElement("li");
 			dropLocation.setAttribute("id", "drop-location");
@@ -69,7 +69,7 @@ function drag(ev) {
 	// create an image to show underneath the cursor while dragging
 	// it is a clone of the image that's being dragged
 	// but since that image is hidden now, we need to clone it (otherwise nothing is shown being dragged)
-	var ctx = document.createElement("canvas").getContext("2d");
+	const ctx = document.createElement("canvas").getContext("2d");
 	ctx.canvas.width = 128;
 	ctx.canvas.height = 72;
 	ctx.drawImage(ev.currentTarget, 0, 0, 128, 72);
@@ -89,11 +89,11 @@ function removePlaceholder(dropLocation) {
 // to remove the placeholder after, call removePlaceholder() manually
 // this function returns the placeholder element to easily do this.
 function insertMediaItemAtPlaceholder(mediaUrl, justAdd) {
-	var dropLocation = document.getElementById("drop-location");
+	const dropLocation = document.getElementById("drop-location");
 	if (dropLocation) {
-		var sMediaItem = createSelectedMediaItem(mediaUrl);
+		let sMediaItem = createSelectedMediaItem(mediaUrl);
 		if (mediaUrl.endsWith(".gif")) {
-			var duration = parseInt(mediaUrl.substring(0, mediaUrl.lastIndexOf(".")).split("-").pop());
+			const duration = parseInt(mediaUrl.substring(0, mediaUrl.lastIndexOf(".")).split("-").pop());
 			if (!isNaN(duration) && duration > 0) {
 				sMediaItem.querySelector(".duration").value = duration / 1000;
 			}
@@ -110,12 +110,12 @@ function drop(ev) {
 	if (ev.dataTransfer.types.includes("text/uri-list")) {
 		// allow the drop!
 		ev.preventDefault();
-		var mediaUrl = ev.dataTransfer.getData("text/uri-list");
+		const mediaUrl = ev.dataTransfer.getData("text/uri-list");
 		if (ev.dataTransfer.effectAllowed == "move") {
 			// original element had to be moved, simply remove it as we're cloning it next anyways.
 			draggedElem.remove();
 		}
-		var placeholder = insertMediaItemAtPlaceholder(mediaUrl);
+		const placeholder = insertMediaItemAtPlaceholder(mediaUrl);
 		removePlaceholder(placeholder);
 	}
 	else if (ev.dataTransfer.types.includes("Files")) {
@@ -129,7 +129,7 @@ function drop(ev) {
 }
 
 function dragLeave(ev) {
-	var bounds = document.getElementById("selected-media").getBoundingClientRect();
+	const bounds = document.getElementById("selected-media").getBoundingClientRect();
 	if (ev.clientY < bounds.top || ev.clientY >= bounds.bottom || 
 		ev.clientX < bounds.left || ev.clientX >= bounds.right) {
 		console.log("Left boundaries, removing placeholder");
@@ -142,7 +142,7 @@ function dragLeave(ev) {
 // but if not dropped on a suitable location, this function will have to handle that
 function dragEnd(ev) {
 	console.log("Drag ended");
-	var dropLocation = document.getElementById("drop-location");
+	const dropLocation = document.getElementById("drop-location");
 	// if no placeholder drop location was found, and the expected behavior was to move the element dragged
 	// we remove the element that was being dragged, as there was no suitable location found to drop it to
 	// if the expected behavior was not to move, display the original media again

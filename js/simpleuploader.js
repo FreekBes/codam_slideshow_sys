@@ -1,4 +1,4 @@
-var uploadedFile = null;
+let uploadedFile = null;
 
 window.onbeforeunload = function(ev) {
 	document.getElementById("loading").style.display = "block";
@@ -29,10 +29,10 @@ function configureMedia(response) {
 	document.getElementById("media").value = response.split("/").pop();
 
 	// gather the configuration form's data
-	var confFormData = new FormData(document.getElementsByName("configureform")[0]);
+	const confFormData = new FormData(document.getElementsByName("configureform")[0]);
 
 	// send a request to the server to configure the media
-	var cReq = new XMLHttpRequest();
+	const cReq = new XMLHttpRequest();
 	cReq.open("POST", "int/configure.php");
 	cReq.addEventListener("load", function(cEv) {
 		if (this.status == 201) {
@@ -61,10 +61,10 @@ function uploadMedia(ev) {
 	document.getElementById("loading").style.display = "block";
 
 	// gather the file to upload
-	var uploadFormData = new FormData(document.getElementsByName("uploadform")[0]);
+	const uploadFormData = new FormData(document.getElementsByName("uploadform")[0]);
 
 	// upload the file
-	var uReq = new XMLHttpRequest();
+	const uReq = new XMLHttpRequest();
 	uReq.open("POST", "int/upload.php");
 	uReq.addEventListener("load", function(uEv) {
 		if (this.status == 201) {
@@ -86,7 +86,7 @@ function uploadMedia(ev) {
 function getVideoDuration(file) {
 	// get the video duration from a local file by loading it into a temporary video element
 	return new Promise(function(resolve, reject) {
-		var video = document.createElement("video");
+		const video = document.createElement("video");
 		video.preload = "metadata";
 		video.onloadedmetadata = function(vEv) {
 			URL.revokeObjectURL(vEv.target.src);
@@ -120,7 +120,7 @@ function detectMedia(ev) {
 }
 
 function showFileDropper() {
-	var uploadForm = document.getElementsByName("uploadform")[0];
+	const uploadForm = document.getElementsByName("uploadform")[0];
 	document.getElementById("media[]").value = null;
 	uploadForm.className = "fullscreen-file";
 	uploadForm.style.display = "block";

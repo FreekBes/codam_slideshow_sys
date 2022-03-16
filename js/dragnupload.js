@@ -1,10 +1,10 @@
 function uploadDroppedMedia(files) {
 	return new Promise(function(resolve, reject) {
-		var allowedTypes = ["image/png", "image/jpeg", "image/webp", "image/bmp", "video/mp4"];
-		var formData = new FormData();
-		var filesToUpload = 0;
+		const allowedTypes = ["image/png", "image/jpeg", "image/webp", "image/bmp", "video/mp4"];
+		const formData = new FormData();
+		let filesToUpload = 0;
 
-		for (var i = 0; i < files.length; i++) {
+		for (let i = 0; i < files.length; i++) {
 			if (allowedTypes.indexOf(files[i].type) > -1) {
 				formData.append('media[]', files[i], files[i].name);
 				filesToUpload++;
@@ -19,7 +19,7 @@ function uploadDroppedMedia(files) {
 			return;
 		}
 
-		var uploadReq = new XMLHttpRequest();
+		const uploadReq = new XMLHttpRequest();
 		uploadReq.open("POST", "int/upload.php");
 		uploadReq.addEventListener("loadend", function(fEv) {
 			if (this.status == 201) {
@@ -50,7 +50,7 @@ async function dropUpload(ev) {
 		// add all media to the selected media list
 		// (if placeholder does not exist, this fails without an error on purpose,
 		// since then the files were not dropped on the selected media list)
-		for (var i = 0; i < mediaUrls.length; i++) {
+		for (let i = 0; i < mediaUrls.length; i++) {
 			insertMediaItemAtPlaceholder(mediaUrls[i]);
 		}
 	}

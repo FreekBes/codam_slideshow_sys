@@ -1,6 +1,6 @@
 // functionto add default enabled message to the top of a tooltip
 function addTooltipDefMessage(evTarget, tooltip) {
-	var defaultEnabledMsg = document.createElement("small");
+	const defaultEnabledMsg = document.createElement("small");
 	defaultEnabledMsg.className = "prog-tooltip-msg";
 	if (evTarget.className.indexOf("default-disabled") > -1) {
 		tooltip.style.background = "cyan";
@@ -23,22 +23,22 @@ function showProgTooltip(ev) {
 
 	// check if the element that caused to run this function from an event listener
 	// has a data-media attribute, if not, stop immediately - then this function is not supposed to run
-	var mediaAttr = ev.currentTarget.getAttribute("data-media");
+	const mediaAttr = ev.currentTarget.getAttribute("data-media");
 	if (!mediaAttr) {
 		return false;
 	}
 
 	// get the boundaries of the target element (hovered over day)
-	var rect = ev.currentTarget.getBoundingClientRect();
+	const rect = ev.currentTarget.getBoundingClientRect();
 
 	// get the media for this day from the media attribute of the day
-	var media = JSON.parse(mediaAttr);
+	const media = JSON.parse(mediaAttr);
 	if (media.length == 0) {
 		return false;
 	}
 
 	// create a tooltip element and add positioning
-	var tooltip = document.createElement("div");
+	const tooltip = document.createElement("div");
 	tooltip.className = "prog-tooltip";
 	if (rect.top > 82) {
 		tooltip.style.top = (rect.top - 82) + "px";
@@ -61,9 +61,8 @@ function showProgTooltip(ev) {
 	addTooltipDefMessage(ev.currentTarget, tooltip);
 
 	// populate the tooltip: add all media to the tooltip
-	var mediaItem;
-	for (var i = 0; i < media.length; i++) {
-		mediaItem = document.createElement("img");
+	for (let i = 0; i < media.length; i++) {
+		let mediaItem = document.createElement("img");
 		mediaItem.className = "prog-tooltip-media";
 		mediaItem.setAttribute("src", "media/" + media[i]["file"]);
 		tooltip.appendChild(mediaItem);
@@ -80,8 +79,8 @@ function hideProgTooltip(ev) {
 	}
 
 	// remove all tooltips from the webpage (could be more on slow computers, thus removing in a for loop)
-	var tooltips = document.getElementsByClassName("prog-tooltip");
-	for (var i = 0; i < tooltips.length; i++) {
+	const tooltips = document.getElementsByClassName("prog-tooltip");
+	for (let i = 0; i < tooltips.length; i++) {
 		tooltips[i].remove();
 	}
 }

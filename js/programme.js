@@ -1,5 +1,5 @@
-var uploader = null;
-var unsavedChanges = false;
+let uploader = null;
+let unsavedChanges = false;
 
 function openUploader() {
 	if (uploader && !uploader.closed) {
@@ -11,13 +11,13 @@ function openUploader() {
 
 // delete media using this function, run on remove button click
 function deleteMe(ev) {
-	var conf = confirm("Are you sure you want to permanently delete this media?\n\nIn order to use it again in the future, it will need to be reuploaded.");
+	const conf = confirm("Are you sure you want to permanently delete this media?\n\nIn order to use it again in the future, it will need to be reuploaded.");
 	if (conf) {
-		var fileName = ev.currentTarget.previousElementSibling.src.split("/").pop();
-		var selected = document.querySelectorAll("#selected-media img[src*=\"" + fileName + "\"]");
+		const fileName = ev.currentTarget.previousElementSibling.src.split("/").pop();
+		const selected = document.querySelectorAll("#selected-media img[src*=\"" + fileName + "\"]");
 
 		// delete the media from the server by sending a request to the delete page
-		var delReq = new XMLHttpRequest();
+		const delReq = new XMLHttpRequest();
 		delReq.open("GET", "int/delete.php?media=" + encodeURIComponent(fileName));
 		delReq.send();
 
@@ -25,7 +25,7 @@ function deleteMe(ev) {
 		ev.currentTarget.parentNode.remove();
 
 		// remove the media from the selected list, if found there
-		for (var i = 0; i < selected.length; i++) {
+		for (let i = 0; i < selected.length; i++) {
 			selected[i].parentNode.remove();
 		}
 	}
@@ -37,16 +37,16 @@ function removeMe(ev) {
 
 // create a media item for the available media list
 function createMediaItem(mediaUrl) {
-	var template = document.getElementById("media-item-template");
-	var clonedItem = template.content.cloneNode(true);
+	const template = document.getElementById("media-item-template");
+	const clonedItem = template.content.cloneNode(true);
 	clonedItem.firstElementChild.firstElementChild.src = mediaUrl;
 	return (clonedItem);
 }
 
 // create a media item for the selected media list
 function createSelectedMediaItem(mediaUrl) {
-	var template = document.getElementById("media-item-template-selected");
-	var clonedItem = template.content.cloneNode(true);
+	const template = document.getElementById("media-item-template-selected");
+	const clonedItem = template.content.cloneNode(true);
 	clonedItem.firstElementChild.firstElementChild.src = mediaUrl;
 	return (clonedItem);
 }
@@ -64,7 +64,7 @@ function addMedia(mediaUrl) {
 		document.getElementById("media-list").prepend(createMediaItem(mediaUrl));
 	}
 	else if (typeof mediaUrl == "object") {
-		for (var i = 0; i < mediaUrl.length; i++) {
+		for (let i = 0; i < mediaUrl.length; i++) {
 			document.getElementById("media-list").prepend(createMediaItem(mediaUrl[i]));
 		}
 	}
@@ -75,18 +75,18 @@ function addMedia(mediaUrl) {
 
 function getProgrammeFormData() {
 	// create a new form to submit
-	var formData = new FormData();
-	var selectedMediaElems = document.getElementById("selected-media").children;
-	var selectedMediaFiles = [];
-	var durations = [];
+	const formData = new FormData();
+	const selectedMediaElems = document.getElementById("selected-media").children;
+	let selectedMediaFiles = [];
+	let durations = [];
 	
 	// gather all the media URLs (without the media/ prefix)
 	// and the durations of each piece of media
-	for (var i = 0; i < selectedMediaElems.length; i++) {
+	for (let i = 0; i < selectedMediaElems.length; i++) {
 		selectedMediaFiles.push(selectedMediaElems[i].firstElementChild.src.split("/").pop());
 		durations.push(parseFloat(selectedMediaElems[i].querySelector(".duration").value));
 	}
-	var defaultCheckbox = document.getElementById("default_enabled");
+	const defaultCheckbox = document.getElementById("default_enabled");
 	
 	// add configurations to the form data
 	formData.set("day", getParameterByName("day"));
@@ -112,10 +112,10 @@ function saveProgramme(ev) {
 	document.getElementById("loading").style.display = "block";
 
 	// retrieve the programme configurations in a formdata object
-	var formData = getProgrammeFormData();
+	const formData = getProgrammeFormData();
 
 	// send the form to the server
-	var saveReq = new XMLHttpRequest();
+	const saveReq = new XMLHttpRequest();
 	saveReq.open("POST", "int/save.php");
 	saveReq.addEventListener("load", function(evSave) {
 		document.getElementById("loading").style.display = "none";
@@ -148,7 +148,7 @@ window.addEventListener("DOMContentLoaded", function(ev) {
 
 window.onbeforeunload = function(ev) {
 	if (unsavedChanges) {
-		var confirmMessage = "You have unsaved changes for this programme. If you leave before saving, these changes will be lost.";
+		const confirmMessage = "You have unsaved changes for this programme. If you leave before saving, these changes will be lost.";
 		ev.returnValue = confirmMessage;
 		return (confirmMessage);
 	}

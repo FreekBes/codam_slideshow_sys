@@ -1,18 +1,18 @@
-var today = new Date();
-var cacheId = Math.random();
-var requestsTodo = 1;
-var requestsDone = 0;
-var checkReqDoneInterval = null;
-var simpleUploader = null;
+const today = new Date();
+const cacheId = Math.random();
+let requestsTodo = 1;
+let requestsDone = 0;
+let checkReqDoneInterval = null;
+let simpleUploader = null;
 
 function getDefaultProgramme() {
-	var req = new XMLHttpRequest();
+	const req = new XMLHttpRequest();
 	req.open("GET", "int/get.php?day=default&c" + cacheId, true);
 	req.addEventListener("loadend", function (fEv) {
 		requestsDone++;
 		if (this.status == 200) {
-			var defaultLink = document.getElementById("default-link");
-			var overview = JSON.parse(this.responseText);
+			const defaultLink = document.getElementById("default-link");
+			const overview = JSON.parse(this.responseText);
 
 			defaultLink.setAttribute("data-media", JSON.stringify(overview["media"]));
 		}
@@ -27,18 +27,18 @@ function getDefaultProgramme() {
 function loadMonthsProgramme(req) {
 	if (req.status == 200) {
 		// get the month and year from the responseURL of the request
-		var month = getParameterByName("month", req.responseURL);
-		var year = getParameterByName("year", req.responseURL);
-		var monthCal = document.querySelector(".month-"+year+"-"+month);
+		const month = getParameterByName("month", req.responseURL);
+		const year = getParameterByName("year", req.responseURL);
+		const monthCal = document.querySelector(".month-"+year+"-"+month);
 		if (!monthCal) {
 			console.warn("Could not found month element!");
 			return;
 		}
 
-		var days = monthCal.getElementsByClassName("day");
-		var overview = JSON.parse(req.responseText);
+		let days = monthCal.getElementsByClassName("day");
+		const overview = JSON.parse(req.responseText);
 		// add the media for each day to its element in the calendar in an attribute
-		for (var j = 0; j < overview.length; j++) {
+		for (let j = 0; j < overview.length; j++) {
 			days[j].setAttribute("data-media", JSON.stringify(overview[j]["media"]));
 			if (overview[j]["media"].length > 0) {
 				days[j].className += " custom" + (!overview[j]["default_enabled"] ? " default-disabled": "");
@@ -67,13 +67,13 @@ function getDate(elem) {
 
 function initCalendar() {
 	// get the HTML code of a calendar from a secondary script
-	var calendarCode = getCalendar(today.getFullYear(), today.getMonth(), 3);
+	const calendarCode = getCalendar(today.getFullYear(), today.getMonth(), 3);
 
 	// and add it to the main element of the page
 	document.getElementById("calendar").innerHTML = calendarCode;
 
 	// gather all the months
-	var months = document.getElementsByClassName("month");
+	const months = document.getElementsByClassName("month");
 	requestsTodo += months.length;
 
 	// continuously check if all requested programmes have been gathered
@@ -90,9 +90,8 @@ function initCalendar() {
 	getDefaultProgramme();
 
 	// request all programmes for the months listed in the calendar
-	var req = null;
-	for (var i = 0; i < months.length; i++) {
-		req = new XMLHttpRequest();
+	for (let i = 0; i < months.length; i++) {
+		let req = new XMLHttpRequest();
 		req.open("GET", "int/getmonth.php?month=" + getMonth(months[i]) + "&year=" + getYear(months[i]) + "&c=" + cacheId, true);
 		req.addEventListener("loadend", function(fEv) {
 			requestsDone++;
@@ -110,7 +109,7 @@ function editProgramme(ev) {
 	if (ev.currentTarget.className.indexOf("day") == -1) {
 		return false;
 	}
-	var internalDate = getYear(ev.currentTarget) + "-" + getMonth(ev.currentTarget) + "-" + getDate(ev.currentTarget);
+	const internalDate = getYear(ev.currentTarget) + "-" + getMonth(ev.currentTarget) + "-" + getDate(ev.currentTarget);
 	window.location.href = "programme.php?day=" + encodeURIComponent(internalDate);
 }
 
