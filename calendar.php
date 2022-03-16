@@ -23,6 +23,9 @@
 		</nav>
 	</header>
 	<main class="center">
+		<?php if (disk_free_space(__DIR__) < 100000000) { ?>
+		<p class="notice"><b>Notice:</b> disk is almost full (less than 100MB remaining). It is recommended to remove some (unused) media from the <i>available media</i> list in the programme editor, so that new media can still be uploaded in the future.</p>
+		<?php } ?>
 		<div id="calendar"></div>
 	</main>
 	<div id="loading">Loading... Please wait</div>
