@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# Set script to exit immediately if a command exits with a non-zero status
+set -e
+
+# Echo on
+set -x
+
 # Update the system
 sudo apt-get update
 sudo apt-get upgrade
