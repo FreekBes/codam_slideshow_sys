@@ -11,10 +11,10 @@ sudo apt-get update
 sudo apt-get upgrade
 
 # Install windowing toolset
-sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit openbox
+sudo apt-get install -y --no-install-recommends xserver-xorg x11-xserver-utils xinit openbox
 
 # Install Chromium web browser
-sudo apt-get install --no-install-recommends chromium-browser
+sudo apt-get install -y --no-install-recommends chromium-browser
 
 # Add PHP ppa to apt sources
 sudo wget -qO /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
@@ -22,14 +22,14 @@ echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /et
 sudo apt-get update
 
 # Install Apache2 web server alongside with PHP
-sudo apt-get install apache2 php8.1 php8.1-gd
+sudo apt-get install -y apache2 php8.1 php8.1-gd
 
 # Enable .htaccess files in web-accessible directories by modifying apache2.conf
 sudo sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 sudo service apache2 restart
 
 # Install utilities
-sudo apt-get install ffmpeg git
+sudo apt-get install -y ffmpeg git
 
 # Set up web server files
 cd /var/www/html
