@@ -49,7 +49,7 @@ sudo mv utils/autostart.sh /etc/xdg/openbox/autostart
 sudo rm -rf 'utils'
 
 # Enable automatically starting the X-server on login
-echo '[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && startx -- -nocursor' >> ~/.bash_profile
+echo '[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && startx -- -nocursor' >> /home/pi/.bash_profile
 
 # Require password on running sudo commands for user pi
 sudo sh -c 'echo "pi ALL=(ALL) ALL" > /etc/sudoers.d/010_pi-nopasswd'
