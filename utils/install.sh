@@ -8,7 +8,7 @@ set -x
 
 # Update the system
 sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get upgrade -y
 
 # Install windowing toolset
 sudo apt-get install -y --no-install-recommends xserver-xorg x11-xserver-utils xinit openbox
