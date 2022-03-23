@@ -15,7 +15,7 @@ Get yourself a Raspberry Pi. I'm using a Raspberry Pi 3 model B. Install the lit
 
 When done, use <kbd>Tab</kbd> to go to the *Finish* button and press <kbd>Enter</kbd>. Then reboot the machine by running `reboot`.
 
-After that, run the following command to finish installation: `curl https://github.com/FreekBes/codam_slideshow_sys/raw/main/utils/service.sh | sudo bash`.
+After that, run the following command to finish installation: `curl https://raw.githubusercontent.com/FreekBes/codam_slideshow_sys/main/utils/install.sh | sudo bash`.
 
 Also, to make sure the service keeps running smoothly, I recommend rebooting every night just in case. Do so using cron: `sudo crontab -e` and add the following line: `0 6 * * * /sbin/shutdown -r now`
 
