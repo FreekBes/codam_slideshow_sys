@@ -340,7 +340,6 @@ input::-webkit-inner-spin-button {
 	width: 0px;
 	border: 7px solid transparent;
 	border-bottom: 0;
-	/* transform: translate(14px, 100%); */
 }
 
 .prog-tooltip.arr-bottom::before {
