@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>WebRTC Test</title>
+	<script>
+		function CodamRTC() {
+			const _this = this;
+			this.channel = null;
+			this.isOpen = false;
+			this.connection = new RTCPeerConnection({
+				iceServers: []
+			});
+			this.connection.oniceconnectionstatechange = function(ev) {
+				console.log("New ICEConnectionState: ", _this.connection.iceConnectionState);
+			};
+			this.connection.ondatachannel = function(ev) {
+				console.log("Data channel received");
+				_this.channel = ev.channel;
+				_this.initChannel();
+			};
+
+			this.initChannel = function() {
+				_this.channel.onopen = function(ev) {
+					console.log("WebRTC channel opened");
+					_this.isOpen = true;
+				};
+				_this.channel.onmessage = function(ev) {
+					console.log("Data received", ev.data);
+				};
+				_this.channel.onerror = function(err) {
+					console.error(err);
+				};
+				_this.channel.onclose = function() {
+					console.log("WebRTC channel closed");
+					this.isOpen = false;
+				};
+				_this.channel.onbufferedamountlow = function() {
+					console.log("WebRTC channel buffered amount is low");
+				};
+			};
+
+			this.createOffer = function() {
+				return new Promise(async function(resolve, reject) {
+					_this.channel = _this.connection.createDataChannel("codam-slideshow-sys");
+					_this.initChannel();
+					try {
+						const offer = await _this.connection.createOffer()
+						console.log(offer);
+						await _this.connection.setLocalDescription(offer);
+						_this.connection.onicecandidate = function(ev) {
+							if (ev.candidate) {
+								return;
+							}
+							console.log("offer sdp:", _this.connection.localDescription.sdp);
+							resolve(_this.connection.localDescription.sdp);
+						};
+					}
+					catch (err) {
+						reject(err);
+					}
+				});
+			};
+
+			this.createAnswer = function(offer) {
+				return new Promise(async function(resolve, reject) {
+					if (_this.connection.signalingState != "stable") {
+						reject("WebRTC connection is not stable (is " + _this.connection.signalingState + " instead)")
+					}
+
+					try {
+						const desc = new RTCSessionDescription({ type: "offer", sdp: offer });
+						await _this.connection.setRemoteDescription(desc);
+						const answer = await _this.connection.createAnswer();
+						console.log(answer);
+						_this.connection.setLocalDescription(answer);
+						_this.connection.onicecandidate = function(ev) {
+							console.log("answer sdp:", _this.connection.localDescription.sdp);
+							resolve(_this.connection.localDescription.sdp);
+						};
+					}
+					catch (err) {
+						console.error(err);
+						reject(err);
+					}
+				});
+			};
+
+			this.connectAnswer = function(answer) {
+				return new Promise(async function(resolve, reject) {
+					if (_this.connection.signalingState != "have-local-offer") {
+						reject("WebRTC connection does not have a local offer ready");
+						return;
+					}
+					const desc = new RTCSessionDescription({ type: "answer", sdp: answer });
+					try {
+						await _this.connection.setRemoteDescription(desc);
+						console.log("Should be connected?");
+						resolve();
+					}
+					catch (err) {
+						console.error(err);
+						reject(err);
+					}
+				});
+			};
+		}
+
+		const codamRTC = new CodamRTC();
+		// codamRTC.createOffer();
+	</script>
+</head>
+<body>
+	<h1>WebRTC Test</h1>
+</body>
+</html>
