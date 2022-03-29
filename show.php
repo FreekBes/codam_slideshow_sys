@@ -1,6 +1,7 @@
 <?php
 	require_once("include/useful.php");
 	require_once("include/settings.php");
+	require_once("include/shm.php");
 
 	// get the internal code for the day's programme (simply YYYY-MM-DD)
 	if (isset($_GET["day"]) && !empty($_GET["day"])) {
@@ -31,7 +32,7 @@
 		http_response_code(302);
 		die();
 	}
-	
+
 	// retrieve the day's programme and prepend default programme if enabled
 	$day_programme = get_programme_overview($date_full, true);
 	if ($day_programme["default_enabled"]) {
@@ -54,7 +55,7 @@
 	// if media to display, get the media requested by the index ($num)
 	if ($total != 0) {
 		$current_media = "media/" . $day_programme["media"][$num]["file"];
-		$duration = $day_programme["media"][$num]["duration"];	
+		$duration = $day_programme["media"][$num]["duration"];
 	}
 	else {
 		// if no media to display (day's programme is empty), display the default image
@@ -62,6 +63,11 @@
 		$duration = 10000;
 	}
 	$media_type = (strpos($current_media, ".mp4") === false ? "img" : "vid");
+
+	// store currently loaded media and the current time in shared memory
+	// for synchronizing with other screens
+	shm_put_var($shm, 0x01, $num);
+	shm_put_var($shm, 0x02, time());
 ?>
 <!DOCTYPE html>
 <html>
