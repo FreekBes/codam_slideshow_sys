@@ -30,6 +30,12 @@ function startSync(domain) {
 			progressBar.start(showFor);
 			hideTimeout = setTimeout(function() {
 				document.getElementById("container").className = "hide-fade";
+				if (json["num"] + 1 == json["total"]) {
+					// redirect back to show.php to check if we should still mirror
+					// if we should still mirror, we end up over here again by another redirect from there
+					console.log("Redirecting to show.php to check if we should still mirror...");
+					window.location.replace("show.php?day=today&num=0");
+				}
 			}, showFor - 300);
 			document.getElementById("container").className = "show-fade";
 		}

@@ -80,6 +80,7 @@
 		// for synchronizing with other screens
 		$sync = new stdClass();
 		$sync->num = $num;
+		$sync->total = $total;
 		$sync->load_time = microtime(true) * 1000;
 		$sync->media_type = $media_type;
 		$sync->current_media = $current_media;

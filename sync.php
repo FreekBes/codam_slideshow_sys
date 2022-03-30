@@ -14,11 +14,13 @@
 	while (true) {
 		$obj = json_decode(json_encode(unserialize(shm_get_var($shm, 0x01))));
 		if ($obj === false) {
+			// read failed, try again in 10 seconds
 			sleep(10);
 		}
 		else {
 			$obj->server_time = microtime(true) * 1000;
 			send_json($obj);
+			// read successful, redo in 100 milliseconds
 			usleep(100000);
 		}
 	}
