@@ -1,15 +1,49 @@
-let source = new EventSource("sync.php");
+function startSync(domain) {
+	const eventSource = new EventSource("http://" + domain + "/sync.php");
+	const progressBar = new CodamProgressBar();
+	let curMedia = null;
+	let hideTimeout = null;
 
-source.addEventListener("message", function(ev) {
-	console.log("Sync", JSON.parse(ev.data));
-});
+	eventSource.addEventListener("message", function(ev) {
+		const json = JSON.parse(ev.data);
+		if (curMedia != json["current_media"]) {
+			console.log("Switching media...", json);
+			curMedia = json["current_media"];
+			if (hideTimeout) {
+				clearTimeout(hideTimeout);
+			}
+			const curMediaElem = document.getElementById(json["media_type"]);
+			const otherMediaElems = document.getElementsByClassName("media");
+			for (let i = 0; i < otherMediaElems.length; i++) {
+				otherMediaElems[i].style.display = "none";
+			}
+			progressBar.stop();
 
-source.addEventListener("open", function(ev) {
-	console.log("Sync connection was opened");
-});
+			curMediaElem.style.display = "block";
+			curMediaElem.src = "http://" + domain + "/" + json["current_media"];
+			if (curMediaElem.load && typeof curMediaElem.load == "function") {
+				curMediaElem.load();
+				curMediaElem.play();
+			}
 
-source.addEventListener("error", function(ev) {
-	if (ev.readyState == EventSource.CLOSED) {
-		console.log("Sync connection was closed");
-	}
-});
+			const showFor = Math.floor(json["show_until"] - json["server_time"]);
+			progressBar.start(showFor);
+			hideTimeout = setTimeout(function() {
+				document.getElementById("container").className = "hide-fade";
+			}, showFor - 300);
+			document.getElementById("container").className = "show-fade";
+		}
+	});
+
+	eventSource.addEventListener("open", function(ev) {
+		console.log("Sync connection was opened");
+	});
+
+	eventSource.addEventListener("error", function(ev) {
+		if (ev.readyState == EventSource.CLOSED) {
+			console.log("Sync connection was closed");
+		}
+	});
+
+	return eventSource;
+}
