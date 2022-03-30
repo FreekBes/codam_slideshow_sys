@@ -6,7 +6,7 @@
 	header("Access-Control-Allow-Origin: *");
 
 	function send_json($json) {
-		echo "id: " . time() . PHP_EOL . "data: ". json_encode($json) . PHP_EOL . PHP_EOL;
+		echo "id: " . (microtime(true) * 1000) . PHP_EOL . "data: ". json_encode($json) . PHP_EOL . PHP_EOL;
 		ob_flush();
 		flush();
 	}
@@ -18,7 +18,7 @@
 		$current_media = shm_get_var($shm, 0x04);
 		$show_until = shm_get_var($shm, 0x05);
 		$obj = new stdClass();
-		$obj->server_time = time();
+		$obj->server_time = microtime(true) * 1000;
 		$obj->num = intval($media_num);
 		$obj->load_time = intval($last_time);
 		$obj->media_type = $media_type;
