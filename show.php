@@ -34,10 +34,21 @@
 	}
 
 	// retrieve the day's programme and prepend default programme if enabled
+	// also set the mirror/syncing source if it is enabled in the default programme
 	$day_programme = get_programme_overview($date_full, true);
 	if ($day_programme["default_enabled"]) {
 		$default_programme = get_programme_overview("default", true);
 		$day_programme["media"] = combine_media_prepend($day_programme, $default_programme);
+		if ($default_programme["mirror"] !== false) {
+			$day_programme["mirror"] = $default_programme["mirror"];
+		}
+	}
+
+	// if mirroring (synchronization) is enabled, redirect now
+	if ($day_programme["mirror"] !== false) {
+		header("Location: syncshow.php?source=" . $day_programme["mirror"]);
+		http_response_code(302);
+		die();
 	}
 
 	// num is the index of which media to display
