@@ -3,6 +3,7 @@
 
 	header("Content-Type: text/event-stream");
 	header("Cache-Control: no-cache");
+	header("Access-Control-Allow-Origin: *");
 
 	function send_json($json) {
 		echo "id: " . time() . PHP_EOL . "data: ". json_encode($json) . PHP_EOL . PHP_EOL;
