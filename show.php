@@ -90,8 +90,7 @@
 <head>
 	<title><?php echo ($num + 1) . " / $total - " . ORGANIZATION_NAME; ?></title>
 	<script src="js/useful.js"></script>
-	<script src="js/nprogress.js"></script>
-	<link rel="stylesheet" href="css/nprogress.css" />
+	<script src="js/progress.js"></script>
 	<link rel="stylesheet" href="css/show.css" />
 </head>
 <body onload="startCountdown();">
@@ -99,12 +98,6 @@
 var num = <?php echo $num; ?>;
 var total = <?php echo $total; ?>;
 var duration = <?php echo $duration; ?>;
-NProgress.configure({
-	minimum: 0.0,
-	easing: 'linear',
-	speed: duration,
-	showSpinner: false
-});
 </script>
 <main id="container">
 <?php switch ($media_type) { case "img": ?>
@@ -116,27 +109,24 @@ Unknown media type
 <?php break; } ?>
 </main>
 <script>
+const progressBar = new CodamProgressBar();
 function startCountdown() {
-	NProgress.start();
-	// set Nprogress to 1 (100%) right away.
-	// a CSS animation will handle the smooth increase to 100%
-	NProgress.set(1);
 	setTimeout(function() {
-		NProgress.done(true);
 		window.location.replace("?day="+getParameterByName("day")+"&num="+(total > 1 ? num+1 : 0));
 	}, duration);
 	setTimeout(function() {
 		if (total > 1) {
+			progressBar.stop();
 			document.getElementById("container").className = "hide-fade";
 		}
 	}, duration - 100);
 	// assume it takes 200ms to load the next slide on a Raspberry Pi Model 3B
 	if (total > 1) {
 		document.getElementById("container").className = "show-fade";
+		progressBar.start(duration);
 	}
 	else {
 		document.getElementById("container").className = "show";
-		document.getElementById("nprogress").style.display = "none";
 	}
 }
 </script>

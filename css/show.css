@@ -89,7 +89,7 @@ h1 {
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
-	
+
 	border: 12px solid rgba(0,0,0,0);
 	border-top: 12px solid;
 	border-top-color: #b5131b;
@@ -103,10 +103,3 @@ h1 {
 	50% { transform: rotate(180deg); border-top-color: #b5131b; }
 	100% { transform: rotate(360deg); border-top-color: #b5131b; }
 }
-
-/* disable nprogress */
-/*
-#nprogress {
-	display: none !important;
-}
-*/
