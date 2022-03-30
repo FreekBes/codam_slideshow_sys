@@ -20,7 +20,7 @@ function CodamProgressBar() {
 		const _this = this;
 		setTimeout(function() {
 			_this.progressBar.style.width = "100%";
-		}, 10);
+		}, 100);
 	};
 
 	this.stop = function() {
