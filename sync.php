@@ -18,9 +18,12 @@
 		$current_media = shm_get_var($shm, 0x04);
 		$show_until = shm_get_var($shm, 0x05);
 		$obj = new stdClass();
+		$obj->server_time = time();
 		$obj->num = intval($media_num);
 		$obj->load_time = intval($last_time);
-		$obj->server_time = time();
+		$obj->media_type = $media_type;
+		$obj->current_media = $current_media;
+		$obj->show_until = intval($show_until);
 		send_json($obj);
 		sleep(1);
 	}
