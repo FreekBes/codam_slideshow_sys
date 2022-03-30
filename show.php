@@ -78,11 +78,13 @@
 	if (!isset($_GET["nosync"])) {
 		// store currently loaded media and the current time in shared memory
 		// for synchronizing with other screens
-		shm_put_var($shm, 0x01, $num);
-		shm_put_var($shm, 0x02, microtime(true) * 1000);
-		shm_put_var($shm, 0x03, $media_type);
-		shm_put_var($shm, 0x04, $current_media);
-		shm_put_var($shm, 0x05, microtime(true) * 1000 + $duration);
+		$sync = new stdClass();
+		$sync->num = $num;
+		$sync->load_time = microtime(true) * 1000;
+		$sync->media_type = $media_type;
+		$sync->current_media = $current_media;
+		$sync->show_until = microtime(true) * 1000 + $duration;
+		shm_put_var($shm, 0x01, serialize(json_decode(json_encode($sync, true))));
 	}
 ?>
 <!DOCTYPE html>

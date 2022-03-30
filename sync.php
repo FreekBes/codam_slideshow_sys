@@ -12,14 +12,14 @@
 	}
 
 	while (true) {
-		$obj = new stdClass();
-		$obj->server_time = microtime(true) * 1000;
-		$obj->num = intval(shm_get_var($shm, 0x01));
-		$obj->load_time = floatval(shm_get_var($shm, 0x02));
-		$obj->media_type = shm_get_var($shm, 0x03);
-		$obj->current_media = shm_get_var($shm, 0x04);
-		$obj->show_until = floatval(shm_get_var($shm, 0x05));
-		send_json($obj);
-		sleep(1);
+		$obj = json_decode(json_encode(unserialize(shm_get_var($shm, 0x01))));
+		if ($obj === false) {
+			sleep(10);
+		}
+		else {
+			$obj->server_time = microtime(true) * 1000;
+			send_json($obj);
+			usleep(100000);
+		}
 	}
 ?>
