@@ -12,18 +12,13 @@
 	}
 
 	while (true) {
-		$media_num = shm_get_var($shm, 0x01);
-		$last_time = shm_get_var($shm, 0x02);
-		$media_type = shm_get_var($shm, 0x03);
-		$current_media = shm_get_var($shm, 0x04);
-		$show_until = shm_get_var($shm, 0x05);
 		$obj = new stdClass();
 		$obj->server_time = microtime(true) * 1000;
-		$obj->num = intval($media_num);
-		$obj->load_time = intval($last_time);
-		$obj->media_type = $media_type;
-		$obj->current_media = $current_media;
-		$obj->show_until = intval($show_until);
+		$obj->num = intval(shm_get_var($shm, 0x01));
+		$obj->load_time = floatval(shm_get_var($shm, 0x02));
+		$obj->media_type = shm_get_var($shm, 0x03);
+		$obj->current_media = shm_get_var($shm, 0x04);
+		$obj->show_until = floatval(shm_get_var($shm, 0x05));
 		send_json($obj);
 		sleep(1);
 	}
