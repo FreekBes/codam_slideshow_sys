@@ -119,6 +119,53 @@ function openSimpleUploader(ev) {
 	return false;
 }
 
+function mirror(inputElem, enabled) {
+	let alertUser = true;
+	let source = "";
+	let req = new XMLHttpRequest();
+	req.open("POST", "int/setsync.php?c=" + cacheId, true);
+	req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	req.addEventListener("loadend", function(rEv) {
+		console.log("Synchronization request status code: " + this.status);
+		if (!alertUser) {
+			return;
+		}
+
+		document.getElementById("mirror-source").innerText = "";
+		if (this.status == 201) {
+			document.getElementById("mirror-source").innerText = "Syncing with " + source;
+			alert("Synchronization enabled with screen at " + source);
+		}
+		else if (this.status == 204) {
+			alert("Synchronization was successfully disabled. You can now customize this screen again.");
+		}
+		else {
+			inputElem.checked = false;
+			alert("Could not enable synchronization. Reason: " + this.responseText);
+		}
+	});
+	req.addEventListener("error", function(err) {
+		inputElem.checked = false;
+		document.getElementById("mirror-source").innerText = "";
+		alert("Could not enable synchronization. Reason: " + err.message);
+	});
+
+	if (enabled) {
+		source = prompt("Enter the domain of a screen to mirror:", "");
+		if (source != null && source.trim() != "") {
+			req.send("day=default&source="+source.trim());
+		}
+		else {
+			inputElem.checked = false;
+			alertUser = false;
+			req.send("day=default&source=false");
+		}
+	}
+	else {
+		req.send("day=default&source=false");
+	}
+}
+
 window.onload = initCalendar;
 window.onbeforeunload = function(ev) {
 	document.getElementById("loading").style.display = "block";

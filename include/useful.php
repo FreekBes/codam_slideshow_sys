@@ -73,6 +73,7 @@
 		$returnable = array();
 		if (!is_dir($programme_folder)) {
 			$returnable['default_enabled'] = ($date_full != "default");
+			$returnable['mirror'] = false;
 			$returnable['media'] = array();
 			return ($returnable);
 		}
@@ -80,9 +81,11 @@
 		$selected_media = glob("$programme_folder/*_*_*.{jpg,jpeg,png,mp4}", GLOB_BRACE);
 		sort($selected_media, SORT_STRING);
 		$default_enabled = ($date_full != "default" && file_exists("$programme_folder/.default_enabled"));
+		$mirror_source = (file_exists("$programme_folder/.mirror") ? file_get_contents("$programme_folder/.mirror") : false);
 
 		$returnable = array();
 		$returnable['default_enabled'] = $default_enabled;
+		$returnable['mirror'] = $mirror_source;
 		$returnable['media'] = array();
 		foreach ($selected_media as $media) {
 			$temp = explode("_", $media);
