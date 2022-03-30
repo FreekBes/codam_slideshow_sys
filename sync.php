@@ -13,6 +13,9 @@
 	while (true) {
 		$media_num = shm_get_var($shm, 0x01);
 		$last_time = shm_get_var($shm, 0x02);
+		$media_type = shm_get_var($shm, 0x03);
+		$current_media = shm_get_var($shm, 0x04);
+		$show_until = shm_get_var($shm, 0x05);
 		$obj = new stdClass();
 		$obj->num = intval($media_num);
 		$obj->load_time = intval($last_time);

@@ -28,7 +28,7 @@
 
 	// if the num GET parameter was not set or invalid (below 0), redirect to 0 (the first piece of media)
 	if (!isset($_GET["num"]) || intval($_GET["num"]) < 0) {
-		header("Location: show.php?day=".$_GET["day"]."&num=0");
+		header("Location: show.php?".(isset($_GET["nosync"]) ? "nosync&" : "")."day=".$_GET["day"]."&num=0");
 		http_response_code(302);
 		die();
 	}
@@ -47,7 +47,7 @@
 	// check if the index is bigger than the total amount of media available for the day.
 	// if so, loop back to the beginning by redirection.
 	if ($total > 0 && $num >= $total) {
-		header("Location: show.php?day=".$_GET["day"]."&num=0&looped=1");
+		header("Location: show.php?".(isset($_GET["nosync"]) ? "nosync&" : "")."day=".$_GET["day"]."&num=0&looped=1");
 		http_response_code(302);
 		die();
 	}
@@ -64,10 +64,15 @@
 	}
 	$media_type = (strpos($current_media, ".mp4") === false ? "img" : "vid");
 
-	// store currently loaded media and the current time in shared memory
-	// for synchronizing with other screens
-	shm_put_var($shm, 0x01, $num);
-	shm_put_var($shm, 0x02, time());
+	if (!isset($_GET["nosync"])) {
+		// store currently loaded media and the current time in shared memory
+		// for synchronizing with other screens
+		shm_put_var($shm, 0x01, $num);
+		shm_put_var($shm, 0x02, microtime(true) * 1000);
+		shm_put_var($shm, 0x03, $media_type);
+		shm_put_var($shm, 0x04, $current_media);
+		shm_put_var($shm, 0x05, microtime(true) * 1000 + $duration);
+	}
 ?>
 <!DOCTYPE html>
 <html>

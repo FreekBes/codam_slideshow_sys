@@ -31,7 +31,7 @@
 			</span>
 			<a class="header-btn day" id="default-link" onmouseover="showProgTooltip(event)" onmouseout="hideProgTooltip(event)" href="programme.php?day=default" title="Edit default programme">edit</a>
 			<a class="header-btn" href="newsimple.php" onclick="openSimpleUploader(event)" title="Upload media">add</a>
-			<a class="header-btn" href="show.php?day=today&num=0" target="codamshow" title="Show today's programme">slideshow</a>
+			<a class="header-btn" href="show.php?nosync&day=today&num=0" target="codamshow" title="Show today's programme">slideshow</a>
 		</nav>
 	</header>
 	<main class="center">
