@@ -167,6 +167,6 @@
 <?php } else { ?>
 <button onclick="removeMe(event)" title="Remove from programme">&#x2715;</button>
 <?php } if ($editable) { ?>
-<input type="number" class="duration" value="<?php echo $dur; ?>" step="0.1" min="1" title="Duration in seconds" placeholder="Duration in seconds" />
+<input type="number" class="duration" value="<?php echo $dur; ?>" step="0.1" min="1" title="Duration in seconds" placeholder="Duration in seconds" onfocusout="if (this.value.trim() == '') { this.value = 10; }" />
 <?php } ?>
 </li><?php } // end of echo_media_function ?>
