@@ -133,8 +133,8 @@ function mirror(inputElem, enabled) {
 
 		document.getElementById("mirror-source").innerText = "";
 		if (this.status == 201) {
-			document.getElementById("mirror-source").innerText = "Syncing with " + source;
-			alert("Synchronization enabled with screen at " + source);
+			document.getElementById("mirror-source").innerText = "Syncing with " + this.responseText;
+			alert("Synchronization enabled with screen at " + this.responseText);
 		}
 		else if (this.status == 204) {
 			alert("Synchronization was successfully disabled. You can now customize this screen again.");
