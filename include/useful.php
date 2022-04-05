@@ -162,11 +162,11 @@
 		}
 ?><li class="<?php echo $class_name; ?>" title="<?php echo $title; ?>" styles="<?php echo $styles; ?>">
 <img src="<?php echo $src; ?>" <?php if ($draggable) { ?>draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)"<?php } ?> />
-<?php if ($full_delete) { ?>
+<?php if (!$imported) { if ($full_delete) { ?>
 <button onclick="deleteMe(event)" title="Delete media (no undo)">&#x2715;</button>
 <?php } else { ?>
 <button onclick="removeMe(event)" title="Remove from programme">&#x2715;</button>
-<?php } if ($editable) { ?>
+<?php } } if ($editable) { ?>
 <input type="number" class="duration" value="<?php echo $dur; ?>" step="0.1" min="1" title="Duration in seconds" placeholder="Duration in seconds" onfocusout="if (this.value.trim() == '') { this.value = 10; }" />
 <?php } ?>
 </li><?php } // end of echo_media_function ?>
