@@ -6,6 +6,7 @@ body {
 	padding: 0;
 	cursor: default;
 	font-size: 16px;
+	min-width: 800px;
 }
 
 header {
@@ -13,6 +14,7 @@ header {
 	color: #E4E4E4;
 	padding: 0;
 	height: 44px;
+	white-space: nowrap;
 }
 
 nav {
@@ -56,9 +58,9 @@ h1 {
 	font-weight: normal;
 	display: inline-block;
 	width: 75%;
-	width: calc(100% - 440px);
-	width: -webkit-calc(100% - 440px);
-	width: -moz-calc(100% - 440px);
+	width: calc(100% - 460px);
+	width: -webkit-calc(100% - 460px);
+	width: -moz-calc(100% - 460px);
 	min-width: 200px;
 	max-width: 80%;
 	overflow: hidden;
