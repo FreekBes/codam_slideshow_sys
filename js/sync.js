@@ -27,19 +27,29 @@ function startSync(domain) {
 			}
 
 			const showFor = Math.floor(json["show_until"] - json["server_time"]);
-			if (json["total"] > 1) {
-				progressBar.start(showFor);
-			}
-			hideTimeout = setTimeout(function() {
-				document.getElementById("container").className = "hide-fade";
-				if (json["num"] + 1 == json["total"]) {
-					// redirect back to show.php to check if we should still mirror
-					// if we should still mirror, we end up over here again by another redirect from there
-					console.log("Redirecting to show.php to check if we should still mirror...");
+			if (showFor < 0) {
+				console.warn("It looks like the source screen hasn't been displaying anything for a while! Reloading in half a minute to force a reconnect.");
+				progressBar.start(30000);
+				hideTimeout = setTimeout(function() {
+					console.log("Reloading now...");
 					window.location.replace("show.php?day=today&num=0");
+				}, 29700);
+			}
+			else {
+				if (json["total"] > 1) {
+					progressBar.start(showFor);
 				}
-			}, showFor - 300);
-			document.getElementById("container").className = "show-fade";
+				hideTimeout = setTimeout(function() {
+					document.getElementById("container").className = "hide-fade";
+					if (json["num"] + 1 == json["total"]) {
+						// redirect back to show.php to check if we should still mirror
+						// if we should still mirror, we end up over here again by another redirect from there
+						console.log("Redirecting to show.php to check if we should still mirror...");
+						window.location.replace("show.php?day=today&num=0");
+					}
+				}, showFor - 300);
+				document.getElementById("container").className = "show-fade";
+			}
 		}
 	});
 
