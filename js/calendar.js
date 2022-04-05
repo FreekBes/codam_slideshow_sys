@@ -4,6 +4,7 @@ let requestsTodo = 1;
 let requestsDone = 0;
 let checkReqDoneInterval = null;
 let simpleUploader = null;
+let defaultMedia = [];
 
 function getDefaultProgramme() {
 	const req = new XMLHttpRequest();
@@ -15,6 +16,7 @@ function getDefaultProgramme() {
 			const overview = JSON.parse(this.responseText);
 
 			defaultLink.setAttribute("data-media", JSON.stringify(overview["media"]));
+			defaultMedia = overview["media"];
 		}
 	});
 	req.addEventListener("error", function(err) {

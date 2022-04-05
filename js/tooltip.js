@@ -4,13 +4,13 @@ function addTooltipDefMessage(evTarget, tooltip) {
 	defaultEnabledMsg.className = "prog-tooltip-msg";
 	if (evTarget.className.indexOf("default-disabled") > -1) {
 		tooltip.style.background = "cyan";
-		defaultEnabledMsg.innerHTML = "<b>Only the following</b> (no default programme):";
+		defaultEnabledMsg.innerHTML = "<b>Only the following</b> (no default programme on this day):";
 	}
 	else if (evTarget.id == "default-link") {
 		defaultEnabledMsg.innerHTML = "The default programme:";
 	}
 	else {
-		defaultEnabledMsg.innerHTML = "Default programme, plus:";
+		defaultEnabledMsg.innerHTML = "Default programme enabled on this day";
 	}
 	tooltip.appendChild(defaultEnabledMsg);
 }
@@ -59,6 +59,14 @@ function showProgTooltip(ev) {
 
 	// add a message to the tooltip, letting the user know whether the default programme is enabled or not
 	addTooltipDefMessage(ev.currentTarget, tooltip);
+
+	// add default programme media if enabled
+	if (ev.currentTarget.id != "default-link" && ev.currentTarget.className.indexOf("default-disabled") == -1) {
+		for (let i = 0; i < defaultMedia.length; i++) {
+			media.unshift(defaultMedia[i]);
+		}
+		console.log(media);
+	}
 
 	// populate the tooltip: add all media to the tooltip
 	for (let i = 0; i < media.length; i++) {
