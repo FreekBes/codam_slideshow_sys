@@ -56,9 +56,9 @@ h1 {
 	font-weight: normal;
 	display: inline-block;
 	width: 75%;
-	width: calc(100% - 400px);
-	width: -webkit-calc(100% - 400px);
-	width: -moz-calc(100% - 400px);
+	width: calc(100% - 440px);
+	width: -webkit-calc(100% - 440px);
+	width: -moz-calc(100% - 440px);
 	min-width: 200px;
 	max-width: 80%;
 	overflow: hidden;
@@ -572,4 +572,8 @@ input:checked + .slider:before {
 	line-height: 24px;
 	vertical-align: middle;
 	font-size: smaller;
+	max-width: 200px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
