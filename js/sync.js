@@ -27,7 +27,9 @@ function startSync(domain) {
 			}
 
 			const showFor = Math.floor(json["show_until"] - json["server_time"]);
-			progressBar.start(showFor);
+			if (json["total"] > 1) {
+				progressBar.start(showFor);
+			}
 			hideTimeout = setTimeout(function() {
 				document.getElementById("container").className = "hide-fade";
 				if (json["num"] + 1 == json["total"]) {
