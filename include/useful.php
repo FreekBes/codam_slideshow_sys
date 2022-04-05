@@ -132,4 +132,41 @@
 	function combine_media_append($p1, $p2) {
 		return (array_merge($p1["media"], $p2["media"]));
 	}
-?>
+
+	// AN UGLY FUNCTION TO PRINT A MEDIA ITEM, BUT FUNCTION > ONELINER, RIGHT?
+	// media (object): a media object, which includes the source and duration (e.g. { file: "", duration: 10000 }), set to NULL for template element
+	// media (string): a path to a media file
+	// imported: set to TRUE if media was imported from the default programme and a special class should be applied for it
+	// hidden: set to TRUE if media item should not be displayed
+	// draggable: set to TRUE if media item should be draggable
+	// full_delete: set to TRUE if media item should be deleted from the server instead of removed from the programme on x button click
+	// editable: set to TRUE if the duration should be editable
+	function echo_media_item($media, $imported, $hidden, $draggable, $full_delete, $editable) {
+		$class_name = "media-item";
+		$title = "";
+		$styles = "";
+		if (gettype($media) == "string") {
+			$src = $media;
+			$dur = 10;
+		}
+		else {
+			$src = (!empty($media) ? "media/".$media['file'] : "");
+			$dur = (!empty($media) ? $media['duration'] / 1000 : 10);
+		}
+		if ($imported) {
+			$class_name .= " from-default";
+			$title = "Imported media from the default programme. To modify this media, edit the default programme instead.";
+			if ($hidden) {
+				$styles = "display: none;";
+			}
+		}
+?><li class="<?php echo $class_name; ?>" title="<?php echo $title; ?>" styles="<?php echo $styles; ?>">
+<img src="<?php echo $src; ?>" <?php if ($draggable) { ?>draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)"<?php } ?> />
+<?php if ($full_delete) { ?>
+<button onclick="deleteMe(event)" title="Delete media (no undo)">&#x2715;</button>
+<?php } else { ?>
+<button onclick="removeMe(event)" title="Remove from programme">&#x2715;</button>
+<?php } if ($editable) { ?>
+<input type="number" class="duration" value="<?php echo $dur; ?>" step="0.1" min="1" title="Duration in seconds" placeholder="Duration in seconds" />
+<?php } ?>
+</li><?php } // end of echo_media_function ?>

@@ -164,6 +164,11 @@ u {
 	padding: 4px;
 }
 
+.media-item.from-default {
+	cursor: not-allowed !important;
+	opacity: 0.5 !important;
+}
+
 .media-item.dragging {
 	transition: 0.01s;
 	width: 0px;
@@ -179,6 +184,10 @@ u {
 	background: #000000;
 	object-fit: scale-down;
 	cursor: grab;
+}
+
+.media-item.from-default img {
+	pointer-events: none !important;
 }
 
 .media-item button {

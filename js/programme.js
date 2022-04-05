@@ -59,7 +59,7 @@ function addMedia(mediaUrl) {
 		uploader.close();
 		uploader = null;
 	}
-	
+
 	if (typeof mediaUrl == "string") {
 		document.getElementById("media-list").prepend(createMediaItem(mediaUrl));
 	}
@@ -79,15 +79,19 @@ function getProgrammeFormData() {
 	const selectedMediaElems = document.getElementById("selected-media").children;
 	let selectedMediaFiles = [];
 	let durations = [];
-	
+
 	// gather all the media URLs (without the media/ prefix)
 	// and the durations of each piece of media
 	for (let i = 0; i < selectedMediaElems.length; i++) {
-		selectedMediaFiles.push(selectedMediaElems[i].firstElementChild.src.split("/").pop());
-		durations.push(parseFloat(selectedMediaElems[i].querySelector(".duration").value));
+		// only gather media items that are not from the class "from-default"
+		// (those are imported from the default programme and should not be included in the one currently being edited)
+		if (selectedMediaElems[i].className.indexOf("media-item") > -1 && selectedMediaElems[i].className.indexOf("from-default") == -1) {
+			selectedMediaFiles.push(selectedMediaElems[i].firstElementChild.src.split("/").pop());
+			durations.push(parseFloat(selectedMediaElems[i].querySelector(".duration").value));
+		}
 	}
 	const defaultCheckbox = document.getElementById("default_enabled");
-	
+
 	// add configurations to the form data
 	formData.set("day", getParameterByName("day"));
 	formData.set("media", selectedMediaFiles.join("|"));
@@ -138,6 +142,14 @@ function saveProgramme(ev) {
 function horiScroll(ev) {
 	ev.preventDefault();
 	ev.currentTarget.scrollBy({ left: ev.deltaY < 0 ? -40 : 40 });
+}
+
+// function to show or hide imported media from the default programme
+function hideShowDefaults(show) {
+	const defaultMedia = document.querySelectorAll(".media-item.from-default");
+	for (let i = 0; i < defaultMedia.length; i++) {
+		defaultMedia[i].style.display = (show ? "inline-block" : "none");
+	}
 }
 
 window.addEventListener("DOMContentLoaded", function(ev) {
