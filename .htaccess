@@ -1,2 +1,16 @@
 php_value upload_max_filesize 120M
 php_value post_max_size 128M
+
+<IfModule mod_expires.c>
+	<FilesMatch "\.(jpe?g|png|gif|webp|mp4|bmp)$">
+		ExpiresActive On
+		ExpiresDefault "access plus 23 hours"
+		Header set Cache-Control "max-age=82800"
+	</FilesMatch>
+
+	<FilesMatch "\.(php|html|js|css)$">
+		ExpiresActive On
+		ExpiresDefault "access plus 5 days"
+		Header set Cache-Control "max-age=432000"
+	</FilesMatch>
+</IfModule>

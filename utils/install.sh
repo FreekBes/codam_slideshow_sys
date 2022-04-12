@@ -24,6 +24,9 @@ sudo apt-get update
 # Install Apache2 web server alongside with PHP
 sudo apt-get install -y apache2 php8.1 php8.1-gd
 
+# Enable Apache2 Expires module
+sudo a2enmod expires
+
 # Enable .htaccess files in web-accessible directories by modifying apache2.conf
 sudo sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 sudo service apache2 restart
