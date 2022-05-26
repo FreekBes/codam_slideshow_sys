@@ -67,6 +67,13 @@
 		// if it does not exist, syncing/mirroring will be disabled
 		$domain = (strpos($_POST["source"], "http") !== false ? preg_replace("(^https?://)", "", $_POST["source"] ) : $_POST["source"]);
 		$domain = explode('/', $domain)[0];
+		if ($domain == $_SERVER['SERVER_ADDR'] || $domain == $_SERVER['SERVER_NAME']) {
+			if (file_exists(".mirror")) {
+				unlink(".mirror");
+			}
+			http_response_code(502);
+			die("source_is_self");
+		}
 		$headers = @get_headers("http://" . $domain . "/int/get.php?day=default");
 		if (!$headers || $headers[0] != "HTTP/1.1 200 OK") {
 			if (file_exists(".mirror")) {
@@ -74,6 +81,14 @@
 			}
 			http_response_code(502);
 			die("source_not_found");
+		}
+		$headers = @get_headers("http://" . $domain . "/programmes/default/.mirror");
+		if (!$headers || $headers[0] != "HTTP/1.1 404 Not Found") {
+			if (file_exists(".mirror")) {
+				unlink(".mirror");
+			}
+			http_response_code(502);
+			die("source_is_mirroring");
 		}
 		echo $domain;
 		file_put_contents(".mirror", $domain);
