@@ -132,33 +132,50 @@ function openSimpleUploader(ev) {
 }
 
 function startCopyFrom(intoDay) {
+	// get date of the day to copy the programme from
 	const copyFromDayDate = getYear(copyFromDay)+"-"+getMonth(copyFromDay)+"-"+getDate(copyFromDay);
+
+	// get date of the day to copy the programme to
 	const copyToDayDate = getYear(intoDay)+"-"+getMonth(intoDay)+"-"+getDate(intoDay);
+
+	// confirm if user wants to overwrite existing programme if one already exists
 	if (intoDay.getAttribute("data-media")) {
 		const sure = confirm("Overwrite programme for " + copyToDayDate + "?");
 		if (!sure) {
 			return;
 		}
 	}
+
+	// show loading screen
 	document.getElementById("loading").style.display = "block";
+
+	// send new copy request
 	let req = new XMLHttpRequest();
 	req.open("GET", "int/copy.php?from=" + copyFromDayDate + "&to=" + copyToDayDate + "&c=" + cacheId, true);
 	req.addEventListener("loadend", function(fEv) {
 		if (this.status == 204) {
 			console.log("Copied programme from " + copyFromDayDate + " to " + copyToDayDate);
+
+			// change day preview: copy all media
 			intoDay.setAttribute("data-media", copyFromDay.getAttribute("data-media"));
-			intoDay.classList.toggle("default-disabled", copyFromDay.classList.contains("default-disabled")); // copy class if exists
-			intoDay.classList.toggle("custom", copyFromDay.classList.contains("custom")); // copy class if exists
+
+			// copy classes used for the preview tooltip, but only copy the class if it exists on the source day
+			intoDay.classList.toggle("default-disabled", copyFromDay.classList.contains("default-disabled"));
+			intoDay.classList.toggle("custom", copyFromDay.classList.contains("custom"));
 		}
 		else {
 			alert("Unable to copy programme\n\n" + this.statusText + " / " + this.responseText);
 			console.error("Unable to copy programme", this.statusText, this.responseText);
 		}
+
+		// hide loading screen
 		document.getElementById("loading").style.display = "none";
 	});
 	req.addEventListener("error", function(err) {
 		alert("Unable to copy programme\n\n" + err);
 		console.error(err);
+
+		// hide loading screen
 		document.getElementById("loading").style.display = "none";
 	});
 	req.send();
@@ -190,6 +207,7 @@ function drawContextMenu(ev) {
 	});
 	ctxMenu.appendChild(copyBtn);
 
+	// if a day to copy from exists, add paste option to the context menu
 	if (copyFromDay) {
 		const pasteBtn = document.createElement("div");
 		pasteBtn.innerText = "Paste";
@@ -200,9 +218,9 @@ function drawContextMenu(ev) {
 		ctxMenu.appendChild(pasteBtn);
 	}
 
+	// add context menu to the body of the webpage
 	document.body.appendChild(ctxMenu);
 	ev.target.classList.add("selected");
-	console.log("Contextmenu added", ev);
 }
 
 function mirror(inputElem, enabled) {
