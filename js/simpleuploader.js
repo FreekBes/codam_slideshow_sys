@@ -39,6 +39,7 @@ function configureMedia(response) {
 			// all done! we can close the window if possible.
 			// if not possible, reload the window so that the user can upload more.
 			alert("All done!");
+			window.opener.location.reload();
 			window.close();
 			if (!window.closed) {
 				window.location.reload();
