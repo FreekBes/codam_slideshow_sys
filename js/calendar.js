@@ -5,6 +5,7 @@ let requestsDone = 0;
 let checkReqDoneInterval = null;
 let simpleUploader = null;
 let defaultMedia = [];
+let copyFromDay = null;
 
 function getDefaultProgramme() {
 	const req = new XMLHttpRequest();
@@ -37,7 +38,7 @@ function loadMonthsProgramme(req) {
 			return;
 		}
 
-		let days = monthCal.getElementsByClassName("day");
+		const days = monthCal.getElementsByClassName("day");
 		const overview = JSON.parse(req.responseText);
 		// add the media for each day to its element in the calendar in an attribute
 		for (let j = 0; j < overview.length; j++) {
@@ -105,6 +106,15 @@ function initCalendar() {
 		});
 		req.send();
 	}
+
+	// add context menu to all the days
+	const days = document.getElementsByClassName("day");
+	for (const day of days) {
+		day.addEventListener("contextmenu", drawContextMenu, false);
+	}
+
+	// add event listener to remove context menu on any click
+	document.body.addEventListener("click", removeContextMenu);
 }
 
 function editProgramme(ev) {
@@ -119,6 +129,80 @@ function openSimpleUploader(ev) {
 	ev.preventDefault();
 	simpleUploader = openPopUpWin('newsimple.php', 'simuploadwin', 320, 400);
 	return false;
+}
+
+function startCopyFrom(intoDay) {
+	const copyFromDayDate = getYear(copyFromDay)+"-"+getMonth(copyFromDay)+"-"+getDate(copyFromDay);
+	const copyToDayDate = getYear(intoDay)+"-"+getMonth(intoDay)+"-"+getDate(intoDay);
+	if (intoDay.getAttribute("data-media")) {
+		const sure = confirm("Overwrite programme for " + copyToDayDate + "?");
+		if (!sure) {
+			return;
+		}
+	}
+	document.getElementById("loading").style.display = "block";
+	let req = new XMLHttpRequest();
+	req.open("GET", "int/copy.php?from=" + copyFromDayDate + "&to=" + copyToDayDate + "&c=" + cacheId, true);
+	req.addEventListener("loadend", function(fEv) {
+		if (this.status == 204) {
+			console.log("Copied programme from " + copyFromDayDate + " to " + copyToDayDate);
+			intoDay.setAttribute("data-media", copyFromDay.getAttribute("data-media"));
+			intoDay.classList.toggle("default-disabled", copyFromDay.classList.contains("default-disabled")); // copy class if exists
+			intoDay.classList.toggle("custom", copyFromDay.classList.contains("custom")); // copy class if exists
+		}
+		else {
+			alert("Unable to copy programme\n\n" + this.statusText + " / " + this.responseText);
+			console.error("Unable to copy programme", this.statusText, this.responseText);
+		}
+		document.getElementById("loading").style.display = "none";
+	});
+	req.addEventListener("error", function(err) {
+		alert("Unable to copy programme\n\n" + err);
+		console.error(err);
+		document.getElementById("loading").style.display = "none";
+	});
+	req.send();
+}
+
+function removeContextMenu(ev) {
+	const ctxMenu = document.getElementById("ctx-menu");
+	if (ctxMenu) {
+		ctxMenu.forDay.classList.remove("selected");
+		ctxMenu.remove();
+	}
+}
+
+function drawContextMenu(ev) {
+	ev.preventDefault();
+	removeContextMenu(ev);
+
+	const ctxMenu = document.createElement("div");
+	ctxMenu.setAttribute("id", "ctx-menu");
+	ctxMenu.style.top = ev.pageY + "px";
+	ctxMenu.style.left = ev.pageX + "px";
+	ctxMenu.forDay = ev.target;
+
+	const copyBtn = document.createElement("div");
+	copyBtn.innerText = "Copy";
+	copyBtn.addEventListener("click", function(cEv) {
+		// set copyFromDay global for use when pasting
+		copyFromDay = cEv.target.parentNode.forDay;
+	});
+	ctxMenu.appendChild(copyBtn);
+
+	if (copyFromDay) {
+		const pasteBtn = document.createElement("div");
+		pasteBtn.innerText = "Paste";
+		pasteBtn.addEventListener("click", function(pEv) {
+			// paste into day that this context menu was created for
+			startCopyFrom(pEv.target.parentNode.forDay);
+		});
+		ctxMenu.appendChild(pasteBtn);
+	}
+
+	document.body.appendChild(ctxMenu);
+	ev.target.classList.add("selected");
+	console.log("Contextmenu added", ev);
 }
 
 function mirror(inputElem, enabled) {

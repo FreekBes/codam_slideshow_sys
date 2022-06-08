@@ -336,7 +336,8 @@ input::-webkit-inner-spin-button {
 	background: #3AA2DB !important;
 }
 
-.glm-calendar .month .week .day:hover {
+.glm-calendar .month .week .day:hover,
+.glm-calendar .month .week .day.selected {
 	background: #F2911A;
 	border-color: rgba(0,0,0,0.5);
 }
@@ -587,4 +588,26 @@ input:checked + .slider:before {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+#ctx-menu {
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background: #343A40;
+	border: 1px solid #1A1A1A;
+	box-shadow: 0 0 4px #000000;
+}
+
+#ctx-menu > div {
+	display: block;
+	padding: 4px 8px;
+	width: 96px;
+	cursor: pointer;
+}
+
+#ctx-menu > div:hover {
+	background: #F2911A;
+	color: #000000;
 }
