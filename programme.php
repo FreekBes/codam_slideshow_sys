@@ -71,7 +71,7 @@
 		<ul id="media-list" ondrop="drop(event)" ondragover="allowDrop(event)"><?php foreach ($available_media as $media) { echo_media_item($media, false, false, true, true, false); } ?></ul>
 		<button onclick="openUploader()">Upload media</button>
 		<h3>Media displayed on screen</h3>
-		<ol id="selected-media" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)"><?php foreach($programme["media"] as $media) { echo_media_item($media, isset($media['from_default']), !$programme['default-enabled'], !isset($media['from_default']), false, !isset($media['from_default'])); } ?></ol>
+		<ol id="selected-media" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)"><?php foreach($programme["media"] as $media) { echo_media_item($media, isset($media['from_default']), !$programme['default_enabled'], !isset($media['from_default']), false, !isset($media['from_default'])); } ?></ol>
 		<template id="media-item-template"><?php echo_media_item(NULL, false, false, true, true, false); ?></template>
 		<template id="media-item-template-selected"><?php echo_media_item(NULL, false, false, true, false, true); ?></template>
 		<?php if ($date_internal != "default") { ?><input type="checkbox" name="default_enabled" id="default_enabled" value="true" <?php echo ($programme['default_enabled'] ? "checked " : ""); ?> onchange="hideShowDefaults(this.checked)" /><label for="default_enabled">Enable default programme</label><?php } ?>

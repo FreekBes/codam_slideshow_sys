@@ -160,7 +160,7 @@
 				$styles = "display: none;";
 			}
 		}
-?><li class="<?php echo $class_name; ?>" title="<?php echo $title; ?>" styles="<?php echo $styles; ?>">
+?><li class="<?php echo $class_name; ?>" title="<?php echo $title; ?>" style="<?php echo $styles; ?>">
 <img src="<?php echo $src; ?>" <?php if ($draggable) { ?>draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)"<?php } ?> />
 <?php if (!$imported) { if ($full_delete) { ?>
 <button onclick="deleteMe(event)" title="Delete media (no undo)">&#x2715;</button>
