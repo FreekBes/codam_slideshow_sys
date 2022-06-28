@@ -37,7 +37,7 @@
 		$programme["media"] = combine_media_prepend($programme, $default_programme);
 	}
 
-	$available_media = glob("media/*.{jpg,jpeg,png,gif}", GLOB_BRACE);
+	$available_media = glob("media/*.{jpg,jpeg,png,gif,html}", GLOB_BRACE);
 	sort($available_media, SORT_STRING);
 	$available_media = array_reverse($available_media);
 ?>

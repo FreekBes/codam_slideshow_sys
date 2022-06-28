@@ -39,19 +39,23 @@ h1 {
 	height: 100%;
 }
 
-.media.img {
+.media {
 	display: block;
 	width: 100%;
 	height: 100%;
 	background: #000000;
+}
+
+.media.img {
 	object-fit: contain;
 }
 
 .media.vid {
-	display: block;
-	width: 100%;
-	height: 100%;
-	background: #000000;
+	/* empty */
+}
+
+.media.iframe {
+	border: 0;
 }
 
 #container.show {

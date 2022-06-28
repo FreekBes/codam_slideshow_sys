@@ -7,4 +7,9 @@ php_value post_max_size 128M
 		ExpiresDefault "access plus 23 hours"
 		Header set Cache-Control "max-age=82800"
 	</FilesMatch>
+	<FilesMatch "\.(html?)$">
+		ExpiresActive On
+		ExpiresDefault "access plus 1 hours"
+		Header set Cache-Control "max-age=3600"
+	</FilesMatch>
 </IfModule>

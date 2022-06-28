@@ -20,5 +20,6 @@
 	<main id="container">
 		<img class="media img" id="img" src="<?php echo $current_media; ?>" alt="Could not load media <?php echo $num; ?> (image)" style="display: none;" />
 		<video class="media vid" id="vid" src="<?php echo $current_media; ?>" autoplay muted preload="auto" loop style="display: none;">Could not load media <?php echo $num; ?> (video)</video>
+		<iframe class="media iframe" id="iframe" src="<?php echo $current_media; ?>" sandbox="allow-scripts">Could not load <?php echo $num; ?> (iframe)</iframe>
 	</main>
 </body>
