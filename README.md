@@ -1,5 +1,5 @@
 # Codam Slideshow System
-A dashboard for managing slideshow screens, specifically built for [Codam](https://www.codam.nl/) by [Freek Bes](https://www.github.com/FreekBes) (IT Assistent at Codam).
+A dashboard for managing slideshow screens, specifically built for [Codam](https://www.codam.nl/) by [Freek Bes](https://www.github.com/FreekBes) (SysAdmin at Codam).
 
 ## Installation
 
