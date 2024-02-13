@@ -201,6 +201,7 @@ u {
 	height: 1000%;
 	transform: scale(0.1);
 	transform-origin: 0 0;
+	pointer-events: none !important;
 }
 
 .media-item.from-default img,
