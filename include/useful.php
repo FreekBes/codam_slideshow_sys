@@ -166,7 +166,11 @@
 			}
 		}
 ?><li class="<?php echo $class_name; ?>" title="<?php echo $title; ?>" style="<?php echo $styles; ?>">
+<?php if (str_ends_with($src, ".html")) { ?>
+<iframe src="<?php echo $src; ?>" frameborder="0" sandbox="allow-scripts"></iframe>
+<?php } else { ?>
 <img src="<?php echo $src; ?>" <?php if ($draggable) { ?>draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)"<?php } ?> />
+<?php } ?>
 <?php if (!$imported) { if ($full_delete) { ?>
 <button onclick="deleteMe(event)" title="Delete media (no undo)">&#x2715;</button>
 <?php } else { ?>

@@ -177,7 +177,8 @@ u {
 	visibility: hidden;
 }
 
-.media-item img {
+.media-item img,
+.media-item iframe {
 	display: inline-block;
 	width: inherit;
 	height: inherit;
@@ -186,7 +187,12 @@ u {
 	cursor: grab;
 }
 
-.media-item.from-default img {
+.media-item iframe {
+	zoom: 0.5;
+}
+
+.media-item.from-default img,
+.media-item.from-default iframe {
 	pointer-events: none !important;
 }
 
