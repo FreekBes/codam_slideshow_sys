@@ -27,7 +27,7 @@ function allowDrop(ev) {
 		if (ev.target.nodeName == "OL") {
 			ev.currentTarget.appendChild(dropLocation);
 		}
-		else if (ev.target.nodeName == "IMG" || ev.target.nodeName == "BUTTON" || ev.target.nodeName == "INPUT") {
+		else if (ev.target.nodeName == "IMG" || ev.target.nodeName == "BUTTON" || ev.target.nodeName == "INPUT" || ev.target.nodeName == "DIV") {
 			ev.currentTarget.insertBefore(dropLocation, ev.target.parentNode);
 		}
 		else if (ev.target.nodeName == "LI") {
