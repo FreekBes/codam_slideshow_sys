@@ -11,10 +11,10 @@
 		die("media_missing");
 	}
 
-	if (isset($_POST['url'])) {
+	if (isset($_POST['url']) && !empty(trim($_POST['url']))) {
 		// handle URLs to embed as media
 		// simply copy include/redirbase.html to the media folder and append the URL to it
-		$redirpage = setup_iframe_url($_POST['url']);
+		$redirpage = setup_iframe_url(trim($_POST['url']));
 		$new_loc = "media/" . time() . "-" . generate_id(4) . ".html";
 		$printable_loc = htmlspecialchars(strip_tags($new_loc));
 		if (file_put_contents("../$new_loc", $redirpage)) {
