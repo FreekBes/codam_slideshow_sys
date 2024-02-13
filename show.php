@@ -73,7 +73,13 @@
 		$current_media = "0_10_default.jpeg";
 		$duration = 10000;
 	}
-	$media_type = (strpos($current_media, ".mp4") === false ? "img" : "vid");
+	$media_type = "img";
+	if (strpos($current_media, ".mp4") !== false) {
+		$media_type = "vid";
+	}
+	if (strpos($current_media, ".html") !== false) {
+		$media_type = "iframe";
+	}
 
 	if (!isset($_GET["nosync"])) {
 		// store currently loaded media and the current time in shared memory
