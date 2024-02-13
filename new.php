@@ -10,7 +10,7 @@
 	<form class="fullscreen-file" action="int/upload.php?popup" method="post" target="_self" enctype="multipart/form-data" accept-charset="utf-8" autocomplete="off" name="uploadform">
 		<label for="media[]"><span>drag and drop media file(s) here</span><br /><small>or just click to select file(s)...</small><br /><small class="extra">accepts PNG, JPG, MP4, GIF, WEBP, BMP</small></label><br />
 		<input type="file" name="media[]" id="media[]" accept="image/png, image/jpeg, image/webp, image/bmp, image/gif, video/mp4" multiple="multiple" ondragenter="this.parentNode.className='fullscreen-file dragover';" ondragleave="this.parentNode.className='fullscreen-file';" onchange="this.parentNode.submit()" />
-		<input onpaste="this.parentNode.submit()" type="url" name="url" id="url" placeholder="or paste a URL here to embed" />
+		<input onpaste="handleURL(event)" type="url" name="url" id="url" placeholder="or paste a URL here to embed" />
 	</form>
 	<div id="loading" style="display: none;">Uploading... Please wait</div>
 </body>
