@@ -68,6 +68,13 @@
 		return (true);
 	}
 
+	function setup_iframe_url($url) {
+		// read the base of the redirector page and replace the URL_REPLACE string with the given URL
+		$redirbase = file_get_contents(WWW_DIR . "/include/redirbase.html");
+		$redirbase = str_replace("//URL_REPLACE\\", $url, $redirbase);
+		return ($redirbase);
+	}
+
 	function get_programme_overview($date_full, $as_mp4 = false) {
 		$programme_folder = WWW_DIR . "/programmes/$date_full";
 		$returnable = array();
@@ -101,8 +108,6 @@
 	function simply_add_to_programme($full_date, $media, $duration) {
 		$pwd = getcwd();
 		$programme_dir = WWW_DIR . "/programmes/$full_date";
-
-		// add to default programme
 		chdir($programme_dir);
 
 		// get last file in order of media
