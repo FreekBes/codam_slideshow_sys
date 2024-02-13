@@ -69,13 +69,16 @@ function drag(ev) {
 		draggedElem.className += " dragging";
 	}
 
+
 	// create an image to show underneath the cursor while dragging
 	// it is a clone of the image that's being dragged
 	// but since that image is hidden now, we need to clone it (otherwise nothing is shown being dragged)
 	const ctx = document.createElement("canvas").getContext("2d");
 	ctx.canvas.width = 128;
 	ctx.canvas.height = 72;
-	ctx.drawImage(ev.currentTarget, 0, 0, 128, 72);
+	if (ev.currentTarget.nodeName == "IMG") {
+		ctx.drawImage(ev.currentTarget, 0, 0, 128, 72);
+	}
 	ev.dataTransfer.setDragImage(ctx.canvas, 10, 10);
 }
 
