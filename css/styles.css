@@ -447,7 +447,7 @@ form.fullscreen-file input[type="url"] {
 	cursor: text;
 	padding: 4px 0px 4px 6px;
 	box-sizing: border-box;
-	z-index: 2;
+	z-index: 200;
 }
 
 form.fullscreen-file label {
