@@ -2,6 +2,7 @@ let draggedElem = null;
 
 // function to run when dragging something over an element (determines if a drop is allowed)
 function allowDrop(ev) {
+	console.log("Drag over", ev);
 	// only allow droppable entities that include the text/uri-list parameter, or dragged files
 	// (on the selected media list)
 	if (ev.currentTarget.id == "selected-media" && (ev.dataTransfer.types.includes("text/uri-list") || ev.dataTransfer.types.includes("Files"))) {
