@@ -79,6 +79,11 @@ function drag(ev) {
 	if (ev.currentTarget.nodeName == "IMG") {
 		ctx.drawImage(ev.currentTarget, 0, 0, 128, 72);
 	}
+	else {
+		// draw black rectangle for non-image media
+		ctx.fillStyle = "black";
+		ctx.fillRect(0, 0, 128, 72);
+	}
 	ev.dataTransfer.setDragImage(ctx.canvas, 10, 10);
 }
 
