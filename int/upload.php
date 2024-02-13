@@ -30,6 +30,9 @@
 		$file_count = count($_FILES['media']['name']);
 		// handle each file separately in this for loop
 		for ($i = 0; $i < $file_count; $i++) {
+			if ($_FILES['media']['error'][$i] == UPLOAD_ERR_NO_FILE) {
+				continue;
+			}
 			if ($_FILES['media']['error'][$i] != UPLOAD_ERR_OK || $_FILES['media']['size'][$i] == 0) {
 				http_response_code(400);
 				die("file_upload_fail");
