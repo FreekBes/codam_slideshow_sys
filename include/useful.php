@@ -167,7 +167,8 @@
 		}
 ?><li class="<?php echo $class_name; ?>" title="<?php echo $title; ?>" style="<?php echo $styles; ?>">
 <?php if (str_ends_with($src, ".html")) { ?>
-<iframe src="<?php echo $src; ?>" frameborder="0" sandbox="allow-scripts" scrolling="no" <?php if ($draggable) { ?>draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)"<?php } ?> ></iframe>
+<!-- div has a src attribute to make sure the src is saved in the programme -->
+<div src="<?php echo $src; ?>" <?php if ($draggable) { ?>draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)"<?php } ?> ><iframe src="<?php echo $src; ?>" frameborder="0" sandbox="allow-scripts" scrolling="no">Your browser does not support iframes.</iframe></div>
 <?php } else { ?>
 <img src="<?php echo $src; ?>" <?php if ($draggable) { ?>draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)"<?php } ?> />
 <?php } ?>
