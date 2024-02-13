@@ -112,6 +112,11 @@
 		}
 	}
 
+	if (empty($files)) {
+		http_response_code(400);
+		die("no_files_uploaded");
+	}
+
 	http_response_code(201);
 	// if GET key popup is defined in the URL, it means the window is running in a popup
 	// and we have access to the opener window, where we can call a function to notify
