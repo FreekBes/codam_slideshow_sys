@@ -179,17 +179,24 @@ u {
 }
 
 .media-item img,
-.media-item iframe {
+.media-item .iframe-wrapper {
 	display: inline-block;
 	width: inherit;
 	height: inherit;
 	background: #000000;
-	object-fit: scale-down;
 	cursor: grab;
 }
 
+.media-item img {
+	object-fit: scale-down;
+}
+
+.media-item .iframe-wrapper {
+	overflow: hidden;
+}
+
 /* scale down iframe to 10% */
-.media-item iframe {
+.media-item .iframe-wrapper iframe {
 	width: 1000%;
 	height: 1000%;
 	transform: scale(0.1);
@@ -197,7 +204,8 @@ u {
 }
 
 .media-item.from-default img,
-.media-item.from-default iframe {
+.media-item.from-default .iframe-wrapper,
+.media-item.from-default .iframe-wrapper iframe {
 	pointer-events: none !important;
 }
 
