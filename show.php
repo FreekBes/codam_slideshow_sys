@@ -108,7 +108,7 @@ var duration = <?php echo $duration; ?>;
 <?php break; case "vid": ?>
 <video class="media vid" src="<?php echo $current_media; ?>" autoplay muted preload="auto" loop>Could not load media <?php echo $num; ?> (video)</video>
 <?php break; case "iframe": ?>
-<iframe class="media iframe" src="<?php echo $current_media; ?>" sandbox="allow-scripts">Could not load <?php echo $num; ?> (iframe)</iframe>
+<iframe class="media iframe" src="<?php echo $current_media; ?>" sandbox="allow-scripts" scrolling="no">Could not load <?php echo $num; ?> (iframe)</iframe>
 <?php break; default: ?>
 Unknown media type
 <?php break; } ?>

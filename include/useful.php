@@ -167,7 +167,7 @@
 		}
 ?><li class="<?php echo $class_name; ?>" title="<?php echo $title; ?>" style="<?php echo $styles; ?>">
 <?php if (str_ends_with($src, ".html")) { ?>
-<iframe src="<?php echo $src; ?>" frameborder="0" sandbox="allow-scripts"></iframe>
+<iframe src="<?php echo $src; ?>" frameborder="0" sandbox="allow-scripts" scrolling="no" ></iframe>
 <?php } else { ?>
 <img src="<?php echo $src; ?>" <?php if ($draggable) { ?>draggable="true" ondragstart="drag(event)" ondragend="dragEnd(event)"<?php } ?> />
 <?php } ?>
