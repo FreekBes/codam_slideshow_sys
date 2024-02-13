@@ -3,8 +3,8 @@ window.onbeforeunload = function(ev) {
 };
 
 function handleURL(ev) {
-	// set value to input
-	ev.target.value = ev.value;
-	// submit the form
-	ev.target.closest("form").submit();
+	// wait for the input to be changed, then submit the form
+	setTimeout(function() {
+		ev.target.closest("form").submit();
+	}, 200);
 }
