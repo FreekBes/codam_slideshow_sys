@@ -4,7 +4,7 @@ let draggedElem = null;
 function allowDrop(ev) {
 	// only allow droppable entities that include the text/uri-list parameter, or dragged files
 	// (on the selected media list)
-	if (ev.currentTarget.id == "selected-media" && (ev.dataTransfer.types.includes("text/uri-list") || ev.dataTransfer.types.includes("Files") || ev.target.className == "iframe-wrapper")) {
+	if (ev.currentTarget.id == "selected-media" && (ev.dataTransfer.types.includes("text/uri-list") || ev.dataTransfer.types.includes("Files"))) {
 		// allow dropping by running preventDefault (what???)
 		ev.preventDefault();
 
@@ -27,7 +27,7 @@ function allowDrop(ev) {
 		if (ev.target.nodeName == "OL") {
 			ev.currentTarget.appendChild(dropLocation);
 		}
-		else if (ev.target.nodeName == "IMG" || ev.target.nodeName == "BUTTON" || ev.target.nodeName == "INPUT" || ev.target.nodeName == "DIV") {
+		else if (ev.target.nodeName == "IMG" || ev.target.nodeName == "BUTTON" || ev.target.nodeName == "INPUT") {
 			ev.currentTarget.insertBefore(dropLocation, ev.target.parentNode);
 		}
 		else if (ev.target.nodeName == "LI") {
