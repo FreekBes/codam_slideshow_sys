@@ -71,7 +71,7 @@
 	function setup_iframe_url($url) {
 		// read the base of the redirector page and replace the URL_REPLACE string with the given URL
 		$redirbase = file_get_contents(WWW_DIR . "/include/redirbase.html");
-		$redirbase = str_replace("//URL_REPLACE\\", $url, $redirbase);
+		$redirbase = str_replace("__URL_REPLACE__", $url, $redirbase);
 		return ($redirbase);
 	}
 
