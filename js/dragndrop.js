@@ -30,6 +30,9 @@ function allowDrop(ev) {
 		else if (ev.target.nodeName == "IMG" || ev.target.nodeName == "BUTTON" || ev.target.nodeName == "INPUT") {
 			ev.currentTarget.insertBefore(dropLocation, ev.target.parentNode);
 		}
+		else if (ev.target.nodeName == "DIV" && ev.target.className == "iframe-wrapper") {
+			ev.currentTarget.insertBefore(dropLocation, ev.target.parentNode);
+		}
 		else if (ev.target.nodeName == "LI") {
 			ev.currentTarget.insertBefore(dropLocation, ev.target);
 		}
@@ -130,7 +133,7 @@ function drop(ev) {
 
 function dragLeave(ev) {
 	const bounds = document.getElementById("selected-media").getBoundingClientRect();
-	if (ev.clientY < bounds.top || ev.clientY >= bounds.bottom || 
+	if (ev.clientY < bounds.top || ev.clientY >= bounds.bottom ||
 		ev.clientX < bounds.left || ev.clientX >= bounds.right) {
 		console.log("Left boundaries, removing placeholder");
 		// mouse is now actually outside of drop boundaries, remove drop location (drop placeholder)
@@ -152,7 +155,7 @@ function dragEnd(ev) {
 	else {
 		draggedElem.className = "media-item";
 	}
-	
+
 	// remove the drop location placeholder if one is found
 	draggedElem = null;
 	removePlaceholder(dropLocation);
