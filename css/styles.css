@@ -195,6 +195,17 @@ u {
 	overflow: hidden;
 }
 
+.media-item .iframe-wrapper::after {
+	content: '';
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 3;
+}
+
 /* scale down iframe to 10% */
 .media-item .iframe-wrapper iframe {
 	width: 1000%;
