@@ -4,7 +4,7 @@ let draggedElem = null;
 function allowDrop(ev) {
 	// only allow droppable entities that include the text/uri-list parameter, or dragged files
 	// (on the selected media list)
-	if (ev.currentTarget.id == "selected-media" && (ev.dataTransfer.types.includes("text/uri-list") || ev.dataTransfer.types.includes("Files"))) {
+	if (ev.currentTarget.id == "selected-media" && (ev.dataTransfer.types.includes("text/uri-list") || ev.dataTransfer.types.includes("Files") || ev.target.className == "iframe-wrapper")) {
 		// allow dropping by running preventDefault (what???)
 		ev.preventDefault();
 
