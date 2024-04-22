@@ -37,7 +37,7 @@ sudo apt-get install -y ffmpeg git
 
 # Set up web server files
 cd /var/www/html
-sudo rm 'index.html'
+sudo rm 'index.html' || true
 sudo git clone https://github.com/codam-coding-college/slideshow-system.git .
 sudo mkdir media
 sudo chown www-data media
