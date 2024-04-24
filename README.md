@@ -4,7 +4,7 @@ A dashboard for managing slideshow screens, specifically built for [Codam](https
 ## Installation
 
 ### A clean install
-Get yourself a Raspberry Pi. I'm using a Raspberry Pi 3 model B. Install the lite version of [Raspberry Pi OS](https://www.raspberrypi.com/software/operating-systems/) (formerly known as Raspbian). Set it up with `sudo raspi-config`, with the following settings:
+Get yourself a Raspberry Pi. I'm using a Raspberry Pi 3 model B. Install the lite version of [Raspberry Pi OS](https://www.raspberrypi.com/software/operating-systems/) (formerly known as Raspbian), version 11 (Bullseye). Set it up with `sudo raspi-config`, with the following settings:
 
 - set the keyboard layout under *Localisation Options* -> *Keyboard*
 - **important**: change the password for the *pi* user under *System Options* -> *Password* (required for security reasons)
